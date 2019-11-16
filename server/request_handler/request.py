@@ -1,12 +1,11 @@
 import requests
 import json
-import os
+from server import setup
 import time
 import os
 
 session = requests.Session()
-session.headers.update({'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0', 'Host': 'www.instagram.com', 'Accept': '*/*', 'Connection': 'keep-alive'})
-
+session.headers.update(setup.header)
 
 def user_request(url, path):
     if not os.path.exists('./server/profiles/'+path.split('/')[3].split('.')[0]):
