@@ -7,9 +7,11 @@ import os
 session = requests.Session()
 session.headers.update(setup.header)
 
+
 def user_request(url, path):
     if not os.path.exists('./server/profiles/'+path.split('/')[3].split('.')[0]):
         os.mkdir('./server/profiles/'+path.split('/')[3].split('.')[0])
+        os.mkdir(path % '0')
     try:
         make_request(url, path)
     except json.decoder.JSONDecodeError as e:
@@ -20,9 +22,12 @@ def user_request(url, path):
 
 
 def media_request(url, path):
+    count = 0
     if not os.path.exists('./server/profiles/'+path.split('/')[3].split('.')[0]+'/post'):
         os.mkdir('./server/profiles/'+path.split('/')[3].split('.')[0]+'/post')
-    make_request(url, path)
+    v = int(os.listdir('./server/profiles/'+path.split('/')[3].split('.')[0]+'/post')[-1])+1
+    os.mkdir('./server/profiles/'+path.split('/')[3].split('.')[0]+'/post/'+str(v))
+    make_request(url, path % str(v))
     time.sleep(1)
 
 

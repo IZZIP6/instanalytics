@@ -83,8 +83,8 @@ def get_user_post(user_id, profile_name):
     print('\n[LATEST POST]')
     url = endpoint.request_account_medias(user_id, 'null')
     if send_requests.is_requested:
-        rq.media_request(url, './server/profiles/'+profile_name+'/post/'+profile_name+'_post.json')
-    with open('./server/profiles/'+profile_name+'/post/'+profile_name+'_post.json', 'r') as post_json:
+        rq.media_request(url, './server/profiles/'+profile_name+'/post/%s/'+profile_name+'_post.json')
+    with open('./server/profiles/'+profile_name+'/post/1/'+profile_name+'_post.json', 'r') as post_json:
         data = json.load(post_json)
     end_cursor = parser.end_cursor(data)
     edges_post = parser.edge_post(data)
@@ -93,7 +93,7 @@ def get_user_post(user_id, profile_name):
         count_end_cursor += 1
         if send_requests.is_requested:
             url = endpoint.request_account_medias(user_id, end_cursor)
-            rq.user_request(url, './server/profiles/'+profile_name+'/post/'+profile_name+'_post'+str(count_end_cursor)+'.json')
+            rq.media_request(url, './server/profiles/'+profile_name+'/post/%s/'+profile_name+'_post'+str(count_end_cursor)+'.json')
         with open('./server/profiles/'+profile_name+'/post/'+profile_name+'_post'+str(count_end_cursor)+'.json', 'r') as post_json:
             data = json.load(post_json)
             end_cursor = parser.end_cursor(data)
