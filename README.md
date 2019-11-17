@@ -9,5 +9,5 @@ Start *test.py* and digit the username of Instagram account.
 
 
 ```
-...
+Becareful, don't make too many requests
 ```
