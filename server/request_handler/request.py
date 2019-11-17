@@ -3,6 +3,7 @@ import json
 from server import setup
 import time
 import os
+from server.request_handler import auth
 
 session = requests.Session()
 session.headers.update(setup.header)
@@ -22,11 +23,13 @@ def user_request(url, path):
 
 
 def media_request(url, path):
-    count = 0
     if not os.path.exists('./server/profiles/'+path.split('/')[3].split('.')[0]+'/post'):
         os.mkdir('./server/profiles/'+path.split('/')[3].split('.')[0]+'/post')
     v = int(os.listdir('./server/profiles/'+path.split('/')[3].split('.')[0]+'/post')[-1])+1
-    os.mkdir('./server/profiles/'+path.split('/')[3].split('.')[0]+'/post/'+str(v))
+    if auth.is_auth:
+        os.mkdir('./server/profiles/'+path.split('/')[3].split('.')[0]+'/post/'+str(v))
+    else:
+        v = 0
     make_request(url, path % str(v))
     time.sleep(1)
 
