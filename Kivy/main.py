@@ -1,4 +1,3 @@
-from kivymd.vendor.navigationdrawer import NavigationDrawer
 
 from client import Client
 from kivy.animation import Animation
@@ -69,21 +68,8 @@ class WindowManager(ScreenManager):
         super().__init__(**kwargs)
 
     def search(self,input):
-        c= Client()
-        '''if input != '':
-            info=c.req(input).split(",")
-            global nome
-            global Followers
-            global Followings
-            global Posts
-            global source
-            nome = input
-            Followers = info[0]
-            Followings = info[1]
-            Posts = info[2]
-            source = info[3]
-            self.current = "third"'''
         nome = input
+        app.root.current='third'
 
 
 
