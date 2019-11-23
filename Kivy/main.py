@@ -70,7 +70,7 @@ class WindowManager(ScreenManager):
 
     def search(self,input):
         c= Client()
-        if input != '':
+        '''if input != '':
             info=c.req(input).split(",")
             global nome
             global Followers
@@ -82,7 +82,8 @@ class WindowManager(ScreenManager):
             Followings = info[1]
             Posts = info[2]
             source = info[3]
-            self.current = "third"
+            self.current = "third"'''
+        nome = input
 
 
 
