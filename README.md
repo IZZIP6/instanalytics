@@ -19,7 +19,7 @@
 7. `python manage.py migrate`
 # Test it
 
-Go to [127.0.0.0.1:8000](127.0.0.0.1:8000) and digit the username of Instagram account.
+Go to [127.0.0.1:8000](https://127.0.0.0.1:8000) and digit the username of Instagram account.
 - Offline analysis  : set `is_requested = False` in [send_request](./analytics/app/src/request_handler/send_requests.py) and choose one of the available [profiles](analytics/profiles)
 - Online analysis   : set `is_requested = True`
 
