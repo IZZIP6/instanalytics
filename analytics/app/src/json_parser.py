@@ -68,3 +68,6 @@ def post_number(data):
 
 def shortcode(data):
     return data['node']['shortcode']
+
+def profile_pic(data):
+    return data['graphql']['user']['profile_pic_url_hd']
