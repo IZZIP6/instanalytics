@@ -5,6 +5,7 @@ import time
 import os
 from analytics.app.src.request_handler import auth
 from analytics.profiles import dir
+import shutil
 
 session = requests.Session()
 session.headers.update(setup.header)
@@ -32,6 +33,13 @@ def media_request(url, path):
         v = 0
     make_request(url, path % str(v))
     time.sleep(1)
+
+
+def profile_pic_req(url, path):
+    r = requests.get(url, stream=True)
+    with open(path, 'wb') as fp:
+        r.raw.decode_content = True
+        shutil.copyfileobj(r.raw, fp)
 
 
 def make_request(url, path):
