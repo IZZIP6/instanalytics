@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ username }}</title>
     <style>
         body {
             position: relative;
@@ -79,7 +79,7 @@
             padding: 10px;
         }
         #profile{
-                        border-radius: 50%;
+            border-radius: 50%;
 
         }
     </style>
@@ -98,7 +98,7 @@
 <div class="body">
     <div class="profile-info">
         <div class="profile-pic">
-            <img id="profile" src="{% static './img/' %}"  width="250">
+            <img id="profile" src="{% static url %}"  width="250">
         </div>
         <div class="top-info">
             <ul>
@@ -109,6 +109,7 @@
                 <li>{{ n_followers }}</li>
                 <li>{{ n_following }}</li>
                 <li>{{ n_post }}</li>
+                <li>{{ url }}</li>
             </ul>
         </div>
         </div>
