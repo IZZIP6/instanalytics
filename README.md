@@ -1,5 +1,5 @@
 # Instanalytics
-![GitHub Logo](client/src/img/logo.png)
+![GitHub Logo](analytics/static/img/logo.png)
 
 # Test it
 
