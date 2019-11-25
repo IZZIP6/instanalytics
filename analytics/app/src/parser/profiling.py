@@ -4,7 +4,8 @@ import numpy as np
 from .. import endpoint
 from .. import json_parser as parser
 from ..request_handler import request as rq
-from ..request_handler import  send_requests
+from ..request_handler import send_requests
+from analytics.static import dir
 
 
 hour_vect = np.zeros(24)
@@ -67,6 +68,12 @@ def get_postnumber(info):
     print('No. Post:\t\t\t', n_post)
     return n_post
 
+def get_profile_pic(info):
+    url = parser.profile_pic(info)
+    # return url
+
+    rq.profile_pic_req(url, dir.abs_path+'\\'+get_username(info)+'.jpg')
+
 
 def get_user_data(info):
     username = get_username(info)
@@ -79,17 +86,21 @@ def get_user_data(info):
     get_business(info)
     get_private(info)
     no_posts = get_postnumber(info)
+    if send_requests.is_requested:
+        url = get_profile_pic(info)
     # if not is_private:
     #    get_user_post(parser.id_number(info), parser.username(info))
 
     context = {
-        'username' : username,
+        'username': username,
         'fullname': fullname,
-        'id':id,
-        'bio':bio,
+        'id': id,
+        'bio': bio,
         'n_followers': no_followers,
         'n_following': no_following,
-        'n_post' : no_posts,
+        'n_post': no_posts,
+        'url': get_username(info)+'.jpg',
+
     }
     return context
 
