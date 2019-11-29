@@ -6,6 +6,7 @@ import os
 from analytics.app.src.request_handler import auth
 from analytics.profiles import dir
 import shutil
+import numpy as np
 
 session = requests.Session()
 session.headers.update(setup.header)
@@ -23,15 +24,18 @@ def user_request(url, username):
         os.rmdir(directory+'\\'+username)
 
 
-def media_request(url, path):
-    if not os.path.exists('./src/profiles/'+path.split('/')[3].split('.')[0]+'/post'):
-        os.mkdir('./src/profiles/'+path.split('/')[3].split('.')[0]+'/post')
-    v = int(os.listdir('./src/profiles/'+path.split('/')[3].split('.')[0]+'/post')[-1])+1
+def media_request(url, username):
+    media_directory = dir.abs_path+'\\'+username+'\\'+'post'
+    if not os.path.exists(media_directory+'\\'+'0'):
+        os.mkdir(media_directory)
+    v = int(os.listdir(media_directory)[-1])+1
     if auth.is_auth:
-        os.mkdir('./src/profiles/'+path.split('/')[3].split('.')[0]+'/post/'+str(v))
+        os.mkdir(media_directory+'\\'+str(v))
     else:
         v = 0
-    make_request(url, path % str(v))
+    n = len(os.listdir(media_directory+'\\'+str(v)))
+    # make_request(url, media_directory+'\\'+str(v)+'\\'+username+'\\'+n+'.json')
+    print(media_directory+'\\'+str(v)+'\\'+username+'.json')
     time.sleep(1)
 
 
