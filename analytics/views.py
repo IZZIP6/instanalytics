@@ -6,7 +6,10 @@ def index(request):
     return render(request, 'analytics/index.html')
 
 def start(request, username_id):
-    context = prova.insert_username(username_id)
-    return render(request, 'analytics/user.html', context)
+    try:
+        context = prova.insert_username(username_id)
+        return render(request, 'analytics/user.html', context)
+    except:
+        return HttpResponse('User not found, try another username')
 
 
