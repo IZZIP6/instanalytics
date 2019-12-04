@@ -16,8 +16,8 @@ def get_user_data(info):
     if profiling.send_requests.is_requested:
         url = profiling.get_profile_pic(info)
     cursor = ''
-    if not profiling.is_private:
-        profiling.get_user_post(parser.id_number(info), parser.username(info))
+    # if not profiling.is_private:
+      #  profiling.get_user_post(parser.id_number(info), parser.username(info))
 
     context = {
         'username': username,
