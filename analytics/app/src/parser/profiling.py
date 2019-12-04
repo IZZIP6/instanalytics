@@ -6,7 +6,6 @@ from .. import json_parser as parser
 from ..request_handler import request as rq
 from ..request_handler import send_requests
 from analytics.static import dir
-from analytics.profiles import dir
 import os
 
 hour_vect = np.zeros(24)
@@ -71,6 +70,7 @@ def get_postnumber(info):
 
 def get_profile_pic(info):
     url = parser.profile_pic(info)
+    print(dir.abs_path+'\\'+get_username(info)+'.jpg')
     rq.profile_pic_req(url, dir.abs_path+'\\'+get_username(info)+'.jpg')
 
 
