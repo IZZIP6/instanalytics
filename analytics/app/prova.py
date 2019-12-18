@@ -18,6 +18,7 @@ def insert_username(username):
 def load_json(username):
     try:
         last = os.listdir(dir.abs_path + '\\' + username +  '\\' + "profile")[-1]
+        print(last)
         with open(dir.abs_path + '\\' + username +  '\\' + "profile\\" + last + '\\' + username + '.json', 'r') as file:
             data = json.load(file)
             context = get_profile.get_user_data(data)
