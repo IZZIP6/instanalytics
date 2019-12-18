@@ -3,6 +3,7 @@ from analytics.app.src import endpoint
 from analytics.app.src.request_handler import send_requests
 from analytics.app.src.request_handler import request as rq
 from analytics.profiles import dir
+import os
 from analytics.app.src.parser import profiling, get_profile
 
 def insert_username(username):
@@ -16,7 +17,8 @@ def insert_username(username):
 
 def load_json(username):
     try:
-        with open(dir.abs_path + '\\' + username + '\\' + username + '.json', 'r') as file:
+        last = os.listdir(dir.abs_path + '\\' + username +  '\\' + "profile")[-1]
+        with open(dir.abs_path + '\\' + username +  '\\' + "profile\\" + last + '\\' + username + '.json', 'r') as file:
             data = json.load(file)
             context = get_profile.get_user_data(data)
     except FileNotFoundError as e:
