@@ -16,6 +16,7 @@ def user_request(url, username):
     directory = dir.abs_path+'\\'+username+'\\'+'profile'
     if not os.path.exists(directory+'\\'+'0'):
         os.makedirs(directory+'\\'+'0')
+        v = 0
     else:
         v = len(os.listdir(directory))
         os.makedirs(directory + '\\' + str(v))
