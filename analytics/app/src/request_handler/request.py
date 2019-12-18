@@ -13,29 +13,26 @@ session.headers.update(setup.header)
 
 
 def user_request(url, username):
-    directory = dir.abs_path
-    print(directory)
-    if not os.path.exists(directory+'\\'+username):
-        os.mkdir(directory+'\\'+username)
+    directory = dir.abs_path+'\\'+username+'\\'+'profile'
+    if not os.path.exists(directory+'\\'+'0'):
+        os.makedirs(directory+'\\'+'0')
+    else:
+        v = len(os.listdir(directory))
+        os.makedirs(directory + '\\' + str(v))
     try:
-        make_request(url, directory+'\\'+username+'\\'+username+'.json')
+        make_request(url, directory+'\\'+str(v)+'\\'+username+'.json')
     except json.decoder.JSONDecodeError as e:
         print('Wrong username')
-        os.rmdir(directory+'\\'+username)
+        os.rmdir(directory)
+
 
 
 def media_request(url, username):
     media_directory = dir.abs_path+'\\'+username+'\\'+'post'
-    if not os.path.exists(media_directory+'\\'+'0'):
+    if not os.path.exists(media_directory):
         os.mkdir(media_directory)
-    v = int(os.listdir(media_directory)[-1])+1
-    if auth.is_auth:
-        os.mkdir(media_directory+'\\'+str(v))
-    else:
-        v = 0
-    n = len(os.listdir(media_directory+'\\'+str(v)))
-    # make_request(url, media_directory+'\\'+str(v)+'\\'+username+'\\'+n+'.json')
-    print(media_directory+'\\'+str(v)+'\\'+username+'.json')
+    n = len(os.listdir(media_directory))
+    make_request(url, media_directory+'\\'+username+'\\'+str(n)+".json")
     time.sleep(1)
 
 
