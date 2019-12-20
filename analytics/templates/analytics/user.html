@@ -40,6 +40,14 @@
             flex-direction: row;
         }
 
+        .header a:link{
+            color: white;
+        }
+
+        .header a:visited{
+            color: white;
+        }
+
 
         .header ul {
             margin: 0;
@@ -76,7 +84,7 @@
         }
         .profile-pic{
             width: 400px;
-            padding: 10px;
+            padding: 40px;
         }
         #profile{
             border-radius: 50%;
@@ -87,7 +95,7 @@
 <body>
 <div class="header">
             <div class="logo">
-                <h2>instanalytics</h2>
+                <h2><a style="text-decoration:none" href="/analytics/">instanalytics</a></h2>
             </div>
             <ul>
                 <li></li>
@@ -98,7 +106,9 @@
 <div class="body">
     <div class="profile-info">
         <div class="profile-pic">
+
             <img id="profile" src="{% static url %}"  width="250">
+
         </div>
         <div class="top-info">
             <ul>
