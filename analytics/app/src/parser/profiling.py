@@ -3,7 +3,7 @@ import datetime
 import numpy as np
 from .. import endpoint
 from .. import json_parser as parser
-from ..request_handler import request as rq
+from ..request_handler import request_adapter as rq
 from ..request_handler import send_requests
 from analytics.static import dir
 import os
@@ -70,14 +70,13 @@ def get_postnumber(info):
 
 def get_profile_pic(info):
     url = parser.profile_pic(info)
-    print(dir.abs_path+'\\'+get_username(info)+'.jpg')
-    rq.profile_pic_req(url, dir.abs_path+'\\'+get_username(info)+'.jpg')
+    rq.profile_pic_request(url, dir.abs_path + '\\profile_pic\\' + get_username(info) + '.jpg')
 
 
 def get_user_post(user_id, profile_name):
     count_end_cursor = 0
     if send_requests.is_requested:
-        rq.media_request(endpoint.request_account_medias(user_id, 'null'), profile_name)
+        rq.user_media_request(endpoint.request_account_medias(user_id, 'null'), profile_name)
     post_directory = dir.abs_path+'\\'+profile_name+'\\post'
     last_post_directory = post_directory+'\\'+str(os.listdir(post_directory)[-1])
     with open(last_post_directory+'\\'+profile_name+'_post.json', 'r') as post_json:
@@ -86,7 +85,7 @@ def get_user_post(user_id, profile_name):
     while not end_cursor is None:
         count_end_cursor += 1
         if send_requests.is_requested:
-            rq.media_request(endpoint.request_account_medias(user_id, end_cursor), profile_name)
+            rq.user_media_request(endpoint.request_account_medias(user_id, end_cursor), profile_name)
         with open(last_post_directory+'\\'+profile_name+'_post'+str(count_end_cursor)+'.json', 'r') as post_json:
             data = json.load(post_json)
             end_cursor = parser.end_cursor(data)
