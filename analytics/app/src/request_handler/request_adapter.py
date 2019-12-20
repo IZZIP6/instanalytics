@@ -3,10 +3,9 @@ import json
 from analytics.app.src import setup
 import time
 import os
-from analytics.app.src.request_handler import auth
+# from analytics.app.src.request_handler import auth
 from analytics.profiles import dir
 import shutil
-import numpy as np
 
 session = requests.Session()
 session.headers.update(setup.header)
@@ -27,14 +26,20 @@ def user_request(url, username):
         os.rmdir(directory)
 
 
-
 def media_request(url, username):
-    media_directory = dir.abs_path+'\\'+username+'\\'+'post'
+    media_directory = dir.abs_path+'\\'+username+'\\'+'media'
     if not os.path.exists(media_directory):
         os.mkdir(media_directory)
     n = len(os.listdir(media_directory))
     make_request(url, media_directory+'\\'+username+'\\'+str(n)+".json")
     time.sleep(1)
+
+
+def post_request(url, shortcode, username):
+    post_directory = dir.abs_path+'\\'+username+'\\'+shortcode
+    if not os.path.exists(post_directory):
+        os.mkdir(post_directory)
+    make_request(url, post_directory+'\\'+shortcode+'.json')
 
 
 def profile_pic_req(url, path):
