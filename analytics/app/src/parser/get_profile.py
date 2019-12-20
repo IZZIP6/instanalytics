@@ -27,7 +27,7 @@ def get_user_data(info):
         'n_followers': no_followers,
         'n_following': no_following,
         'n_post': no_posts,
-        'url': profiling.get_username(info)+'.jpg',
+        'url': 'profile_pic\\'+profiling.get_username(info)+'.jpg',
         'cursor': cursor
     }
     return context
