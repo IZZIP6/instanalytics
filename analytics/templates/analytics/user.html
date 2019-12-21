@@ -1,4 +1,5 @@
 {% load staticfiles %}
+<script src="{% static "js/jquery-3.4.1.min.js" %}"></script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,67 +7,123 @@
     <meta charset="UTF-8">
     <title>{{ username }}</title>
     <style>
+
         body {
-            position: relative;
             margin: 0;
             font-family: Apercu, sans-serif;
             text-rendering: optimizelegibility;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             background-color: #0a0b29;
-	        background-image: url({% static './img/background-texture.png' %});
-            background-repeat: repeat;
-
         }
-        .header{
+
+        .header-content{
             width: 100%;
+            background-image: url({% static './img/background-texture.png' %});
+            position: sticky;
+            top: 0;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+            color: white;
+            background-color: #0a0b29;
+            transition: height 200ms;
+        }
+
+        .top-header{
             position: relative;
-            margin: 0;
-            height: 50px;
             display: flex;
             flex-direction: row;
             line-height: 1.5;
             align-items: center;
             color: white;
+            height: 50px;
         }
 
-        .header .logo{
+        nav{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo{
             width: 50%;
             padding: 0 20px;
             display: flex;
             flex-direction: row;
         }
 
-        .header a:link{
+        .top-header a:link{
             color: white;
         }
 
-        .header a:visited{
+        .top-header a:visited{
             color: white;
         }
 
-
-        .header ul {
+        .top-header ul {
             margin: 0;
             padding: 0;
             list-style-type: none;
             display: flex;
             width: 50%;
             justify-content: flex-end;
+
         }
 
-        .header ul li {
+        .top-header ul li {
             margin: 0 1em;
             padding: 1em;
-
+            display: flex;
+            align-items: center;
+            align-content: center;
         }
-        .body{
+
+
+
+        .profile-info{
+            /*background-color: #090a26;*/
+            position: relative;
+            width: 100%;
+            /*box-shadow:0 5px 15px #0f102c;*/
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+        }
+
+        .profile-first-info{
+            width: 100%;
+            position: sticky;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .first-item{
+            width: 33%;
+            display: flex;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+        }
+
+        section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .body-content{
             position: relative;
             font-size: 1.7rem;
-            margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -74,59 +131,97 @@
             background-color: #0a0b29;
             color: white;
         }
-        .profile-info{
-            background-color: #090a26;
-            height: 400px;
-            width: 100%;
-            box-shadow:0 5px 15px #0f102c;
-            display: flex;
-            flex-direction: row;
-        }
-        .profile-pic{
-            width: 400px;
-            padding: 40px;
-        }
+
         #profile{
             border-radius: 50%;
 
         }
+
+        .top-info{
+            position: relative;
+            height: 80%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-info-preview ul{
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            text-align: center;
+
+        }
+
+
+        .profile-info-preview ul li {
+            margin: 0 1em;
+            padding: 1em;
+            width: 100px;
+            box-shadow:0 5px 15px #0f102c;
+
+        }
+
+
+        .profile-bio{
+            font-size: 1.3rem;
+            text-align: center;
+            padding: 20px;
+
+        }
+
+        .preview-label{
+            font-size: 1rem;
+        }
     </style>
 </head>
+<script>
+    $(window).scroll(function (event) {
+        var scroll = $(window).scrollTop();
+        console.log(scroll)
+
+
+     });
+
+</script>
 <body>
-<div class="header">
+    <header class="header-content">
+        <nav class="top-header" id="header-bar">
             <div class="logo">
                 <h2><a style="text-decoration:none" href="/analytics/">instanalytics</a></h2>
             </div>
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </div>
-<div class="body">
-    <div class="profile-info">
-        <div class="profile-pic">
+                <ul class="top-header-list">
+                    <li></li>
+                    <li>{{ username }}</li>
+                    <li><img id="profile" src="{% static url %}" height="40px"></li>
+                </ul>
+        </nav>
 
-            <img id="profile" src="{% static url %}"  width="250">
-
-        </div>
+    </header>
+    <section class="body-content">
         <div class="top-info">
-            <ul>
-                <li>{{ id }}</li>
-                <li>{{ username }}</li>
-                <li>{{ fullname }}</li>
-                <li>{{ bio }}</li>
-                <li>{{ n_followers }}</li>
-                <li>{{ n_following }}</li>
-                <li>{{ n_post }}</li>
-                <li>{{ url }}</li>
-                <li>{{ cursor }}</li>
-            </ul>
+            <div class="profile-info" id="prf-info">
+            <div class="profile-first-info">
+                <div class="first-item">{{ fullname }}<br>{{ username }}<br>{{ id }}</div>
+                <div class="first-item"><img id="profile" src="{% static url %}" height="300px"></div>
+                <div class="first-item"></div>
+            </div>
         </div>
-        <div class="post-info">
-  
+            <div class="profile-bio">{{ bio }}</div>
+            <div class="profile-info-preview">
+                <ul id="preview-data">
+                    <li>{{ n_post }}<div class="preview-label">post</div></li>
+                    <li>{{ n_followers }}<div class="preview-label">followers</div></li>
+                    <li>{{ n_following }}<div class="preview-label">following</div></li>
+                </ul>
+
+            </div>
         </div>
-        </div>
-</div>
+    </section>
 </body>
 </html>
