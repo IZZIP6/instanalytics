@@ -103,11 +103,21 @@
         }
 
         .first-item{
-            width: 33%;
             display: flex;
             justify-content: center;
             font-size: 2.4rem;
             font-weight: 700;
+        }
+
+        #name-item{
+            position: absolute;
+            font-size: 7rem;
+            left: 10px;
+            color: white;
+            opacity: 0.1;
+            top: 0px;
+            font-weight: 900;
+
         }
 
         section {
@@ -204,12 +214,12 @@
 
     </header>
     <section class="body-content">
+        <div id="name-item">{{ fullname }}</div>
         <div class="top-info">
             <div class="profile-info" id="prf-info">
             <div class="profile-first-info">
-                <div class="first-item">{{ fullname }}<br>{{ username }}<br>{{ id }}</div>
+
                 <div class="first-item"><img id="profile" src="{% static url %}" height="300px"></div>
-                <div class="first-item"></div>
             </div>
         </div>
             <div class="profile-bio">{{ bio }}</div>
