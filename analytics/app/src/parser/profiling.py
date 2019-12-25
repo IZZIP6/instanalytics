@@ -72,6 +72,16 @@ def get_profile_pic(info):
     url = parser.profile_pic(info)
     rq.profile_pic_request(url, dir.abs_path + '\\profile_pic\\' + get_username(info) + '.jpg')
 
+def get_shortcode_list(info):
+    list = []
+    url = []
+    post_number = get_postnumber(info)
+    if post_number>12:
+        post_number = 12
+    for i in range(0, post_number-1):
+        list.append(parser.shortcode_list(info, i))
+        url.append(parser.shortcode_url(info, i))
+    return list, url
 
 def get_user_post(user_id, profile_name):
     count_end_cursor = 0
@@ -91,7 +101,5 @@ def get_user_post(user_id, profile_name):
             end_cursor = parser.end_cursor(data)
 
 '''
-
-
 # https://www.instagram.com/graphql/query/?query_id=17888483320059182&variables={"id": "234962686","first":20,"after":null}
 '''
