@@ -72,3 +72,9 @@ def shortcode(data):
 
 def profile_pic(data):
     return data['graphql']['user']['profile_pic_url_hd']
+
+def shortcode_list(data, n):
+    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][n]['node']['shortcode']
+
+def shortcode_url(data, n):
+    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][n]['node']['display_url']
