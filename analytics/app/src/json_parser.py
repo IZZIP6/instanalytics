@@ -1,6 +1,9 @@
 def end_cursor(data):
     return data['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
 
+def end_cursor_comment(data):
+    return data['data']['shortcode_media']['edge_media_to_comment']['page_info']['end_cursor']
+
 
 def edge_post(data):
     return data['data']['user']['edge_owner_to_timeline_media']['edges']

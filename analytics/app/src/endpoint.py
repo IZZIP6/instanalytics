@@ -36,7 +36,7 @@ def request_media_by_location(location_id, location_name):
 
 
 def request_comment(shortcode, cursor):
-    return BASE_URL + COMMENT_BY_SHORTCODE % parse.quote_plus(shortcode, cursor)
+    return BASE_URL + COMMENT_BY_SHORTCODE % (shortcode, cursor)
 
 
 def request_hashtag_media(hashtag, cursor):

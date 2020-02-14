@@ -6,6 +6,7 @@ from analytics.profiles import dir
 import os
 from analytics.app.src.parser import profiling, get_profile
 
+
 def insert_username(username):
     profile_name = username
     profile_name.replace(" ", "")
@@ -15,10 +16,13 @@ def insert_username(username):
         print("Send request ...")
     return load_json(username)
 
+
 def load_json(username):
     try:
-        last = os.listdir(dir.abs_path + '\\' + username +  '\\' + "profile")[-1]
-        with open(dir.abs_path + '\\' + username +  '\\' + "profile\\" + last + '\\' + username + '.json', 'r') as file:
+        last = os.listdir(dir.abs_path + '\\' + username + '\\' + "profile")[-1]
+        print(os.listdir(dir.abs_path + '\\' + username + '\\' + "profile"))
+        with open(dir.abs_path + '\\' + username + '\\' + "profile\\" + last + '\\' + username + '.json', 'r') as file:
+            print(dir.abs_path + '\\' + username + '\\' + "profile\\" + last + '\\' + username + '.json')
             data = json.load(file)
     except FileNotFoundError as e:
         print("EXCEPTION")

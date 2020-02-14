@@ -31,8 +31,30 @@ def user_media_request(url, username):
     if not os.path.exists(media_directory):
         os.mkdir(media_directory)
     n = len(os.listdir(media_directory))
-    make_request(session, url, media_directory+'\\'+username+'\\'+str(n)+".json")
+    make_request(session, url, media_directory+'\\'+str(n)+".json")
     time.sleep(1)
+
+
+
+
+
+
+
+def comment_media_request(url, username, shortcode):
+    media_directory = dir.abs_path+'\\'+username+'\\'+'comment'
+    if not os.path.exists(media_directory):
+        os.mkdir(media_directory)
+    n = len(os.listdir(media_directory))
+    make_request(session, url, media_directory+'\\'+str(n)+".json")
+    time.sleep(1)
+
+
+
+
+
+
+
+
 
 
 def post_request(url, shortcode, username):
@@ -40,6 +62,7 @@ def post_request(url, shortcode, username):
     if not os.path.exists(post_directory):
         os.mkdir(post_directory)
     make_request(session, url, post_directory+'\\'+shortcode+'.json')
+
 
 
 def profile_pic_request(url, path):

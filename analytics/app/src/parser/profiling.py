@@ -5,8 +5,10 @@ from .. import endpoint
 from .. import json_parser as parser
 from ..request_handler import request_adapter as rq
 from ..request_handler import send_requests
-from analytics.static import dir
+from analytics.static import dir as dir_static
+from analytics.profiles import dir
 import os
+import shutil
 
 hour_vect = np.zeros(24)
 
@@ -70,7 +72,7 @@ def get_postnumber(info):
 
 def get_profile_pic(info):
     url = parser.profile_pic(info)
-    rq.profile_pic_request(url, dir.abs_path + '\\profile_pic\\' + get_username(info) + '.jpg')
+    rq.profile_pic_request(url, dir_static.abs_path + '\\profile_pic\\' + get_username(info) + '.jpg')
 
 def get_shortcode_list(info):
     list = []
@@ -83,23 +85,92 @@ def get_shortcode_list(info):
         url.append(parser.shortcode_url(info, i))
     return list, url
 
+# NON USARE è DA MODIFICARE
 def get_user_post(user_id, profile_name):
     count_end_cursor = 0
+    '''
+        Since I'm not interested in latest verions, remove old Media directory, if a Media directory exists
+    '''
+    post_directory = dir.abs_path+'\\'+profile_name+'\\media'
+    if os.path.exists(post_directory) and send_requests.is_requested:
+        shutil.rmtree(post_directory)
+
+    '''
+        Send the first requests with end cursor null. It returns the first 20 posts of the selected username
+    '''
     if send_requests.is_requested:
-        rq.user_media_request(endpoint.request_account_medias(user_id, 'null'), profile_name)
-    post_directory = dir.abs_path+'\\'+profile_name+'\\post'
-    last_post_directory = post_directory+'\\'+str(os.listdir(post_directory)[-1])
-    with open(last_post_directory+'\\'+profile_name+'_post.json', 'r') as post_json:
+        rq.user_media_request(endpoint.request_account_medias(user_id, "null"), profile_name)
+
+    '''
+        Open the json and set the new end cursor
+    '''
+    with open(post_directory+'\\'+str(os.listdir(post_directory)[-1]), 'r') as post_json:
         data = json.load(post_json)
-    end_cursor = parser.end_cursor(data)
+    end_cursor = '"'+parser.end_cursor(data)+'"'
+
+
     while not end_cursor is None:
         count_end_cursor += 1
+        '''
+            Messo soltanto perchè endcurson non sarà mai null dato che non facciamo esattamente tutte le richieste
+        '''
+        print(count_end_cursor)
+        if count_end_cursor == 2:
+            break
+
+        '''
+            Send recursive requests until no other posts are found    
+        '''
         if send_requests.is_requested:
             rq.user_media_request(endpoint.request_account_medias(user_id, end_cursor), profile_name)
-        with open(last_post_directory+'\\'+profile_name+'_post'+str(count_end_cursor)+'.json', 'r') as post_json:
-            data = json.load(post_json)
-            end_cursor = parser.end_cursor(data)
 
-'''
-# https://www.instagram.com/graphql/query/?query_id=17888483320059182&variables={"id": "234962686","first":20,"after":null}
-'''
+        with open(post_directory+'\\'+str(os.listdir(post_directory)[-1]), 'r') as post_json:
+            data = json.load(post_json)
+            end_cursor = '"'+parser.end_cursor(data)+'"'
+
+
+def get_user_post_comment(user_id, profile_name, shortcode):
+    count_end_cursor = 0
+    '''
+        Since I'm not interested in latest verions, remove old Media directory, if a Media directory exists
+    '''
+    post_directory = dir.abs_path+'\\'+profile_name+'\\comment'
+    if os.path.exists(post_directory) and send_requests.is_requested:
+        shutil.rmtree(post_directory)
+
+    '''
+        Send the first requests with end cursor null. It returns the first 20 posts of the selected username
+    '''
+    if send_requests.is_requested:
+        print(endpoint.request_comment(shortcode, ''))
+        rq.comment_media_request(endpoint.request_comment(shortcode, ''), profile_name, shortcode)
+
+    '''
+        Open the json and set the new end cursor
+    '''
+
+    with open(post_directory+'\\'+str(os.listdir(post_directory)[-1]), 'r') as post_json:
+            print(post_directory+'\\'+str(os.listdir(post_directory)[-1]))
+            data = json.load(post_json)
+            end_cursor = '"'+parser.end_cursor_comment(data)+'"'
+
+
+    while not end_cursor is None:
+        count_end_cursor += 1
+        '''
+            Messo soltanto perchè endcurson non sarà mai null dato che non facciamo esattamente tutte le richieste
+        '''
+        print(count_end_cursor)
+        if count_end_cursor == 2:
+            break
+
+        '''
+            Send recursive requests until no other posts are found    
+        '''
+        if send_requests.is_requested:
+            rq.user_media_request(endpoint.request_account_medias(user_id, end_cursor), profile_name)
+
+        with open(post_directory+'\\'+str(os.listdir(post_directory)[-1]), 'r') as post_json:
+            data = json.load(post_json)
+            end_cursor = '"'+parser.end_cursor_comment(data)+'"'
+

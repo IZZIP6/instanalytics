@@ -17,8 +17,9 @@ def get_user_data(info):
         url = profiling.get_profile_pic(info)
     cursor = ''
     list_of_shortcode, list_of_url = profiling.get_shortcode_list(info)
-    # if not profiling.is_private:
-      #  profiling.get_user_post(parser.id_number(info), parser.username(info))
+    #profiling.get_user_post_comment(parser.id_number(info), username, list_of_shortcode[0])
+    #if not profiling.is_private:
+     # profiling.get_user_post(parser.id_number(info), parser.username(info))
 
     context = {
         'username': username,
@@ -29,8 +30,8 @@ def get_user_data(info):
         'n_following': no_following,
         'n_post': no_posts,
         'url': 'profile_pic\\'+profiling.get_username(info)+'.jpg',
-        'cursor': cursor,
-        'first_post_shortcode' : list_of_shortcode[0],
-        'first_post_url' : list_of_url[0],
+        #'cursor': cursor,
+        #'first_post_shortcode' : list_of_shortcode[0],
+        #'first_post_url' : list_of_url[0],
     }
     return context
