@@ -152,19 +152,14 @@ def get_user_post_comment(user_id, profile_name, shortcode):
             data = json.load(post_json)
             end_cursor = parser.end_cursor_comment(data)
             print(end_cursor)
-
-
     while not end_cursor is None:
         count_end_cursor += 1
-        
         print(count_end_cursor)
         if count_end_cursor == 3:
             break
-
         if send_requests.is_requested:
             print(endpoint.request_comment(shortcode, end_cursor))
             rq.comment_media_request(endpoint.request_comment(shortcode, end_cursor), profile_name, shortcode)
-
         with open(post_directory+'\\'+str(os.listdir(post_directory)[-1]), 'r') as post_json:
             data = json.load(post_json)
             end_cursor = parser.end_cursor_comment(data)

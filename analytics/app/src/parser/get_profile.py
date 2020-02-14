@@ -19,7 +19,7 @@ def get_user_data(info):
     list_of_shortcode, list_of_url = profiling.get_shortcode_list(info)
     if not profiling.is_private:
         profiling.get_user_post_comment(parser.id_number(info), username, list_of_shortcode[0])
-        #profiling.get_user_post(parser.id_number(info), parser.username(info))
+        profiling.get_user_post(parser.id_number(info), parser.username(info))
 
     context = {
         'username': username,
