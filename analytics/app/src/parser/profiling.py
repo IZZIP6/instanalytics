@@ -115,7 +115,7 @@ def get_user_post(user_id, profile_name):
             Messo soltanto perchè endcurson non sarà mai null dato che non facciamo esattamente tutte le richieste
         '''
         print(count_end_cursor)
-        if count_end_cursor == 2:
+        if count_end_cursor == 3:
             break
 
         '''
@@ -148,29 +148,26 @@ def get_user_post_comment(user_id, profile_name, shortcode):
     '''
         Open the json and set the new end cursor
     '''
-
     with open(post_directory+'\\'+str(os.listdir(post_directory)[-1]), 'r') as post_json:
-            print(post_directory+'\\'+str(os.listdir(post_directory)[-1]))
             data = json.load(post_json)
-            end_cursor = '"'+parser.end_cursor_comment(data)+'"'
+            end_cursor = parser.end_cursor_comment(data)
+            print(end_cursor)
 
 
     while not end_cursor is None:
         count_end_cursor += 1
-        '''
-            Messo soltanto perchè endcurson non sarà mai null dato che non facciamo esattamente tutte le richieste
-        '''
+        
         print(count_end_cursor)
-        if count_end_cursor == 2:
+        if count_end_cursor == 3:
             break
 
-        '''
-            Send recursive requests until no other posts are found    
-        '''
         if send_requests.is_requested:
-            rq.user_media_request(endpoint.request_account_medias(user_id, end_cursor), profile_name)
+            print(endpoint.request_comment(shortcode, end_cursor))
+            rq.comment_media_request(endpoint.request_comment(shortcode, end_cursor), profile_name, shortcode)
 
         with open(post_directory+'\\'+str(os.listdir(post_directory)[-1]), 'r') as post_json:
             data = json.load(post_json)
-            end_cursor = '"'+parser.end_cursor_comment(data)+'"'
+            end_cursor = parser.end_cursor_comment(data)
+            print("THIS", end_cursor)
+
 

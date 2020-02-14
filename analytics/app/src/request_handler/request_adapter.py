@@ -45,16 +45,9 @@ def comment_media_request(url, username, shortcode):
     if not os.path.exists(media_directory):
         os.mkdir(media_directory)
     n = len(os.listdir(media_directory))
+    print(media_directory+'\\'+str(n)+".json")
     make_request(session, url, media_directory+'\\'+str(n)+".json")
     time.sleep(1)
-
-
-
-
-
-
-
-
 
 
 def post_request(url, shortcode, username):
