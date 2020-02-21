@@ -34,7 +34,7 @@ def request_to_username(username):
 
         '''
         POST
-        '''
+        
 
         post = rq.user_media_request(endpoint.request_account_medias(user_id, "null"))
         end_cursor = parser.end_cursor(post)
@@ -46,14 +46,14 @@ def request_to_username(username):
         count_end_cursor = 0
         while not end_cursor is None:
             count_end_cursor += 1
-            '''
+            
                 Messo soltanto perchè endcursor non sarà mai null dato che non facciamo esattamente tutte le richieste
-            '''
+            
             if count_end_cursor == 3:
                 break
-            '''
+            
                 Send recursive requests until no other posts are found    
-            '''
+            
             post = rq.user_media_request(endpoint.request_account_medias(user_id, '"'+end_cursor+'"'))
             end_cursor = parser.end_cursor(post)
             channel.basic_publish(exchange='',
@@ -62,9 +62,9 @@ def request_to_username(username):
                               properties=pika.BasicProperties(delivery_mode=2,))
             print(" [x] Sent %s" % "POST JSON N. "+str(count_end_cursor))
 
-        '''
+        
         COMMENTS
-        '''
+        
         post_number = parser.post_number(message)
         if post_number > 12:
             post_number = 12
@@ -89,7 +89,7 @@ def request_to_username(username):
                               body=json.dumps(comment),
                               properties=pika.BasicProperties(delivery_mode=2,))
             print(" [x] Sent %r" % "COMMENT JSON N. "+str(count_end_cursor))
-
+'''
     connection.close()
     print("Send request ...")
 
