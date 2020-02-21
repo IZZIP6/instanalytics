@@ -1,8 +1,6 @@
 from app.parser import profiling
-from app.parser import json_parser as parser
-from app.parser import json_comment_parser as comment_parser
 from datetime import datetime
-import pytz
+
 
 
 def get_comment_data(comment):

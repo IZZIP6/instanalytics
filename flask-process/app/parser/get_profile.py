@@ -1,7 +1,5 @@
 from app.parser import profiling
-from app.parser import json_parser as parser
 from datetime import datetime
-import pytz
 
 def get_user_data(info):
     username = profiling.get_username(info)
@@ -16,8 +14,7 @@ def get_user_data(info):
     business = profiling.get_business(info)
     private = profiling.get_private(info)
     no_posts = profiling.get_post_number(info)
-   #if profiling.send_requests.is_requested:
-    #   url = profiling.get_profile_pic(info)
+    url = profiling.get_profile_pic(info)
     cursor = ''
     #profiling.get_show_suggested_profiles(info)
     blocked_by_viewer = profiling.get_blocked_by_viewer(info)
@@ -30,7 +27,6 @@ def get_user_data(info):
     joined_recently = profiling.get_is_joined_recently(info)
     requested_by_viewer = profiling.get_requested_by_viewer(info)
     connected_fb_page = profiling.get_connected_fb_page(info)
-
     n_highlight_reel = profiling.get_highlight_reel_count(info)
     logging_page_id = profiling.get_logging_page_id(info)
     external_url = profiling.get_external_url(info)
@@ -46,77 +42,48 @@ def get_user_data(info):
     if private is False:
         list_of_shortcode, list_of_url = profiling.get_shortcode_list(info)
         post_type_name, post_id, post_comment_count, post_comments_disabled, \
-            post_taken_at_timestamp, post_dimensions_height, post_dimensions_width = profiling.get_post_data1(info)
-
+        post_taken_at_timestamp, post_dimensions_height, post_dimensions_width = profiling.get_post_data1(info)
         post_edge_media_to_caption = profiling.get_post_edge_media_to_caption(info)
-        print('post edge media to caption\t\t\t', post_edge_media_to_caption)
         post_edge_media_to_caption_text = []
         for i in range(0, len(post_edge_media_to_caption)):
-            print("post num\t\t\t", i)
             if not post_edge_media_to_caption[i]:
                 post_edge_media_to_caption_text.append("Null")
-                print("post_edge_media_to_caption_text\t\t\t", post_edge_media_to_caption_text[i])
             else:
                 post_edge_media_to_caption_text.append(profiling.get_post_edge_media_to_caption_text(info, i))
-                print("post_edge_media_to_caption_text\t\t\t", post_edge_media_to_caption_text[i])
-
         post_location = profiling.get_post_location(info)
-        print('post location\t\t\t', post_location)
         post_location_id = []
         post_location_has_public_page = []
         post_location_name = []
         post_location_slug = []
         for i in range(0, len(post_location)):
-            print("post num\t\t\t", i)
             if post_location[i] is None:
                 post_location_id.append("Null")
                 post_location_has_public_page.append("Null")
                 post_location_name.append("Null")
                 post_location_slug.append("Null")
-                print("location id\t\t\t", post_location_id[i])
-                print("location page\t\t\t", post_location_has_public_page[i])
-                print("location name\t\t\t", post_location_name[i])
-                print("location slug\t\t\t", post_location_slug[i])
             else:
                 post_location_id.append(profiling.get_post_location_id(info, i))
                 post_location_has_public_page.append(profiling.get_post_location_has_public_page(info, i))
                 post_location_name.append(profiling.get_post_location_name(info, i))
                 post_location_slug.append(profiling.get_post_location_slug(info, i))
-                print("location id\t\t\t", post_location_id[i])
-                print("location page\t\t\t", post_location_has_public_page[i])
-                print("location name\t\t\t", post_location_name[i])
-                print("location slug\t\t\t", post_location_slug[i])
-
         is_video = profiling.get_post_is_video(info)
-        print("is_video\t\t\t", is_video)
         video_view_count = []
         post_accessibility = []
         for i in range(0, len(is_video)):
-            print("post\t\t\t", i)
             if is_video[i]:
                 video_view_count.append(profiling.get_post_video_view_count(info, i))
-                print("video_view_count\t\t\t", video_view_count[i])
             else:
                 video_view_count.append("Null")
                 post_accessibility.append(profiling.get_post_accessibility(info, i))
-                print("video_view_count\t\t\t", video_view_count[i])
-
         post_num_like, post_preview_num_like = profiling.get_post_like(info)
         post_owner_id, post_owner_username = profiling.get_post_owner(info)
-
         post_media_preview = []
         post_preview = profiling.get_post_number(info)
         if post_preview > 12:
             post_preview = 12
         for i in range(0, post_preview):
-            print("post_num\t\t\t", i)
             post_media_preview.append(profiling.get_post_media_preview(info, i))
-            print("post_media_preview\t\t\t", post_media_preview[i])
-
         post_gating_info, post_fact_check_overall_rating, post_fact_check_information = profiling.get_post_data2(info)
-        print("gating_info\t\t\t", post_gating_info)
-        print("post_fact_check_overall_rating\t\t\t", post_fact_check_overall_rating)
-        print("post_fact_check_information\t\t\t", post_fact_check_information)
         post_hashtag = profiling.post_found_hashtag(info)
         post_tag = profiling.post_found_tag(info)
 
@@ -126,6 +93,7 @@ def get_user_data(info):
         'username': username,
         'fullname': fullname,
         'id': id,
+        'url': url,
         'bio': bio,
         'n_followers': no_followers,
         'n_following': no_following,
