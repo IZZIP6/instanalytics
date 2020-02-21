@@ -27,14 +27,15 @@ def listen_to_username():
         if message.get('logging_page_id') is not None:
             context = get_profile.get_user_data(message)
             collection_profile.insert_one(context)
-     '''
-        elif message.get('data', {}).get('user') != None:
-          print("ciaoooooooooo111111111\t\t\t\n", message['data']['user'])
-        elif message.get('data', {}).get('shortcode_media') != None:
-          #print("ciaoooooooooo222222222\t\t\t\n", message.get('data', {}).get('shortcode_media'))
-          context_comment = get_comment.get_comment_data(message)
-          collection_comment.insert_one(context_comment)
-     '''
+        '''
+            elif message.get('data', {}).get('user') != None:
+              print("ciaoooooooooo111111111\t\t\t\n", message['data']['user'])
+            elif message.get('data', {}).get('shortcode_media') != None:
+              #print("ciaoooooooooo222222222\t\t\t\n", message.get('data', {}).get('shortcode_media'))
+              context_comment = get_comment.get_comment_data(message)
+              collection_comment.insert_one(context_comment)
+    '''
+
         time.sleep(1)
         print(" [x] Done")
         ch.basic_ack(delivery_tag=method.delivery_tag)
