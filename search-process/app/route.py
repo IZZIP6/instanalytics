@@ -33,7 +33,7 @@ def hello(username):
 
     while True:
         if initial_spleep == 8:
-            return "Username not found"
+            return "Username not found", 404
         try:
             '''
                 If the JSON is found, is extracted from the database using the query and serialized as a string, in
