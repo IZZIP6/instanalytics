@@ -124,6 +124,7 @@
             position: relative;
             width: 100%;
             height: 100vh;
+            z-index: -1;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -202,10 +203,11 @@
         .post{
             width: 300px;
             height: auto;
-            padding: 20px 4% 0 4%;
+            padding: 20px 3% 20px 3%;
             display: flex;
             align-items: center;
             justify-content: center;
+
         }
 
         .preview{
@@ -222,6 +224,15 @@
         .post_pic{
             width: 280px;
         }
+
+        .post_pic:hover{
+            opacity: 0.5;
+            width: 10em;
+        }
+        #body-content-post{
+            height: max-content;
+        }
+
     </style>
 </head>
 <script>
@@ -267,7 +278,7 @@
             </div>
         </div>
     </section>
-    <section class="body-content">
+    <section class="body-content" id="body-content-post">
         <div class="dontshow" id="url_post">{{list_url_post.0}}</div>
         <div class="post-preview">
             {% for item in list_url_post %}
