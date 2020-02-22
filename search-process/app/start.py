@@ -1,5 +1,10 @@
 import pika
 
+
+'''
+    pika opens a conntection to localhost, creating a queue for the username. Each time an username is typed, it's
+    published into the queue
+'''
 def username_queue(username):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
