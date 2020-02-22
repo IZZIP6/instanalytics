@@ -5,11 +5,20 @@ from app import json_parser as parser
 import pika
 import json
 
-
+'''
+    This function sends requests to Instagram API and return in the task queue the downloaded json 
+'''
 def request_to_username(username):
     profile_name = username
-    #profile_name.replace(" ", "")
+
+    '''
+        the complete url used to send request to API, adding the username you want to find
+    '''
     url = endpoint.request_account_info(profile_name)
+    '''
+        pika client connects to the rabbitMQ queue and declare two channel, task_ queue used for profile-post-comment
+        json and location_queue used to talk with "location-process"
+    '''
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
     channel2= connection.channel()
@@ -17,7 +26,9 @@ def request_to_username(username):
     channel2.queue_declare(queue='location_queue', durable=True)
     if send_requests.is_requested:
         '''
-        PROFILE
+        SEND REQUEST FOR PROFILE JSON
+        message contains the received json from the request to API. It's published in the task_queue and location_queue.
+        In order to published into the queue, you have to serialized it using json.dumps()
         '''
         message = rq.user_request(url)
         user_id = parser.id_number(message)

@@ -1,6 +1,8 @@
-import json
+'''
+    This is the core of the requests module, given a session and the url it sends an HTTP get request to the API and
+    returns the json
+'''
 
-# CHECK INTERNET AVAILABILITY
 
 def make_request(session, url):
     r = session.get(url)

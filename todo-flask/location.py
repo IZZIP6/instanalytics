@@ -2,6 +2,12 @@ import pika
 import time
 import json
 
+'''
+    da commentare :)
+'''
+
+
+
 def post_location(data, i):
     location = data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['location']
     if location is not None:
