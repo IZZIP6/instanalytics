@@ -3,6 +3,7 @@ from datetime import datetime
 
 
 def get_user_data(info):
+
     '''
     This function has the responsibility to query the JSON received from the Instagram API asking for the required field
     that we want to insert in the "final JSON", the one who will be inserted into the db
@@ -10,55 +11,60 @@ def get_user_data(info):
     :param info:    JSON to be analyzed
     :return:        JSON that only containes the required field for rendering the HTML page
     '''
-    username                                = profiling.get_username(info)
-    fullname                                = profiling.get_fullname(info)
-    id                                      = profiling.get_idnumber(info)
-    verified                                = profiling.get_verified(info)
+
     bio                                     = profiling.get_bio(info)
-    no_followers                            = profiling.get_followers(info)
-    no_following                            = profiling.get_following(info)
-    business                                = profiling.get_business(info)
-    private                                 = profiling.get_private(info)
-    no_posts                                = profiling.get_post_number(info)
-    url                                     = profiling.get_profile_pic(info)
-    cursor                                  = ''
-#   profiling.get_show_suggested_profiles(info)
     blocked_by_viewer                       = profiling.get_blocked_by_viewer(info)
-    country_block                           = profiling.get_country_block(info)
-    followed_by_viewer                      = profiling.get_followed_by_viewer(info)
-    follows_viewer                          = profiling.get_follows_viewer(info)
-    has_channel                             = profiling.get_has_channel(info)
-    has_blocked_viewer                      = profiling.get_has_blocked_viewer(info)
-    has_requested_viewer                    = profiling.get_has_requested_viewer(info)
-    joined_recently                         = profiling.get_is_joined_recently(info)
-    requested_by_viewer                     = profiling.get_requested_by_viewer(info)
+    business                                = profiling.get_business(info)
     connected_fb_page                       = profiling.get_connected_fb_page(info)
-    n_highlight_reel                        = profiling.get_highlight_reel_count(info)
-    logging_page_id                         = profiling.get_logging_page_id(info)
+    country_block                           = profiling.get_country_block(info)
+    cursor                                  = ''
+    edge_media_collections_count            = profiling.get_edge_media_collections_count(info)
+    edge_media_collections_end_cursor       = profiling.get_edge_media_collections_end_cursor(info)
+    edge_media_collections_has_next_page    = profiling.get_edge_media_collections_has_next_page(info)
+    edge_saved_media_end_cursor             = profiling.get_edge_saved_media_end_cursor(info)
+    edge_saved_media_has_next_page          = profiling.get_edge_saved_media_has_next_page(info)
     external_url                            = profiling.get_external_url(info)
     external_url_linkshimmed                = profiling.get_external_url_linkshimmed(info)
-    num_edge_mutual_followed_by             = profiling.get_edge_mutual_followed_by_count(info)
-    num_edge_saved_media                    = profiling.get_edge_saved_media_count(info)
-    edge_saved_media_has_next_page          = profiling.get_edge_saved_media_has_next_page(info)
-    edge_saved_media_end_cursor             = profiling.get_edge_saved_media_end_cursor(info)
-    edge_media_collections_count            = profiling.get_edge_media_collections_count(info)
-    edge_media_collections_has_next_page    = profiling.get_edge_media_collections_has_next_page(info)
-    edge_media_collections_end_cursor       = profiling.get_edge_media_collections_end_cursor(info)
-    toast_content_on_load                   = profiling.get_toast_content_on_load(info)
-    post_preview                            = 0
+    followed_by_viewer                      = profiling.get_followed_by_viewer(info)
+    follows_viewer                          = profiling.get_follows_viewer(info)
+    fullname                                = profiling.get_fullname(info)
+    has_blocked_viewer                      = profiling.get_has_blocked_viewer(info)
+    has_channel                             = profiling.get_has_channel(info)
+    has_requested_viewer                    = profiling.get_has_requested_viewer(info)
+    id                                      = profiling.get_idnumber(info)
+    joined_recently                         = profiling.get_is_joined_recently(info)
     list_of_url                             = ['']
+    logging_page_id                         = profiling.get_logging_page_id(info)
+    no_edge_mutual_followed_by              = profiling.get_edge_mutual_followed_by_count(info)
+    no_edge_saved_media                     = profiling.get_edge_saved_media_count(info)
+    no_followers                            = profiling.get_followers(info)
+    no_following                            = profiling.get_following(info)
+    no_highlight_reel                       = profiling.get_highlight_reel_count(info)
+    no_posts                                = profiling.get_post_number(info)
+    post_preview                            = 0
+    private                                 = profiling.get_private(info)
+    requested_by_viewer                     = profiling.get_requested_by_viewer(info)
+    url                                     = profiling.get_profile_pic(info)
+    toast_content_on_load                   = profiling.get_toast_content_on_load(info)
+    username                                = profiling.get_username(info)
+    verified                                = profiling.get_verified(info)
+#   profiling.get_show_suggested_profiles(info)
+
     '''
         The fields above are always present in the JSON even if the profile is private. Instead, the following fields 
         may be present, only if the profile is public
     '''
+
     if private is False:
         list_of_shortcode, list_of_url      = profiling.get_shortcode_list(info)
         '''
             Too many returned parameter!
         '''
         post_type_name, post_id, \
-        post_comment_count, post_comments_disabled, \
-        post_taken_at_timestamp, post_dimensions_height, \
+        post_comment_count, \
+        post_comments_disabled, \
+        post_taken_at_timestamp, \
+        post_dimensions_height, \
         post_dimensions_width               = profiling.get_post_data1(info)
         post_edge_media_to_caption          = profiling.get_post_edge_media_to_caption(info)
         post_edge_media_to_caption_text     = []
