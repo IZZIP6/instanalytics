@@ -22,10 +22,6 @@ def comment_number(data):
     return data['node']['edge_media_to_comment']['count']
 
 
-def time_stamp(data):
-    return data['node']['taken_at_timestamp']
-
-
 def username(data):
     return data['graphql']['user']['username']
 

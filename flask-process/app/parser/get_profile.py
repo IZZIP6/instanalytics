@@ -54,7 +54,8 @@ def get_user_data(info):
         The fields above are always present in the JSON even if the profile is private. Instead, the following fields 
         may be present, only if the profile is public
     '''
-
+    overall_timestamp = []
+    timestamp = []
     if private is False:
         list_of_shortcode, list_of_url      = profiling.get_shortcode_list(info)
         '''
@@ -131,6 +132,7 @@ def get_user_data(info):
         post_fact_check_information         = profiling.get_post_data2(info)
         post_hashtag                        = profiling.post_found_hashtag(info)
         post_tag                            = profiling.post_found_tag(info)
+        overall_timestamp, timestamp        = profiling.get_timestamp(info)
 
     context = {
         'date_time':                datetime.utcnow(),
@@ -159,5 +161,7 @@ def get_user_data(info):
         'requested_by_viewer':      requested_by_viewer,
         'connected_fb_page':        connected_fb_page,
         'list_url_post':            list_of_url,
+        'overall_timestamp':        overall_timestamp,
+        'timestamp':                timestamp,
     }
     return context

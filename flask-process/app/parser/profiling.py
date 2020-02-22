@@ -1,11 +1,10 @@
 import numpy as np
 from app.parser import json_parser as parser
 from app.parser import json_comment_parser as comment_parser
+import datetime
 import re
 
-
-hour_vect = np.zeros(24)
-
+post_number = 0
 
 def get_username(info):
     return parser.username(info)
@@ -55,18 +54,6 @@ def get_post_number(info):
 def get_profile_pic(info):
     url = parser.profile_pic(info)
     return url
-
-
-def get_shortcode_list(info):
-    list = []
-    url = []
-    post_number = get_post_number(info)
-    if post_number>12:
-        post_number = 12
-    for i in range(0, post_number-1):
-        list.append(parser.shortcode_list(info, i))
-        url.append(parser.shortcode_url(info, i))
-    return list, url
 
 
 def get_show_suggested_profiles(info):
@@ -342,6 +329,22 @@ def get_shortcode_list(info):
         url.append(parser.shortcode_url(info, i))
     return list, url
 
+
+def get_timestamp(info):
+    post_number = get_post_number(info)
+    datep = []
+    hour_vect = np.zeros(24)
+    timestamp = []
+    if post_number > 12:
+        post_number = 12
+    for i in range(0, post_number):
+        date = datetime.datetime.fromtimestamp(parser.post_taken_at_timestamp(info, i))
+        hour = int(date.strftime('%H'))
+        hour_vect[hour] += parser.post_num_like(info, i)
+        datep.append(hour)
+    for i in range(0, 24):
+        timestamp.append(hour_vect[i])
+    return timestamp, datep
 
 '''Found hashtag'''
 
