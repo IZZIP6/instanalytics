@@ -234,8 +234,15 @@
             height: max-content;
         }
 
+        #container{
+            margin: 0 auto;
+            padding-top: 2%;
+        }
+
     </style>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <script>
     $(window).scroll(function (event) {
         var scroll = $(window).scrollTop();
@@ -285,10 +292,75 @@
             {% for item in list_url_post %}
                  <div class="post"><img class="post_pic" src="{{ item }}" alt="post" onContextMenu="return false;"></div>
             {% endfor %}
-
-
         </div>
+    </section>
+    <section class="body-content"><div id="container" style="width:80%; height:400px;"></div>
+        <script>
+            $(function () {
 
+  $('#container').highcharts({
+        chart: {
+            type: 'column',
+            backgroundColor: '#0a0b29'
+        },
+        title: {
+            text: 'Hourly trend',
+            style: {
+              color: '#fff'
+            }
+        },
+        xAxis: {
+            tickWidth: 0,
+            labels: {
+              style: {
+                  color: '#fff',
+                 }
+              },
+            categories: ['12am', '1am', '2am', '3am', '4am', '5am', '6am','7am','8am','9am','10am','11am', '12pm','1pm', '2pm', '3pm', '4pm', '5pm', '6pm','7pm','8pm','9pm','10pm','11pm']
+        },
+        yAxis: {
+           gridLineWidth: .5,
+		      gridLineDashStyle: 'dash',
+		      gridLineColor: 'black',
+           title: {
+                text: '',
+                style: {
+                  color: '#dbdbdb'
+                 }
+            },
+            labels: {
+               formatter: function() {
+                        return Highcharts.numberFormat(this.value, 0, '', ',');
+                    },
+              style: {
+                  color: '#fff',
+                 }
+              }
+            },
+        legend: {
+            enabled: false,
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+		      column: {
+			      borderRadius: 0,
+             pointPadding: -0.12,
+			      groupPadding: 0.1
+            }
+		    },
+        series: [{
+            name: 'Like',
+            color: "#4d1933",
+            borderColor:"#0a0b29",
+            data: {{overall_timestamp}}
+
+
+        }]
+    });
+});
+        </script>
     </section>
 </body>
 </html>
