@@ -2,7 +2,6 @@ from app.parser import profiling
 from datetime import datetime
 
 
-
 def get_comment_data(comment):
     comment_has_next_page = profiling.get_comment_has_next_page(comment)
     list_comment_id = profiling.get_comment_id(comment)
