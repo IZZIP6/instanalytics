@@ -248,7 +248,7 @@
     var input = document.getElementById('username');
     input.addEventListener("keyup", function (event) {
         if (event.keyCode === 13) {
-            var url = 'http://127.0.0.1:8000/analytics/' + document.getElementById('username').value;
+            var url = './' + document.getElementById('username').value;
             window.location.href = url;
         }
     })
