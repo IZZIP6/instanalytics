@@ -1,6 +1,6 @@
 import requests
 import json
-from .. import setup
+from . import setup
 from .request import make_request
 import time
 
