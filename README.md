@@ -1,8 +1,7 @@
 # Instanalytics
-![GitHub Logo](analytics/static/img/logo.png)
 
 #### Requirements 
-All the required packages are contained in the [requirements.py](instanalytics/requirements.txt) file. Run `pip install -r requirements.txt`
+All the required packages are contained in the [requirements.py](requirements.txt) file. Run `pip install -r requirements.txt`
 
 
 ###### MySQL
@@ -10,7 +9,7 @@ All the required packages are contained in the [requirements.py](instanalytics/r
 2. Database settings: 
     * create new user (`NAME = <name>`) with `ALL PRIVILEGES` and `NO PASSWORD`
     * create a new database (`NAME = <dbname>`)
-3. edit [setting.py](instanalytics/settings.py)
+3. edit [setting.py](django-intro/instanalytics/settings.py)
     * `USER: <username>`
     * `NAME: <dbname>`
 4. `python manage.py makemigrations`
@@ -30,10 +29,10 @@ Check if all services are working!
 ## Run the application
 
 Start the following services
-1. `python manage.py runserver 0.0.0.0:8000` in [django-intro](instanalytics/django-intro)
-2. `python search-process.py` in [search-process](instanalytics/search-process)
-3. `python todo-flask.py` in [todo-flask](instanalytics/todo-flask)
-4. `python flask-process.py` in [flask-process](instanalytics/flask-process)
+1. `python manage.py runserver 0.0.0.0:8000` in [django-intro](django-intro)
+2. `python search-process.py` in [search-process](search-process)
+3. `python todo-flask.py` in [todo-flask](todo-flask)
+4. `python flask-process.py` in [flask-process](flask-process)
 
 Go to [localhost](http://127.0.0.1:8000). 
 
@@ -43,5 +42,5 @@ Becareful, don't make too many requests
 ```
 
 ### Issues
-1. User not found: check if `flag = True` in [search-process](instanalytics/search-process/app/route.py)
+1. User not found: check if `flag = True` in [search-process](search-process/app/route.py)
 2. `pika.exceptions.StreamLostError`: make sure RabbitMQ service is running
