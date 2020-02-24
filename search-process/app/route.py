@@ -4,6 +4,7 @@ from pymongo import MongoClient
 import json
 from bson import json_util
 import time
+import click
 
 '''
     Open connection to mongodb, using "instadb" as database and "profiledb" as collection. Verify that you have 
@@ -13,6 +14,7 @@ client = MongoClient('localhost', 27017)
 db = client['instadb']
 collection_profile = db['profiledb']
 
+flag = False
 
 '''
     Whenever is sent a request to this server at the address '/s/<username>', hello function publishes into the queue 
@@ -27,12 +29,22 @@ def hello(username):
     into the database
     '''
 
-#     start.username_queue(username)
+    if flag:
+        start.username_queue(username)
+    else:
+        click.secho(
+            "\n [route.py]\t\tHTTP requests are disabled",
+            fg="blue",
+        )
     query = {'username': username}
     initial_spleep = 1
 
     while True:
         if initial_spleep == 8:
+            click.secho(
+                "\n [route.py]\t\tUser not found",
+                fg="green",
+            )
             return "Username not found", 404
         try:
             '''
@@ -41,10 +53,9 @@ def hello(username):
                 version of the JSON take, since each profile can be requested several times. To-Do: modify the query
                 and ask for the json of the username, for which the date is the latest 
             '''
-            print("Read from database...")
+            print(" [*] Read from database...")
             contex = list(collection_profile.find(query))[0]
             js = json.dumps(contex, indent=4, default=json_util.default)
-            print("It works!")
             '''
                 Who is returned to? 1) Backend of Django, to rendering the HTML page; 2) Internal API if you only ask
                 for the JSON after directly connected to this server at this address
@@ -57,7 +68,10 @@ def hello(username):
             Why? Because we need some kind of mechanism that alerts us whenever db changes, like trigger event, however 
             community version does not support it. If you have a better idea, change it!
             '''
-            print("Not found yet,  try again in %ss" % str(initial_spleep))
+            click.secho(
+                "\n [route.py]\t\tUser not yet found, try again in %s" % str(initial_spleep),
+                fg="green",
+            )
             time.sleep(initial_spleep)
             initial_spleep *= 2
 
