@@ -3,6 +3,7 @@ import json
 from . import setup
 from .request import make_request
 import time
+import click
 
 '''
     Open a session setting a header. Header information is contained in setup.py
@@ -21,8 +22,10 @@ def user_request(url):
         message = make_request(session, url)
         return message
     except json.decoder.JSONDecodeError as e:
-        print(' [x] Wrong username -- see requst_adapter.py\n')
-        print(e)
+        click.secho(
+            " [request_adapter.py]\tInvalid JSON in body. %s. Check if the username is correct.\n" %e,
+            fg="green",
+        )
 
 
 '''
