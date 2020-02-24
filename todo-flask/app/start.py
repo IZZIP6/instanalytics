@@ -26,21 +26,25 @@ def request_to_username(username):
     channel2.queue_declare(queue='location_queue', durable=True)
     if send_requests.is_requested:
         '''
-        SEND REQUEST FOR PROFILE JSON
-        message contains the received json from the request to API. It's published in the task_queue and location_queue.
-        In order to published into the queue, you have to serialized it using json.dumps()
+            SEND REQUEST FOR PROFILE JSON
+            message contains the received json from the request to API. It's published in the task_queue and 
+            location_queue. In order to published into the queue, you have to serialized it using json.dumps()
         '''
         message = rq.user_request(url)
-        user_id = parser.id_number(message)
-        channel.basic_publish(exchange='',
+        '''
+            If rq return an invalid JSON it probably means that username is wrong! 
+        '''
+        if message is not None:
+            user_id = parser.id_number(message)
+            channel.basic_publish(exchange='',
                               routing_key='task_queue',
                               body=json.dumps(message),
                               properties=pika.BasicProperties(delivery_mode=2,))
-        channel2.basic_publish(exchange='',
+            channel2.basic_publish(exchange='',
                               routing_key='location_queue',
                               body=json.dumps(message),
                               properties=pika.BasicProperties(delivery_mode=2,))
-        print(" [x] Sent %s" % "PROFILE JSON")
+            print(" [x] Sent %s" % "PROFILE JSON")
 
 
         '''
@@ -102,5 +106,3 @@ def request_to_username(username):
             print(" [x] Sent %r" % "COMMENT JSON N. "+str(count_end_cursor))
 '''
     connection.close()
-    print("Send request ...")
-
