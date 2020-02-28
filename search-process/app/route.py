@@ -5,7 +5,7 @@ import json
 from bson import json_util
 import time
 import click
-
+from datetime import date
 '''
     Open connection to mongodb, using "instadb" as database and "profiledb" as collection. Verify that you have 
     correctly installed MongoDB and created the database and collection
@@ -13,8 +13,12 @@ import click
 client = MongoClient('localhost', 27017)
 db = client['instadb']
 collection_profile = db['profiledb']
+current_date = date.today()
 
-flag = False
+'''
+    If false it doesn't send any requests and used pre-cached JSON
+'''
+flag = True
 
 '''
     Whenever is sent a request to this server at the address '/s/<username>', hello function publishes into the queue 
@@ -23,12 +27,30 @@ flag = False
 '''
 @app.route("/s/<username>")
 def hello(username):
-
+    query = {'username': username}
     '''
-    Comment on this statement if you don't want to send requests every time, and use only the JSON currently contained
-    into the database
+        At first it searched for the JSON of the username and, if found, doesn't send any more requests
     '''
-
+    try:
+        context = list(collection_profile.find(query))[-1]
+        profile_date = context['date_time']
+        if current_date.strftime('%d')==profile_date.strftime('%d') and profile_date.strftime('%m')==profile_date.strftime('%m'):
+                js = json.dumps(context, indent=4, default=json_util.default)
+                click.secho(
+                    "\n [route.py]\t\tA recently downloaded JSON was found, no further requests will be sent",
+                    fg="green",
+                )
+                return js
+        else:
+            click.secho(
+                "\n [route.py]\t\tThe cached JSON is too old, wait for the new JSON to be downloaded",
+                fg="green",
+            )
+    except IndexError:
+        click.secho(
+                "\n [route.py]\t\tNo JSON were found for %s, started the download process..." % username,
+                fg="green",
+            )
     if flag:
         start.username_queue(username)
     else:
@@ -36,9 +58,7 @@ def hello(username):
             "\n [route.py]\t\tHTTP requests are disabled",
             fg="blue",
         )
-    query = {'username': username}
     initial_spleep = 1
-
     while True:
         if initial_spleep == 8:
             click.secho(
@@ -53,14 +73,31 @@ def hello(username):
                 version of the JSON take, since each profile can be requested several times. To-Do: modify the query
                 and ask for the json of the username, for which the date is the latest 
             '''
-            print(" [*] Read from database...")
-            contex = list(collection_profile.find(query))[0]
-            js = json.dumps(contex, indent=4, default=json_util.default)
+            print("\n [*] Read from database...")
+            context_list = list(collection_profile.find(query))
+            context = context_list[-1]
+            print(" [*] JSONs found ", len(context_list))
+            profile_date = context['date_time']
             '''
-                Who is returned to? 1) Backend of Django, to rendering the HTML page; 2) Internal API if you only ask
-                for the JSON after directly connected to this server at this address
+                The JSON is used only if it's recent, i.e. downloaded the same day, otherwise you are still looking for it
             '''
-            return js
+            if current_date.strftime('%d') == profile_date.strftime('%d') and current_date.strftime('%m') == profile_date.strftime('%m'):
+                js = json.dumps(context, indent=4, default=json_util.default)
+                '''
+                    Who is returned to? 1) Backend of Django, to rendering the HTML page; 2) Internal API if you only ask
+                    for the JSON after directly connected to this server at this address
+                '''
+                return js
+            click.secho(
+                "\n [route.py]\t\tThe found JSON is too old, wait for the new JSON to be downloaded",
+                fg="green",
+            )
+            click.secho(
+                "\n [date   ►]\t\t"+current_date.strftime('%d')+'\\'+current_date.strftime('%m')+'\\'+current_date.strftime('%y') +
+                "\n [date   ◄]\t\t"+profile_date.strftime('%d')+'\\'+profile_date.strftime('%m')+'\\'+profile_date.strftime('%y'),
+                fg="blue",
+            )
+            time.sleep(initial_spleep)
         except IndexError:
             '''
             Each time the JSON is not found, it stops for a number of seconds equal to "initial_second" and tries again.
@@ -79,6 +116,11 @@ def hello(username):
 '''
     Return an 404 error code if the path does not match with any functions above
 '''
+@app.route('/a/<shortcode>', methods=['POST'])
+def post_javascript_data(shortcode):
+    #response = start.ask_something(shortcode)
+    return "Commento"
+
 @app.errorhandler(404)
 def page_not_found(error):
     return "Requested page is not available, contact the site administrator", 404
