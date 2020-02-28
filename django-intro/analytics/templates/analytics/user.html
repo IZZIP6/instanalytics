@@ -17,6 +17,20 @@
             background-color: #0a0b29;
             }
 
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            border-radius: 10px;
+            background-color: rgba(25,147,147,0.4);
+        }
+
+        ::-webkit-scrollbar-thumb {
+             border-radius: 10px;
+            background-color: #183850;
+        }
+
         .header-content{
             width: 100%;
             background-image: url({% static './img/background-texture.png' %});
@@ -252,6 +266,21 @@
      });
 
 </script>
+<script>
+    function connect(shortcode) {
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState === XMLHttpRequest.DONE) {
+                var reply = xhttp.responseText;
+
+            }
+        };
+        var host = "http://127.0.0.1:5000/a/"+shortcode;
+        xhttp.open("POST", host, true);
+        xhttp.send();
+    }
+</script>
 <body>
     <header class="header-content">
         <nav class="top-header" id="header-bar">
@@ -290,7 +319,8 @@
         <div class="dontshow" id="url_post">{{list_url_post.0}}</div>
         <div class="post-preview">
             {% for item in list_url_post %}
-                 <div class="post"><img class="post_pic" src="{{ item }}" alt="post" onContextMenu="return false;"></div>
+                 <div class="post"><a href="{{ item }}" download="image"><img class="post_pic" src="{{ item }}" alt="post" onContextMenu="return false;"></a></div>
+
             {% endfor %}
         </div>
     </section>
