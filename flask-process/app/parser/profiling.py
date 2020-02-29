@@ -667,11 +667,12 @@ def post_for_function(info):
         list_post_thumbnail_src.append(post_parser.post_thumbnail_src(info, i))
         list_post_is_video.append(post_parser.post_is_video(info, i))
 
+'''
         if list_post_is_video[i]:
             list_video_view_count.append(post_parser.post_video_view_count(info, i))
         else:
             list_video_view_count.append(" ")
-
+'''
 
 
 def post_get_post_id():
