@@ -1,6 +1,6 @@
 from app.parser import profiling
 from datetime import datetime
-
+import pytz
 
 def get_user_data(info):
 
@@ -55,45 +55,32 @@ def get_user_data(info):
         may be present, only if the profile is public
     '''
     overall_timestamp = []
-    timestamp = []
+    timestamp         = []
     if private is False:
-        list_of_shortcode, list_of_url      = profiling.get_shortcode_list(info)
-        '''
-            Too many returned parameter!
-        '''
-        post_type_name, post_id, \
-        post_comment_count, \
-        post_comments_disabled, \
-        post_taken_at_timestamp, \
-        post_dimensions_height, \
-        post_dimensions_width               = profiling.get_post_data1(info)
-        post_edge_media_to_caption          = profiling.get_post_edge_media_to_caption(info)
-        post_edge_media_to_caption_text     = []
+        profiling.profile_post_for_function(info)
+        list_of_shortcode, list_of_url = profiling.get_shortcode_list()
+        post_type_name                 = profiling.get_post_type_name()
+        post_id                        = profiling.get_post_id()
+        post_comment_count             = profiling.get_post_comment_count()
+        post_comments_disabled         = profiling.get_post_comments_disabled()
+        post_taken_at_timestamp        = profiling.get_post_taken_at_timestamp()
 
-        '''
-            Keep the logic out of this file, put it into profiling
-        '''
-        for i in range(0, len(post_edge_media_to_caption)):
-            if not post_edge_media_to_caption[i]:
-                post_edge_media_to_caption_text.append("Null")
-            else:
-                post_edge_media_to_caption_text.append(profiling.get_post_edge_media_to_caption_text(info, i))
+        post_dimensions_height, post_dimensions_width = profiling.get_post_dimensions()
 
-        post_location                       = profiling.get_post_location(info)
+        post_edge_media_to_caption_text     = profiling.get_post_text(info)
+
+        profiling.post_for_function_1(info)
+        post_location                       = profiling.get_post_location()
         post_location_id                    = []
         post_location_has_public_page       = []
         post_location_name                  = []
         post_location_slug                  = []
-
-        '''
-            Keep the logic out of this file, put it into profiling
-        '''
         for i in range(0, len(post_location)):
             if post_location[i] is None:
-                post_location_id.append("Null")
-                post_location_has_public_page.append("Null")
-                post_location_name.append("Null")
-                post_location_slug.append("Null")
+                post_location_id.append(" ")
+                post_location_has_public_page.append(" ")
+                post_location_name.append(" ")
+                post_location_slug.append(" ")
             else:
                 post_location_id.append(profiling.get_post_location_id(info, i))
                 post_location_has_public_page.append(profiling.get_post_location_has_public_page(info, i))
@@ -101,42 +88,37 @@ def get_user_data(info):
                 post_location_slug.append(profiling.get_post_location_slug(info, i))
 
 
-        is_video                            = profiling.get_post_is_video(info)
+        is_video                            = profiling.get_post_is_video()
         video_view_count                    = []
         post_accessibility                  = []
+        '''
+            for i in range(0, len(is_video)):
+                if is_video[i]:
+                    video_view_count.append(profiling.get_post_video_view_count(info, i))
+                else:
+                    video_view_count.append(" ")
+                    post_accessibility.append(profiling.get_post_accessibility(info, i))
+        '''
 
-        '''
-            Keep the logic out of this file, put it into profiling
-        '''
-        for i in range(0, len(is_video)):
-            if is_video[i]:
-                video_view_count.append(profiling.get_post_video_view_count(info, i))
-            else:
-                video_view_count.append("Null")
-                post_accessibility.append(profiling.get_post_accessibility(info, i))
-        post_num_like, \
-        post_preview_num_like               = profiling.get_post_like(info)
-        post_owner_id, post_owner_username  = profiling.get_post_owner(info)
+        post_num_like, post_preview_num_like = profiling.get_post_like(info)
+
+        post_owner_id, post_owner_username   = profiling.get_post_owner()
+
         post_media_preview                  = []
         post_preview                        = profiling.get_post_number(info)
-
-        '''
-            Keep the logic out of this file, put it into profiling
-        '''
         if post_preview > 12:
             post_preview = 12
         for i in range(0, post_preview):
             post_media_preview.append(profiling.get_post_media_preview(info, i))
 
         post_gating_info, post_fact_check_overall_rating, \
-        post_fact_check_information         = profiling.get_post_data2(info)
-        post_hashtag                        = profiling.post_found_hashtag(info)
-        post_tag                            = profiling.post_found_tag(info)
+            post_fact_check_information     = profiling.get_post_data2(info)
+        post_hashtag                        = profiling.post_found_hashtag()
+        post_tag                            = profiling.post_found_tag()
         overall_timestamp, timestamp        = profiling.get_timestamp(info)
 
     context = {
         'date_time':                datetime.utcnow(),
-    #   'date_time':                datetime.now(tz=pytz.timezone('Europe/Rome')),
         'username':                 username,
         'fullname':                 fullname,
         'id':                       id,

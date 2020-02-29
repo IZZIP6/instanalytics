@@ -3,6 +3,9 @@ import time
 import json
 from pymongo import MongoClient
 from app.parser import get_profile
+from app.parser import get_comment
+from app.parser import get_post
+from app.parser import profiling
 
 '''
     This function open a connection with MongoDB and waits from the queue until an JSON is found. Then it processes it 
@@ -15,6 +18,8 @@ def listen_to_username():
     db = client['instadb']
     print(" [x] Opening connection to MongoDB...")
     collection_profile = db['profiledb']
+    collection_comment = db['commentdb']
+    collection_post = db['postdb']
     connection = pika.BlockingConnection(
     pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
@@ -31,6 +36,25 @@ def listen_to_username():
         if message.get('logging_page_id') is not None:
             context = get_profile.get_user_data(message)
             collection_profile.insert_one(context)
+            'reset post_profile lists '
+            profiling.reset_profile_post()
+            profiling.reset_profile_post_1()
+        elif message.get('data', {}).get('user') != None:
+            print("ciao")
+            context_post = get_post.get_post_data(message)
+            post_has_next_page = profiling.post_get_post_page_info_has_next_page(message)
+            if not post_has_next_page:
+               collection_post.insert_one(context_post)
+               'reset post lists '
+               profiling.reset_post()
+        elif message.get('data', {}).get('shortcode_media') != None:
+            context_comment = get_comment.get_comment_data(message)
+            comment_has_next_page = profiling.get_comment_has_next_page(message)
+            if not comment_has_next_page:
+                collection_comment.insert_one(context_comment)
+                'reset comment lists '
+                profiling.reset_comment()
+
         time.sleep(1)
         print(" [x] Done")
         ch.basic_ack(delivery_tag=method.delivery_tag)
