@@ -24,3 +24,7 @@ def shortcode_url(data, n):
 
 def post_location(data, i):
     return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['location']
+
+
+def is_private(data):
+    return data['graphql']['user']['is_private']

@@ -29,18 +29,19 @@ flag = True
 def hello(username):
     query = {'username': username}
     '''
-        At first it searched for the JSON of the username and, if found, doesn't send any more requests
+        At first, it searched for the JSON of the username and, if found, doesn't send any more requests
     '''
     try:
         context = list(collection_profile.find(query))[-1]
         profile_date = context['date_time']
-        if current_date.strftime('%d')==profile_date.strftime('%d') and profile_date.strftime('%m')==profile_date.strftime('%m'):
-                js = json.dumps(context, indent=4, default=json_util.default)
-                click.secho(
-                    "\n [route.py]\t\tA recently downloaded JSON was found, no further requests will be sent",
-                    fg="green",
-                )
-                return js
+        if current_date.strftime('%d') == profile_date.strftime('%d') \
+                and profile_date.strftime('%m') == profile_date.strftime('%m'):
+            js = json.dumps(context, indent=4, default=json_util.default)
+            click.secho(
+                "\n [route.py]\t\tA recently downloaded JSON was found, no further requests will be sent",
+                fg="green",
+            )
+            return js
         else:
             click.secho(
                 "\n [route.py]\t\tThe cached JSON is too old, wait for the new JSON to be downloaded",
@@ -79,13 +80,14 @@ def hello(username):
             print(" [*] JSONs found ", len(context_list))
             profile_date = context['date_time']
             '''
-                The JSON is used only if it's recent, i.e. downloaded the same day, otherwise you are still looking for it
+                The JSON is used only if it's recent, i.e. downloaded the same day, otherwise you are still looking for
             '''
-            if current_date.strftime('%d') == profile_date.strftime('%d') and current_date.strftime('%m') == profile_date.strftime('%m'):
+            if current_date.strftime('%d') == profile_date.strftime('%d') \
+                    and current_date.strftime('%m') == profile_date.strftime('%m'):
                 js = json.dumps(context, indent=4, default=json_util.default)
                 '''
-                    Who is returned to? 1) Backend of Django, to rendering the HTML page; 2) Internal API if you only ask
-                    for the JSON after directly connected to this server at this address
+                    Who is returned to? 1) Backend of Django, to rendering the HTML page; 2) Internal API, if you only 
+                    ask for the JSON after directly connected to this server at this address
                 '''
                 return js
             click.secho(
@@ -93,8 +95,10 @@ def hello(username):
                 fg="green",
             )
             click.secho(
-                "\n [date   ►]\t\t"+current_date.strftime('%d')+'\\'+current_date.strftime('%m')+'\\'+current_date.strftime('%y') +
-                "\n [date   ◄]\t\t"+profile_date.strftime('%d')+'\\'+profile_date.strftime('%m')+'\\'+profile_date.strftime('%y'),
+                "\n [date   ►]\t\t"+current_date.strftime('%d')+'\\'+current_date.strftime('%m')+'\\'
+                + current_date.strftime('%y') +
+                "\n [date   ◄]\t\t"+profile_date.strftime('%d')+'\\'+profile_date.strftime('%m')+'\\'
+                + profile_date.strftime('%y'),
                 fg="blue",
             )
             time.sleep(initial_spleep)
@@ -114,13 +118,16 @@ def hello(username):
 
 
 '''
-    Return an 404 error code if the path does not match with any functions above
+    For AJAX, return the comment of a given post
 '''
 @app.route('/a/<shortcode>', methods=['POST'])
 def post_javascript_data(shortcode):
-    #response = start.ask_something(shortcode)
-    return "Commento"
+    # response = start.ask_something(shortcode)
+    return "Comment"
 
+'''
+    Return an 404 error code if the path does not match with any functions above
+'''
 @app.errorhandler(404)
 def page_not_found(error):
     return "Requested page is not available, contact the site administrator", 404

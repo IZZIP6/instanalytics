@@ -45,64 +45,62 @@ def request_to_username(username):
                               body=json.dumps(message),
                               properties=pika.BasicProperties(delivery_mode=2,))
             print(" [x] Sent %s" % "PROFILE JSON")
-
-
-        '''
-        POST
-        
-
-        post = rq.user_media_request(endpoint.request_account_medias(user_id, "null"))
-        end_cursor = parser.end_cursor(post)
-        channel.basic_publish(exchange='',
-                              routing_key='task_queue',
-                              body=json.dumps(post),
-                              properties=pika.BasicProperties(delivery_mode=2,))
-        print(" [x] Sent %s" % "POST JSON")
-        count_end_cursor = 0
-        while not end_cursor is None:
-            count_end_cursor += 1
-            
-                Messo soltanto perchè endcursor non sarà mai null dato che non facciamo esattamente tutte le richieste
-            
-            if count_end_cursor == 3:
-                break
-            
-                Send recursive requests until no other posts are found    
-            
-            post = rq.user_media_request(endpoint.request_account_medias(user_id, '"'+end_cursor+'"'))
+        is_private = parser.is_private(message)
+        if not is_private:
+            '''
+                POST
+            '''
+            post = rq.user_media_request(endpoint.request_account_medias(user_id, "null"))
             end_cursor = parser.end_cursor(post)
             channel.basic_publish(exchange='',
-                              routing_key='task_queue',
-                              body=json.dumps(post),
-                              properties=pika.BasicProperties(delivery_mode=2,))
-            print(" [x] Sent %s" % "POST JSON N. "+str(count_end_cursor))
-
-        
-        COMMENTS
-        
-        post_number = parser.post_number(message)
-        if post_number > 12:
-            post_number = 12
-        for i in range(0, 1):
-            shortcode = parser.shortcode_list(message, i)
-            comment = rq.comment_media_request(endpoint.request_comment(shortcode, ''))
-            end_cursor = parser.end_cursor_comment(comment)
-            channel.basic_publish(exchange='',
-                              routing_key='task_queue',
-                              body=json.dumps(comment),
-                              properties=pika.BasicProperties(delivery_mode=2,))
-            print(" [x] Sent %r" % "COMMENT JSON")
+                                  routing_key='task_queue',
+                                  body=json.dumps(post),
+                                  properties=pika.BasicProperties(delivery_mode=2,))
+            print(" [x] Sent %s" % "POST JSON")
             count_end_cursor = 0
             while not end_cursor is None:
                 count_end_cursor += 1
+                '''
+                    Messo soltanto perchè endcursor non sarà mai null dato che non facciamo esattamente tutte le richieste
+                '''
                 if count_end_cursor == 3:
                     break
-                comment = rq.comment_media_request(endpoint.request_comment(shortcode, end_cursor))
+                '''
+                    Send recursive requests until no other posts are found    
+                '''
+                post = rq.user_media_request(endpoint.request_account_medias(user_id, '"'+end_cursor+'"'))
+                end_cursor = parser.end_cursor(post)
+                channel.basic_publish(exchange='',
+                                  routing_key='task_queue',
+                                  body=json.dumps(post),
+                                  properties=pika.BasicProperties(delivery_mode=2,))
+                print(" [x] Sent %s" % "POST JSON N. "+str(count_end_cursor))
+            '''
+            COMMENTS
+            '''
+            post_number = parser.post_number(message)
+            if post_number > 12:
+                post_number = 12
+            for i in range(0, 1):
+                shortcode = parser.shortcode_list(message, i)
+                comment = rq.comment_media_request(endpoint.request_comment(shortcode, ''))
                 end_cursor = parser.end_cursor_comment(comment)
                 channel.basic_publish(exchange='',
-                              routing_key='task_queue',
-                              body=json.dumps(comment),
-                              properties=pika.BasicProperties(delivery_mode=2,))
-            print(" [x] Sent %r" % "COMMENT JSON N. "+str(count_end_cursor))
-'''
+                                  routing_key='task_queue',
+                                  body=json.dumps(comment),
+                                  properties=pika.BasicProperties(delivery_mode=2,))
+                print(" [x] Sent %r" % "COMMENT JSON")
+                count_end_cursor = 0
+                while not end_cursor is None:
+                    count_end_cursor += 1
+                    if count_end_cursor == 3:
+                        break
+                    comment = rq.comment_media_request(endpoint.request_comment(shortcode, end_cursor))
+                    end_cursor = parser.end_cursor_comment(comment)
+                    channel.basic_publish(exchange='',
+                                  routing_key='task_queue',
+                                  body=json.dumps(comment),
+                                  properties=pika.BasicProperties(delivery_mode=2,))
+                print(" [x] Sent %r" % "COMMENT JSON N. "+str(count_end_cursor))
+
     connection.close()
