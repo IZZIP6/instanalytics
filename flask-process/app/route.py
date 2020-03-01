@@ -12,6 +12,9 @@ from app.parser import profiling
     and insert the result into the db
 '''
 
+i = 0
+j = 0
+n = 0
 
 def listen_to_username():
     client = MongoClient('localhost', 27017)
@@ -31,6 +34,9 @@ def listen_to_username():
         the one which will be inserted into the db and used to render the HTML page. 
     '''
     def callback(ch, method, properties, body):
+        global i
+        global j
+        global n
         message = json.loads(body)
         print(" [x] Received %r" % "RECEIVED")
         if message.get('logging_page_id') is not None:
@@ -39,23 +45,29 @@ def listen_to_username():
             'reset post_profile lists '
             profiling.reset_profile_post()
             profiling.reset_profile_post_1()
+
         elif message.get('data', {}).get('user') != None:
             print(" [*] START POST")
-            context_post = get_post.get_post_data(message)
-            post_has_next_page = profiling.post_get_post_page_info_has_next_page(message)
-            if not post_has_next_page:
-               collection_post.insert_one(context_post)
-               'reset post lists '
-               profiling.reset_post()
+            #context_post = get_post.get_post_data(message, n)
+            #post_has_next_page = profiling.post_get_post_page_info_has_next_page(message)
+            #i = i + 1
+            #n = n + 50
+            #if not post_has_next_page or i == 3:
+            #    collection_post.insert_one(context_post)
+            #    'reset post lists '
+            #    profiling.reset_post()
+            #    reset_i_j()
+            #    reset_n()
         elif message.get('data', {}).get('shortcode_media') != None:
             print(" [*] START COMMENT")
             context_comment = get_comment.get_comment_data(message)
             comment_has_next_page = profiling.get_comment_has_next_page(message)
-            if not comment_has_next_page:
+            j = j + 1
+            if not comment_has_next_page or j == 3:
                 collection_comment.insert_one(context_comment)
                 'reset comment lists '
                 profiling.reset_comment()
-
+                reset_i_j()
         time.sleep(1)
         print(" [x] Done")
         ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -63,4 +75,15 @@ def listen_to_username():
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue='task_queue', on_message_callback=callback)
     channel.start_consuming()
+
+def reset_i_j():
+    global i
+    global j
+    i = 0
+    j = 0
+
+def reset_n():
+    global n
+    n = 0
+
 

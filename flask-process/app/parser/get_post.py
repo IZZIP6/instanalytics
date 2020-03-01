@@ -26,7 +26,7 @@ def get_post_data(info):
         post_owner_id                  = profiling.post_get_post_owner_id()
         post_thumbnail_src             = profiling.post_get_list_post_thumbnail_src()
         post_is_video                  = profiling.post_get_post_is_video()
-        # post_video_view_count          = profiling.post_get_post_video_view_count()
+        post_video_view_count          = profiling.post_get_post_video_view_count()
 
 
     post_context = {
@@ -48,7 +48,7 @@ def get_post_data(info):
         'post_owner_id':                post_owner_id,
         'post_thumbnail_src':           post_thumbnail_src,
         'post_is_video':                post_is_video,
-        # 'post_video_view_count':        post_video_view_count
+        'post_video_view_count':        post_video_view_count
 
     }
     return post_context

@@ -15,6 +15,7 @@ def get_comment_data(comment):
     comment_found_hashtag            = profiling.comment_found_hashtag()
 
     context_comment = {
+        'shortcode': comment['shortcode'],
         'date_time': datetime.now(tz=pytz.timezone('Europe/Rome')),
         'list_comment_id': list_comment_id,
         'comment_text': comment_text,

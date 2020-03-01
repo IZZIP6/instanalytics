@@ -328,6 +328,7 @@ post_taken_at_timestamp            = []
 post_dimensions_height             = []
 post_dimensions_width              = []
 
+
 def reset_profile_post():
     global list_shortcode
     global url
@@ -471,26 +472,28 @@ def reset_comment():
 
 
 def comment_for_function(data):
-    comment_count = len(comment_parser.comment_post_edge_media_to_comment(data))
-    text = get_comment_text()
-    for i in range(0, comment_count):
-        comment_id.append(comment_parser.comment_id(data, i))
-        comment_text.append(comment_parser.comment_text(data, i))
-        comment_created_at.append(comment_parser.comment_created_at(data, i))
-        comment_owner_id.append(comment_parser.comment_owner_id(data, i))
-        comment_owner_username.append(comment_parser.comment_owner_username(data, i))
-        if text[i]:
-            regex = r"@[^ @]+"
-            matches = [match.group() for match in re.finditer(regex, text[i], re.MULTILINE)]
-            comment_tag.append(matches)
+     for comment in comment_parser.comment_post_edge_media_to_comment(data):
+        comment_id.append(comment_parser.comment_id(comment))
+        comment_text.append(comment_parser.comment_text(comment))
+        comment_created_at.append(comment_parser.comment_created_at(comment))
+        comment_owner_id.append(comment_parser.comment_owner_id(comment))
+        comment_owner_username.append(comment_parser.comment_owner_username(comment))
 
-            regex = r"#[^ #]+"
-            matches = [match.group() for match in re.finditer(regex, text[i], re.MULTILINE)]
-            comment_hashtag.append(matches)
-        else:
-            comment_tag.append(" ")
+        try:
+            if comment_text[-1]:
+                regex = r"@[^ @]+"
+                matches = [match.group() for match in re.finditer(regex, comment_text[-1], re.MULTILINE)]
+                comment_tag.append(matches)
 
-            comment_hashtag.append(" ")
+                regex = r"#[^ #]+"
+                matches = [match.group() for match in re.finditer(regex, comment_text[-1], re.MULTILINE)]
+                comment_hashtag.append(matches)
+            else:
+                comment_tag.append(" ")
+
+                comment_hashtag.append(" ")
+        except IndexError:
+            print('out of limits')
 
 
 def get_comment_has_next_page(data):
@@ -622,21 +625,21 @@ def reset_post():
     list_video_view_count                              = []
 
 
-def post_for_function(info):
+def post_for_function(info, n):
     post_preview = len(post_parser.post_edges(info))
     for i in range(0, post_preview):
         list_post_id.append(post_parser.post_id(info, i))
         list_post_typename.append(post_parser.post_typename(info, i))
         list_post_edge_media_to_caption_shortcode.append(post_parser.post_edge_media_to_caption_shortcode(info, i))
         list_post_edge_media_to_comment.append(post_parser.post_edge_media_to_comment(info, i))
-        if list_post_edge_media_to_comment[i]:
+        if list_post_edge_media_to_comment[i+n]:
             list_post_comment_count.append(post_parser.post_edge_media_to_comment_count(info, i))
         else:
             list_post_comment_count.append(" ")
         list_post_comment_disbled.append(post_parser.post_comment_disabled(info, i))
         list_post_taken_at_timestamp.append(post_parser.post_taken_at_timestamp(info, i))
         list_post_dimensions.append(post_parser.post_dimensions(info, i))
-        if list_post_dimensions[i]:
+        if list_post_dimensions[i+n]:
             list_post_width.append(post_parser.post_width(info, i))
             list_post_height.append(post_parser.post_height(info, i))
         else:
@@ -644,35 +647,32 @@ def post_for_function(info):
             list_post_height.append(" ")
         list_post_display_url.append(post_parser.post_display_url(info, i))
         list_post_edge_media_preview_like.append(post_parser.post_edge_media_preview_like(info, i))
-        if list_post_edge_media_preview_like[i]:
+        if list_post_edge_media_preview_like[i+n]:
             list_post_edge_media_preview_like_count.append(post_parser.post_edge_media_preview_like_count(info, i))
         else:
             list_post_edge_media_preview_like_count.append(" ")
-        if list_post_edge_media_to_caption_text[i]:
+        if list_post_edge_media_to_caption_text[i+n]:
             regex = r"@[^ @]+"
-            matches = [match.group() for match in re.finditer(regex, list_post_edge_media_to_caption_text[i], re.MULTILINE)]
+            matches = [match.group() for match in re.finditer(regex, list_post_edge_media_to_caption_text[i + n], re.MULTILINE)]
             list_post_text_tag.append(matches)
 
             regex = r"#[^ #]+"
-            matches = [match.group() for match in re.finditer(regex, list_post_edge_media_to_caption_text[i], re.MULTILINE)]
+            matches = [match.group() for match in re.finditer(regex, list_post_edge_media_to_caption_text[i + n], re.MULTILINE)]
             list_post_text_hashtag.append(matches)
         else:
             list_post_text_tag.append(" ")
             list_post_text_hashtag.append(" ")
         list_post_owner.append(post_parser.post_owner(info, i))
-        if list_post_owner[i]:
+        if list_post_owner[i+n]:
             list_post_owner_id.append(post_parser.post_owner_id(info, i))
         else:
             list_post_owner_id.append(" ")
         list_post_thumbnail_src.append(post_parser.post_thumbnail_src(info, i))
         list_post_is_video.append(post_parser.post_is_video(info, i))
-
-'''
-        if list_post_is_video[i]:
+        if list_post_is_video[i+n]:
             list_video_view_count.append(post_parser.post_video_view_count(info, i))
         else:
             list_video_view_count.append(" ")
-'''
 
 
 def post_get_post_id():

@@ -7,7 +7,7 @@ ACCOUNT_INFO            = '/%s/?__a=1'
 GENERAL_SEARCH          = '/web/search/topsearch/?context=blended&query=%s'
 MEDIA_BY_ID             = '/graphql/query/?query_id=17888483320059182&variables={"id": "%s","first":50,"after":%s}'
 MEDIA_BY_LOCATION       = '/explore/locations/%s/%s/?__a=1'
-COMMENT_BY_SHORTCODE    = '/graphql/query/?query_hash=33ba35852cb50da46f5b5e889df7d159&variables={"shortcode":"%s", "first":45,"after":"%s"}'
+COMMENT_BY_SHORTCODE    = '/graphql/query/?query_hash=33ba35852cb50da46f5b5e889df7d159&variables={"shortcode":"%s", "first":50,"after":"%s"}'
 MEDIA_BY_HASHTAG        = '/graphql/query/?query_hash=3e7706b09c6184d5eafd8b032dbcf487&variables={"tag_name":"%s","first":25,"after":"%s"}'
 
 

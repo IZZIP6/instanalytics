@@ -10,24 +10,24 @@ def comment_end_cursor(data):
     return data['data']['shortcode_media']['edge_media_to_comment']['page_info']['end_cursor']
 
 
-def comment_id(data, i):
-    return data['data']['shortcode_media']['edge_media_to_comment']['edges'][i]['node']['id']
+def comment_id(data):
+    return data['node']['id']
 
 
-def comment_text(data, i):
-    return data['data']['shortcode_media']['edge_media_to_comment']['edges'][i]['node']['text']
+def comment_text(data):
+    return data['node']['text']
 
 
-def comment_created_at(data, i):
-    return data['data']['shortcode_media']['edge_media_to_comment']['edges'][i]['node']['created_at']
+def comment_created_at(data):
+    return data['node']['created_at']
 
 
-def comment_owner_id(data, i):
-    return data['data']['shortcode_media']['edge_media_to_comment']['edges'][i]['node']['owner']['id']
+def comment_owner_id(data):
+    return data['node']['owner']['id']
 
 
-def comment_owner_username(data, i):
-    return data['data']['shortcode_media']['edge_media_to_comment']['edges'][i]['node']['owner']['username']
+def comment_owner_username(data):
+    return data['node']['owner']['username']
 
 
 def comment_post_edge_media_to_comment(data):
