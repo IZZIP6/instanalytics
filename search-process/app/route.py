@@ -1,5 +1,6 @@
 from app import app
 from app import start
+from app import search_stat
 from pymongo import MongoClient
 import json
 from bson import json_util
@@ -41,6 +42,7 @@ def hello(username):
                 "\n [route.py]\t\tA recently downloaded JSON was found, no further requests will be sent",
                 fg="green",
             )
+            search_stat.new_search(username)
             return js
         else:
             click.secho(
