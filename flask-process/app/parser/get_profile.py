@@ -54,11 +54,13 @@ def get_user_data(info):
         The fields above are always present in the JSON even if the profile is private. Instead, the following fields 
         may be present, only if the profile is public
     '''
-    overall_timestamp = []
-    timestamp         = []
+    overall_timestamp   = []
+    timestamp           = []
+    list_shortcode_url  = []
     if private is False:
         profiling.profile_post_for_function(info)
         list_of_shortcode, list_of_url = profiling.get_shortcode_list()
+        list_shortcode_url             = profiling.get_shortcode_url_list()
         post_type_name                 = profiling.get_post_type_name()
         post_id                        = profiling.get_post_id()
         post_comment_count             = profiling.get_post_comment_count()
@@ -91,15 +93,6 @@ def get_user_data(info):
         is_video                            = profiling.get_post_is_video()
         video_view_count                    = []
         post_accessibility                  = []
-        '''
-            for i in range(0, len(is_video)):
-                if is_video[i]:
-                    video_view_count.append(profiling.get_post_video_view_count(info, i))
-                else:
-                    video_view_count.append(" ")
-                    post_accessibility.append(profiling.get_post_accessibility(info, i))
-        '''
-
         post_num_like, post_preview_num_like = profiling.get_post_like(info)
 
         post_owner_id, post_owner_username   = profiling.get_post_owner()
@@ -145,5 +138,6 @@ def get_user_data(info):
         'list_url_post':            list_of_url,
         'overall_timestamp':        overall_timestamp,
         'timestamp':                timestamp,
+        'shortcode_url':            list_shortcode_url,
     }
     return context

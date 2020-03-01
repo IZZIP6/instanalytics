@@ -7,6 +7,7 @@ from bson import json_util
 import time
 import click
 from datetime import date
+from flask_cors import CORS
 '''
     Open connection to mongodb, using "instadb" as database and "profiledb" as collection. Verify that you have 
     correctly installed MongoDB and created the database and collection
@@ -14,6 +15,7 @@ from datetime import date
 client = MongoClient('localhost', 27017)
 db = client['instadb']
 collection_profile = db['profiledb']
+collection_comment = db['commentdb']
 current_date = date.today()
 
 '''
@@ -122,10 +124,16 @@ def hello(username):
 '''
     For AJAX, return the comment of a given post
 '''
+
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+
 @app.route('/a/<shortcode>', methods=['POST'])
 def post_javascript_data(shortcode):
+    query = {'shortcode': shortcode}
+    context = list(collection_comment.find(query))[0]
+    return str(context['comment_text'])
     # response = start.ask_something(shortcode)
-    return "Comment"
 
 '''
     Return an 404 error code if the path does not match with any functions above

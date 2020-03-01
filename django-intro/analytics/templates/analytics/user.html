@@ -260,9 +260,7 @@
 <script>
     $(window).scroll(function (event) {
         var scroll = $(window).scrollTop();
-        console.log(scroll)
-
-
+        // console.log(scroll)
      });
 
 </script>
@@ -273,11 +271,14 @@
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE) {
                 var reply = xhttp.responseText;
+                console.log(reply)
 
             }
         };
+
         var host = "http://127.0.0.1:5000/a/"+shortcode;
         xhttp.open("POST", host, true);
+        xhttp.setRequestHeader('Access-Control-Allow-Origin', '*', 'origin', '*');
         xhttp.send();
     }
 </script>
@@ -318,9 +319,8 @@
     <section class="body-content" id="body-content-post">
         <div class="dontshow" id="url_post">{{list_url_post.0}}</div>
         <div class="post-preview">
-            {% for item in list_url_post %}
-                 <div class="post"><a href="{{ item }}" download="image"><img class="post_pic" src="{{ item }}" alt="post" onContextMenu="return false;"></a></div>
-
+            {% for item in shortcode_url %}
+                 <div class="post"><img class="post_pic" src="{{ item.1 }}" alt="post" onContextMenu="return false;" onclick="connect('{{ item.0}}')"></div>
             {% endfor %}
         </div>
     </section>

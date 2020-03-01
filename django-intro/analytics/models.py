@@ -16,6 +16,7 @@ class Location(models.Model):
         else:
             return "Already in the table"
 
+
 class Search(models.Model):
     username = models.CharField(max_length=45, primary_key=True)
     counter = models.IntegerField()

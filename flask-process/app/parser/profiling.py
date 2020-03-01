@@ -327,6 +327,7 @@ post_comments_disabled             = []
 post_taken_at_timestamp            = []
 post_dimensions_height             = []
 post_dimensions_width              = []
+list_shortcode_url                 = []
 
 
 def reset_profile_post():
@@ -352,6 +353,7 @@ def reset_profile_post():
     post_taken_at_timestamp              = []
     post_dimensions_height               = []
     post_dimensions_width                = []
+    list_shortcode_url                   = []
 
 
 def profile_post_for_function(info):
@@ -361,6 +363,7 @@ def profile_post_for_function(info):
     for i in range(0, post_number):
         list_shortcode.append(parser.shortcode_list(info, i))
         url.append(parser.shortcode_url(info, i))
+        list_shortcode_url.append((parser.shortcode_list(info, i),parser.shortcode_url(info, i)))
         edges = get_post_edge_media_to_caption(info)
         post_type_name.append(parser.post_typename(info, i))
         post_id.append(parser.post_id(info, i))
@@ -386,6 +389,10 @@ def profile_post_for_function(info):
 
 def get_shortcode_list():
     return list_shortcode, url
+
+
+def get_shortcode_url_list():
+    return list_shortcode_url
 
 
 '''Found hashtag in post caption text'''
