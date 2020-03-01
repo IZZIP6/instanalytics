@@ -40,7 +40,7 @@ def listen_to_username():
             profiling.reset_profile_post()
             profiling.reset_profile_post_1()
         elif message.get('data', {}).get('user') != None:
-            print("ciao")
+            print(" [*] START POST")
             context_post = get_post.get_post_data(message)
             post_has_next_page = profiling.post_get_post_page_info_has_next_page(message)
             if not post_has_next_page:
@@ -48,6 +48,7 @@ def listen_to_username():
                'reset post lists '
                profiling.reset_post()
         elif message.get('data', {}).get('shortcode_media') != None:
+            print(" [*] START COMMENT")
             context_comment = get_comment.get_comment_data(message)
             comment_has_next_page = profiling.get_comment_has_next_page(message)
             if not comment_has_next_page:
