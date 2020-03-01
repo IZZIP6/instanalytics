@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'instanalytics.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'USER': 'sara',
+        'USER': 'admin',
         'PASSWORD': '',
-        'NAME': 'insta-db',
+        'NAME': 'instadb',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS':{
