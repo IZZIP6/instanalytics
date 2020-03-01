@@ -49,12 +49,17 @@
             display: flex;
             width: 50%;
             justify-content: flex-end;
+
         }
 
         .header ul li {
             margin: 0 1em;
             padding: 1em;
+        }
 
+        .header a:link, a:visited{
+            text-decoration: none;
+            color: white;
         }
 
 
@@ -210,8 +215,13 @@
             </div>
             <ul>
                 <li>About us</li>
-                <li>Login</li>
-                <li>Business</li>
+                {%if user.is_authenticated%}
+                  <li>Hello,<a href="#"> {{user.username}}</a> </li>
+                  <li><a href="{%url 'logout'%}">Log out</a> </li>
+                {%else%}
+                <li><a href="login">Sign in</a> </li>
+                <li><a href="register">Sign up</a> </li>
+                {%endif%}
             </ul>
         </div>
         <div class="body">
