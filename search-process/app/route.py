@@ -132,7 +132,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def post_javascript_data(shortcode):
     query = {'shortcode': shortcode}
     context = list(collection_comment.find(query))[0]
-    return str(context['comment_text'])
+    return json.dumps(context['comment_text'])
     # response = start.ask_something(shortcode)
 
 '''

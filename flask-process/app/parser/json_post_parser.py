@@ -26,8 +26,8 @@ def post_edge_media_to_caption_edges(data, i):
     return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_to_caption']['edges']
 
 
-def post_edge_media_to_caption_text(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_to_caption']['edges'][0]['node']['text']
+def post_edge_media_to_caption_text(data):
+    return data['node']['edge_media_to_caption']['edges'][0]['node']['text']
 
 
 def post_edge_media_to_caption_shortcode(data):
@@ -92,3 +92,5 @@ def post_is_video(data):
 
 def post_video_view_count(data):
     return data['node']['video_view_count']
+
+

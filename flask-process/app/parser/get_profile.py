@@ -56,11 +56,11 @@ def get_user_data(info):
     '''
     overall_timestamp   = []
     timestamp           = []
-    list_shortcode_url  = []
+    postInfo  = []
     if private is False:
         profiling.loadLists(info)
         list_of_shortcode, list_of_url                = profiling.get_shortcode_list()
-        list_shortcode_url                            = profiling.get_shortcode_url_list()
+        postInfo                                      = profiling.get_postInfo()
         post_type_name                                = profiling.get_post_type_name()
         post_id                                       = profiling.get_post_id()
         post_comment_count                            = profiling.get_post_comment_count()
@@ -127,6 +127,6 @@ def get_user_data(info):
         'list_url_post':            list_of_url,
         'overall_timestamp':        overall_timestamp,
         'timestamp':                timestamp,
-        'shortcode_url':            list_shortcode_url,
+        'shortcode_url':            postInfo,
     }
     return context

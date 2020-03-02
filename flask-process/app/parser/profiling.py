@@ -5,8 +5,8 @@ from app.parser import json_post_parser as post_parser
 import datetime
 import re
 
-captionField              = []
-captionText         = []
+captionField                                = []
+captionText                                 = []
 post_num_like                               = []
 post_preview_num_like                       = []
 post_gating_info                            = []
@@ -31,7 +31,7 @@ post_comments_disabled                      = []
 post_taken_at_timestamp                     = []
 post_dimensions_height                      = []
 post_dimensions_width                       = []
-postShortcodeUrl                            = []
+postInfo                            = []
 comment_id                                  = []
 comment_text                                = []
 comment_created_at                          = []
@@ -73,19 +73,19 @@ def loadLists(info):
         post_owner_id.append(parser.post_owner_id(edge))
         post_owner_username.append(parser.post_owner_username(edge))
 
-        ''' Caption's posts '''
-        captionField.append(parser.post_edge_media_to_caption(edge))
+        ''' Caption's posts 
+        if edge:
+            captionField.append(parser.post_edge_media_to_caption(edge))
         if not captionField[-1]:
             captionText.append("")
         else:
             captionText.append(parser.post_edge_media_to_caption_text(edge))
+
         if edge:
-            ''' Hashtag in caption'''
             text    = parser.post_edge_media_to_caption_text(edge)
             regex   = r"#[^ #]+"
             matches = [match.group() for match in re.finditer(regex, text, re.MULTILINE)]
             captionHashtag.append(matches)
-            ''' Tag in caption'''
             text    = parser.post_edge_media_to_caption_text(edge)
             regex   = r"@[^ @]+"
             matches = [match.group() for match in re.finditer(regex, text, re.MULTILINE)]
@@ -94,10 +94,10 @@ def loadLists(info):
             captionHashtag.append(" ")
             captionTag.append(" ")
 
+'''
         ''' Post: shortcode - url - id  '''
         postShortcode.append(parser.shortcode_list(edge))
         postUrl.append(parser.shortcode_url(edge))
-        postShortcodeUrl.append((parser.shortcode_list(edge), parser.shortcode_url(edge)))
         postId.append(parser.post_id(edge))
 
         ''' Post type '''
@@ -108,6 +108,9 @@ def loadLists(info):
         post_comments_disabled.append(parser.post_comments_disabled(edge))
         post_num_like.append(parser.post_num_like(edge))
         post_preview_num_like.append(parser.post_preview_num_like(edge))
+
+        postInfo.append((parser.shortcode_list(edge), parser.shortcode_url(edge), parser.post_num_like(edge), parser.post_comment_count(edge)))
+
 
         ''' Date's posts '''
         date = datetime.datetime.fromtimestamp(parser.post_taken_at_timestamp(edge))
@@ -124,7 +127,6 @@ def loadLists(info):
         hour_vect[hour] += parser.post_num_like(edge)
         datep.append(hour)
 
-
 def reset_profile_post_1():
     global post_location
     global post_is_video
@@ -138,7 +140,7 @@ def reset_profile_post_1():
 
 def reset_profile_post():
     global postShortcode
-    global postShortcodeUrl
+    global postInfo
     global postUrl
     global captionHashtag
     global captionTag
@@ -149,8 +151,12 @@ def reset_profile_post():
     global post_taken_at_timestamp
     global post_dimensions_height
     global post_dimensions_width
+    global datep
+    global hour_vect
+    hour_vect                               = np.zeros(24)
+    datep                                   = []
     postShortcode                           = []
-    postShortcodeUrl                      = []
+    postInfo                        = []
     postUrl                                 = []
     captionHashtag                          = []
     captionTag                              = []
@@ -163,6 +169,23 @@ def reset_profile_post():
     post_dimensions_width                   = []
 
 
+def reset_comment():
+    global comment_id
+    global comment_text
+    global comment_created_at
+    global comment_owner_id
+    global comment_owner_username
+    global comment_hashtag
+    global comment_tag
+    comment_id                   = []
+    comment_text                 = []
+    comment_created_at           = []
+    comment_owner_id             = []
+    comment_owner_username       = []
+    comment_hashtag              = []
+    comment_tag                  = []
+
+
 ''' Called by get_profile '''
 
 
@@ -170,8 +193,8 @@ def get_shortcode_list():
     return postShortcode, postUrl
 
 
-def get_shortcode_url_list():
-    return postShortcodeUrl
+def get_postInfo():
+    return postInfo
 
 
 def get_post_type_name():
@@ -227,6 +250,7 @@ def post_found_tag():
 
 
 def get_timestamp():
+    timestamp = []
     for i in range(0, 24):
         timestamp.append(hour_vect[i])
     return timestamp, datep
@@ -235,45 +259,25 @@ def get_post_text():
     return captionText
 
 
-def reset_comment():
-    global comment_id
-    global comment_text
-    global comment_created_at
-    global comment_owner_id
-    global comment_owner_username
-    global comment_hashtag
-    global comment_tag
-    comment_id                   = []
-    comment_text                 = []
-    comment_created_at           = []
-    comment_owner_id             = []
-    comment_owner_username       = []
-    comment_hashtag              = []
-    comment_tag                  = []
-
-
 def comment_for_function(data):
-     for comment in comment_parser.comment_post_edge_media_to_comment(data):
+    for comment in comment_parser.comment_post_edge_media_to_comment(data):
         comment_id.append(comment_parser.comment_id(comment))
         comment_text.append(comment_parser.comment_text(comment))
         comment_created_at.append(comment_parser.comment_created_at(comment))
         comment_owner_id.append(comment_parser.comment_owner_id(comment))
         comment_owner_username.append(comment_parser.comment_owner_username(comment))
-        try:
-            if comment_text[-1]:
-                regex = r"@[^ @]+"
-                matches = [match.group() for match in re.finditer(regex, comment_text[-1], re.MULTILINE)]
-                comment_tag.append(matches)
+        if comment_text[-1]:
+            regex = r"@[^ @]+"
+            matches = [match.group() for match in re.finditer(regex, comment_text[-1], re.MULTILINE)]
+            comment_tag.append(matches)
 
-                regex = r"#[^ #]+"
-                matches = [match.group() for match in re.finditer(regex, comment_text[-1], re.MULTILINE)]
-                comment_hashtag.append(matches)
-            else:
-                comment_tag.append(" ")
+            regex = r"#[^ #]+"
+            matches = [match.group() for match in re.finditer(regex, comment_text[-1], re.MULTILINE)]
+            comment_hashtag.append(matches)
+        else:
+            comment_tag.append(" ")
 
-                comment_hashtag.append(" ")
-        except IndexError:
-            print('out of limits')
+            comment_hashtag.append(" ")
 
 
 def get_comment_has_next_page(data):
@@ -383,53 +387,40 @@ def reset_post():
     list_video_view_count                              = []
 
 
-def post_for_function(info, n):
-    post_preview = len(post_parser.post_edges(info))
-
-    for edge in parser.get_edges(info):
-        list_post_id.append(post_parser.post_id(edge))
-        list_post_typename.append(post_parser.post_typename(edge))
-        list_post_edge_media_to_caption_shortcode.append(post_parser.post_edge_media_to_caption_shortcode(edge))
-        list_post_edge_media_to_comment.append(post_parser.post_edge_media_to_comment(edge))
+def post_for_function(info):
+    for post in post_parser.post_edges(info):
+        list_post_id.append(post_parser.post_id(post))
+        list_post_typename.append(post_parser.post_typename(post))
+        list_post_edge_media_to_caption_shortcode.append(post_parser.post_edge_media_to_caption_shortcode(post))
+        list_post_edge_media_to_comment.append(post_parser.post_edge_media_to_comment(post))
         if list_post_edge_media_to_comment[-1]:
-            list_post_comment_count.append(post_parser.post_edge_media_to_comment_count(edge))
+            list_post_comment_count.append(post_parser.post_edge_media_to_comment_count(post))
         else:
             list_post_comment_count.append(" ")
-        list_post_comment_disbled.append(post_parser.post_comment_disabled(edge))
-        list_post_taken_at_timestamp.append(post_parser.post_taken_at_timestamp(edge))
-        list_post_dimensions.append(post_parser.post_dimensions(edge))
+        list_post_comment_disbled.append(post_parser.post_comment_disabled(post))
+        list_post_taken_at_timestamp.append(post_parser.post_taken_at_timestamp(post))
+        list_post_dimensions.append(post_parser.post_dimensions(post))
         if list_post_dimensions[-1]:
-            list_post_width.append(post_parser.post_width(edge))
-            list_post_height.append(post_parser.post_height(edge))
+            list_post_width.append(post_parser.post_width(post))
+            list_post_height.append(post_parser.post_height(post))
         else:
             list_post_width.append(" ")
             list_post_height.append(" ")
-        list_post_display_url.append(post_parser.post_display_url(edge))
-        list_post_edge_media_preview_like.append(post_parser.post_edge_media_preview_like(edge))
+        list_post_display_url.append(post_parser.post_display_url(post))
+        list_post_edge_media_preview_like.append(post_parser.post_edge_media_preview_like(post))
         if list_post_edge_media_preview_like[-1]:
-            list_post_edge_media_preview_like_count.append(post_parser.post_edge_media_preview_like_count(edge))
+            list_post_edge_media_preview_like_count.append(post_parser.post_edge_media_preview_like_count(post))
         else:
             list_post_edge_media_preview_like_count.append(" ")
-        if list_post_edge_media_to_caption_text[-1]:
-            regex = r"@[^ @]+"
-            matches = [match.group() for match in re.finditer(regex, list_post_edge_media_to_caption_text[-1], re.MULTILINE)]
-            list_post_text_tag.append(matches)
-
-            regex = r"#[^ #]+"
-            matches = [match.group() for match in re.finditer(regex, list_post_edge_media_to_caption_text[-1], re.MULTILINE)]
-            list_post_text_hashtag.append(matches)
-        else:
-            list_post_text_tag.append(" ")
-            list_post_text_hashtag.append(" ")
-        list_post_owner.append(post_parser.post_owner(edge))
+        list_post_owner.append(post_parser.post_owner(post))
         if list_post_owner[-1]:
-            list_post_owner_id.append(post_parser.post_owner_id(edge))
+            list_post_owner_id.append(post_parser.post_owner_id(post))
         else:
             list_post_owner_id.append(" ")
-        list_post_thumbnail_src.append(post_parser.post_thumbnail_src(edge))
-        list_post_is_video.append(post_parser.post_is_video(edge))
+        list_post_thumbnail_src.append(post_parser.post_thumbnail_src(post))
+        list_post_is_video.append(post_parser.post_is_video(post))
         if list_post_is_video[-1]:
-            list_video_view_count.append(post_parser.post_video_view_count(edge))
+            list_video_view_count.append(post_parser.post_video_view_count(post))
         else:
             list_video_view_count.append(" ")
 
@@ -450,13 +441,147 @@ def post_get_post_edge_media_to_caption_edges(info):
     return list_post_edge_media_to_caption_edges
 
 
+def get_post_location():
+    return post_location
+
+
+def get_post_location_id(info, i):
+    post_location_id = parser.post_location_id(info, i)
+    return post_location_id
+
+
+def get_post_location_has_public_page(info, i):
+    post_location_has_public_page = parser.post_location_has_public_page(info, i)
+    return post_location_has_public_page
+
+
+def get_post_location_name(info, i):
+    post_location_name = parser.post_location_name(info, i)
+    return post_location_name
+
+
+def get_post_location_slug(info, i):
+    post_location_slug = parser.post_location_slug(info, i)
+    return post_location_slug
+
+
+def get_post_owner():
+    return post_owner_id, post_owner_username
+
+
+def get_post_is_video():
+    return post_is_video
+
+'''
+    def get_post_video_view_count(info, i):
+        post_video_view_count = parser.post_video_view_count(info, i)
+        return post_video_view_count
+
+    def get_post_data2(info):
+        post_gating_info                     = []
+        post_fact_check_overall_rating       = []
+        post_fact_check_information          = []
+        post_preview = get_post_number(info)
+        if post_preview > 12:
+            post_preview = 12
+        for i in range(0, post_preview):
+            post_gating_info.append(parser.post_gating_info(info, i))
+            post_fact_check_overall_rating.append(parser.post_fact_check_overall_rating(info, i))
+            post_fact_check_information.append(parser.post_fact_check_information(info, i))
+        return post_gating_info, post_fact_check_overall_rating, post_fact_check_information
+'''
+
+def get_post_media_preview(info, i):
+    post_media_preview = parser.post_media_preview(info, i)
+    return post_media_preview
+
+
+def get_post_accessibility(info, i):
+    post_accessibility_caption = parser.post_accessibility_caption(info, i)
+
+    return post_accessibility_caption
+
+
+def get_highlight_reel_count(info):
+    n_highlight_reel = parser.highlight_reel_count(info)
+    return n_highlight_reel
+
+
+def get_logging_page_id(info):
+    logging_page_id = parser.logging_page_id(info)
+    return logging_page_id
+
+
+def get_external_url(info):
+    external_url = parser.external_url(info)
+    return external_url
+
+
+def get_external_url_linkshimmed(info):
+    external_url_linkshimmed= parser.external_url_linkshimmed(info)
+    return external_url_linkshimmed
+
+
+def get_edge_mutual_followed_by_count(info):
+    num_edge_mutual_followed_by = parser.edge_mutual_followed_by_count(info)
+    return num_edge_mutual_followed_by
+
+
+def get_edge_saved_media_count(info):
+    num_edge_saved_media = parser.edge_saved_media_count(info)
+    return num_edge_saved_media
+
+
+def get_edge_saved_media_has_next_page(info):
+    edge_saved_media_has_next_page = parser.edge_saved_media_has_next_page(info)
+    return edge_saved_media_has_next_page
+
+
+def get_edge_saved_media_end_cursor(info):
+    edge_saved_media_end_cursor = parser.edge_saved_media_end_cursor(info)
+    return edge_saved_media_end_cursor
+
+
+def get_edge_media_collections_count(info):
+    edge_media_collections_count = parser.edge_media_collections_count(info)
+    return edge_media_collections_count
+
+
+def get_edge_media_collections_has_next_page(info):
+    edge_media_collections_has_next_page = parser.edge_media_collections_has_next_page(info)
+    return edge_media_collections_has_next_page
+
+
+def get_edge_media_collections_end_cursor(info):
+    edge_media_collections_end_cursor = parser.edge_media_collections_end_cursor(info)
+    return edge_media_collections_end_cursor
+
+
+def get_toast_content_on_load(info):
+    toast_content_on_load = parser.toast_content_on_load(info)
+    return toast_content_on_load
+
+
+
 def post_get_post_text(info):
-    post_edge_media_to_caption_edges = post_get_post_edge_media_to_caption_edges(info)
-    for edge in parser.get_edges(info):
+    for edge in post_parser.post_edges(info):
         if not edge:
             list_post_edge_media_to_caption_text.append(" ")
+            list_post_text_tag.append(" ")
+            list_post_text_hashtag.append(" ")
         else:
             list_post_edge_media_to_caption_text.append(post_parser.post_edge_media_to_caption_text(edge))
+            if list_post_edge_media_to_caption_text[-1]:
+                regex = r"@[^ @]+"
+                matches = [match.group() for match in re.finditer(regex, list_post_edge_media_to_caption_text[-1], re.MULTILINE)]
+                list_post_text_tag.append(matches)
+
+                regex = r"#[^ #]+"
+                matches = [match.group() for match in re.finditer(regex, list_post_edge_media_to_caption_text[-1], re.MULTILINE)]
+                list_post_text_hashtag.append(matches)
+            else:
+                list_post_text_tag.append(" ")
+                list_post_text_hashtag.append(" ")
     return list_post_edge_media_to_caption_text
 
 
@@ -507,9 +632,6 @@ def post_get_post_video_view_count():
     return list_video_view_count
 
 
-def get_post_is_video():
-    return post_is_video
 
 
-def get_post_owner():
-    return post_owner_id, post_owner_username
+

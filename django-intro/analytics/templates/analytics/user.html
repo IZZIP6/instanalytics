@@ -15,6 +15,7 @@
             display: flex;
             flex-direction: column;
             background-color: #0a0b29;
+
             }
 
         ::-webkit-scrollbar {
@@ -23,12 +24,12 @@
 
         ::-webkit-scrollbar-track {
             border-radius: 10px;
-            background-color: rgba(25,147,147,0.4);
+            background-color: rgba(77,25,51, 0.4);
         }
 
         ::-webkit-scrollbar-thumb {
              border-radius: 10px;
-            background-color: #183850;
+            background-color: rgba(77,25,51, 1);
         }
 
         .header-content{
@@ -214,6 +215,25 @@
 
         }
 
+        .post-info{
+            position: absolute;
+            display: flex;
+            width: 300px;
+            flex-direction: row;
+            font-size: 1rem;
+
+        }
+
+        .like-counter, .comment-counter{
+            width: 50%;
+            display: flex;
+            flex-direction: row;
+            height: 470px;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+
         .post{
             width: 300px;
             height: 470px;
@@ -221,6 +241,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
 
         }
 
@@ -237,6 +258,7 @@
 
         .post_pic{
             width: 280px;
+            z-index: 1;
         }
 
         .post_pic:hover{
@@ -252,6 +274,28 @@
             margin: 0 auto;
             padding-top: 2%;
         }
+        #body-comment-post ul{
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            height: 80%;
+            width: 80%;
+            overflow: auto;
+
+
+        }
+
+        #body-comment-post ul li {
+            margin: 0 1em;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            font-size: 1.2rem;
+
+
+        }
 
     </style>
 </head>
@@ -265,14 +309,29 @@
 
 </script>
 <script>
-    function connect(shortcode) {
 
+
+
+    function connect(shortcode) {
+        var ul = document.getElementById("comment-text");
+        while( ul.firstChild ){
+            ul.removeChild( ul.firstChild );
+        }
+        window.location.href = "#body-comment-post";
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE) {
                 var reply = xhttp.responseText;
-                console.log(reply)
+                comments = JSON.parse(reply);
 
+                for(index in comments){
+                    var li = document.createElement("li");
+                    li.appendChild(document.createTextNode(comments[index]));
+                    console.log(comments[index]);
+                    ul.appendChild(li);
+
+
+                }
             }
         };
 
@@ -280,6 +339,12 @@
         xhttp.open("POST", host, true);
         xhttp.setRequestHeader('Access-Control-Allow-Origin', '*', 'origin', '*');
         xhttp.send();
+    }
+
+    function postInfo(e) {
+        console.log("OVER NON è VERO");
+        console.log(e);
+        document.getElementsByClassName("like-counter")[0].style.opacity = "1";
     }
 </script>
 <body>
@@ -320,9 +385,19 @@
         <div class="dontshow" id="url_post">{{list_url_post.0}}</div>
         <div class="post-preview">
             {% for item in shortcode_url %}
-                 <div class="post"><img class="post_pic" src="{{ item.1 }}" alt="post" onContextMenu="return false;" onclick="connect('{{ item.0}}')"></div>
+            <div class="post"><img class="post_pic" src="{{ item.1 }}" alt="post" onContextMenu="return false;" onclick="connect('{{ item.0}}')">
+                <div class="post-info">
+                    <div class="like-counter">LIKE:{{ item.2}}</div>
+                    <div class="comment-counter">COMMENT:{{ item.3}}</div>
+                </div>
+            </div>
             {% endfor %}
         </div>
+    </section>
+    <section class="body-content" id="body-comment-post">
+        <ul id="comment-text">
+
+        </ul>
     </section>
     <section class="body-content"><div id="container" style="width:80%; height:400px;"></div>
         <script>
