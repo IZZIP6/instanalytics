@@ -1,4 +1,4 @@
-from app.parser import profiling
+from app.parser import profiling, json_parser
 from datetime import datetime
 import pytz
 
@@ -12,42 +12,42 @@ def get_user_data(info):
     :return:        JSON that only containes the required field for rendering the HTML page
     '''
 
-    bio                                     = profiling.get_bio(info)
-    blocked_by_viewer                       = profiling.get_blocked_by_viewer(info)
-    business                                = profiling.get_business(info)
-    connected_fb_page                       = profiling.get_connected_fb_page(info)
-    country_block                           = profiling.get_country_block(info)
+    bio                                     = json_parser.biography(info)
+    blocked_by_viewer                       = json_parser.blocked_by_viewer(info)
+    business                                = json_parser.is_business(info)
+    connected_fb_page                       = json_parser.connected_fb_page(info)
+    country_block                           = json_parser.country_block(info)
     cursor                                  = ''
-    edge_media_collections_count            = profiling.get_edge_media_collections_count(info)
-    edge_media_collections_end_cursor       = profiling.get_edge_media_collections_end_cursor(info)
-    edge_media_collections_has_next_page    = profiling.get_edge_media_collections_has_next_page(info)
-    edge_saved_media_end_cursor             = profiling.get_edge_saved_media_end_cursor(info)
-    edge_saved_media_has_next_page          = profiling.get_edge_saved_media_has_next_page(info)
-    external_url                            = profiling.get_external_url(info)
-    external_url_linkshimmed                = profiling.get_external_url_linkshimmed(info)
-    followed_by_viewer                      = profiling.get_followed_by_viewer(info)
-    follows_viewer                          = profiling.get_follows_viewer(info)
-    fullname                                = profiling.get_fullname(info)
-    has_blocked_viewer                      = profiling.get_has_blocked_viewer(info)
-    has_channel                             = profiling.get_has_channel(info)
-    has_requested_viewer                    = profiling.get_has_requested_viewer(info)
-    id                                      = profiling.get_idnumber(info)
-    joined_recently                         = profiling.get_is_joined_recently(info)
+    edge_media_collections_count            = json_parser.edge_media_collections_count(info)
+    edge_media_collections_end_cursor       = json_parser.edge_media_collections_end_cursor(info)
+    edge_media_collections_has_next_page    = json_parser.edge_media_collections_has_next_page(info)
+    edge_saved_media_end_cursor             = json_parser.edge_saved_media_end_cursor(info)
+    edge_saved_media_has_next_page          = json_parser.edge_saved_media_has_next_page(info)
+    external_url                            = json_parser.external_url(info)
+    external_url_linkshimmed                = json_parser.external_url_linkshimmed(info)
+    followed_by_viewer                      = json_parser.followed_by_viewer(info)
+    follows_viewer                          = json_parser.follows_viewer(info)
+    fullname                                = json_parser.fullname(info)
+    has_blocked_viewer                      = json_parser.has_blocked_viewer(info)
+    has_channel                             = json_parser.has_channel(info)
+    has_requested_viewer                    = json_parser.has_requested_viewer(info)
+    id                                      = json_parser.id_number(info)
+    joined_recently                         = json_parser.is_joined_recently(info)
     list_of_url                             = ['']
-    logging_page_id                         = profiling.get_logging_page_id(info)
-    no_edge_mutual_followed_by              = profiling.get_edge_mutual_followed_by_count(info)
-    no_edge_saved_media                     = profiling.get_edge_saved_media_count(info)
-    no_followers                            = profiling.get_followers(info)
-    no_following                            = profiling.get_following(info)
-    no_highlight_reel                       = profiling.get_highlight_reel_count(info)
-    no_posts                                = profiling.get_post_number(info)
+    logging_page_id                         = json_parser.logging_page_id(info)
+    no_edge_mutual_followed_by              = json_parser.edge_mutual_followed_by_count(info)
+    no_edge_saved_media                     = json_parser.edge_saved_media_count(info)
+    no_followers                            = json_parser.followers(info)
+    no_following                            = json_parser.following(info)
+    no_highlight_reel                       = json_parser.highlight_reel_count(info)
+    no_posts                                = json_parser.post_number(info)
     post_preview                            = 0
-    private                                 = profiling.get_private(info)
-    requested_by_viewer                     = profiling.get_requested_by_viewer(info)
-    url                                     = profiling.get_profile_pic(info)
-    toast_content_on_load                   = profiling.get_toast_content_on_load(info)
-    username                                = profiling.get_username(info)
-    verified                                = profiling.get_verified(info)
+    private                                 = json_parser.is_private(info)
+    requested_by_viewer                     = json_parser.requested_by_viewer(info)
+    url                                     = json_parser.profile_pic(info)
+    toast_content_on_load                   = json_parser.toast_content_on_load(info)
+    username                                = json_parser.username(info)
+    verified                                = json_parser.is_verified(info)
 #   profiling.get_show_suggested_profiles(info)
 
     '''
@@ -58,57 +58,46 @@ def get_user_data(info):
     timestamp           = []
     list_shortcode_url  = []
     if private is False:
-        profiling.profile_post_for_function(info)
-        list_of_shortcode, list_of_url = profiling.get_shortcode_list()
-        list_shortcode_url             = profiling.get_shortcode_url_list()
-        post_type_name                 = profiling.get_post_type_name()
-        post_id                        = profiling.get_post_id()
-        post_comment_count             = profiling.get_post_comment_count()
-        post_comments_disabled         = profiling.get_post_comments_disabled()
-        post_taken_at_timestamp        = profiling.get_post_taken_at_timestamp()
-
+        profiling.loadLists(info)
+        list_of_shortcode, list_of_url                = profiling.get_shortcode_list()
+        list_shortcode_url                            = profiling.get_shortcode_url_list()
+        post_type_name                                = profiling.get_post_type_name()
+        post_id                                       = profiling.get_post_id()
+        post_comment_count                            = profiling.get_post_comment_count()
+        post_comments_disabled                        = profiling.get_post_comments_disabled()
+        post_taken_at_timestamp                       = profiling.get_post_taken_at_timestamp()
         post_dimensions_height, post_dimensions_width = profiling.get_post_dimensions()
-
-        post_edge_media_to_caption_text     = profiling.get_post_text(info)
-
-        profiling.post_for_function_1(info)
-        post_location                       = profiling.get_post_location()
-        post_location_id                    = []
-        post_location_has_public_page       = []
-        post_location_name                  = []
-        post_location_slug                  = []
-        for i in range(0, len(post_location)):
-            if post_location[i] is None:
+        post_edge_media_to_caption_text               = profiling.get_post_text()
+        locations                                     = profiling.get_post_location()
+        post_location_id                              = []
+        post_location_has_public_page                 = []
+        post_location_name                            = []
+        post_location_slug                            = []
+        for location in locations:
+            if location is None:
                 post_location_id.append(" ")
                 post_location_has_public_page.append(" ")
                 post_location_name.append(" ")
                 post_location_slug.append(" ")
             else:
-                post_location_id.append(profiling.get_post_location_id(info, i))
-                post_location_has_public_page.append(profiling.get_post_location_has_public_page(info, i))
-                post_location_name.append(profiling.get_post_location_name(info, i))
-                post_location_slug.append(profiling.get_post_location_slug(info, i))
-
-
-        is_video                            = profiling.get_post_is_video()
-        video_view_count                    = []
-        post_accessibility                  = []
-        post_num_like, post_preview_num_like = profiling.get_post_like(info)
-
-        post_owner_id, post_owner_username   = profiling.get_post_owner()
-
-        post_media_preview                  = []
-        post_preview                        = profiling.get_post_number(info)
-        if post_preview > 12:
-            post_preview = 12
-        for i in range(0, post_preview):
-            post_media_preview.append(profiling.get_post_media_preview(info, i))
-
+                post_location_id.append(json_parser.post_location_id(location))
+                post_location_has_public_page.append(json_parser.post_location_has_public_page(location))
+                post_location_name.append(json_parser.post_location_name(location))
+                post_location_slug.append(json_parser.post_location_slug(location))
+        is_video                                      = profiling.get_post_is_video()
+        video_view_count                              = []
+        post_accessibility                            = []
+        post_num_like, post_preview_num_like          = profiling.get_post_like()
+        post_owner_id, post_owner_username            = profiling.get_post_owner()
+        post_media_preview                            = []
+        post_preview                                  = json_parser.post_number(info)
+        for edge in json_parser.get_edges(info):
+            post_media_preview.append(json_parser.post_media_preview(edge))
         post_gating_info, post_fact_check_overall_rating, \
-            post_fact_check_information     = profiling.get_post_data2(info)
-        post_hashtag                        = profiling.post_found_hashtag()
-        post_tag                            = profiling.post_found_tag()
-        overall_timestamp, timestamp        = profiling.get_timestamp(info)
+            post_fact_check_information              = profiling.get_post_data2()
+        post_hashtag                                 = profiling.post_found_hashtag()
+        post_tag                                     = profiling.post_found_tag()
+        overall_timestamp, timestamp                 = profiling.get_timestamp()
 
     context = {
         'date_time':                datetime.utcnow(),

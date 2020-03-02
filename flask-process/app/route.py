@@ -48,16 +48,7 @@ def listen_to_username():
 
         elif message.get('data', {}).get('user') != None:
             print(" [*] START POST")
-            #context_post = get_post.get_post_data(message, n)
-            #post_has_next_page = profiling.post_get_post_page_info_has_next_page(message)
-            #i = i + 1
-            #n = n + 50
-            #if not post_has_next_page or i == 3:
-            #    collection_post.insert_one(context_post)
-            #    'reset post lists '
-            #    profiling.reset_post()
-            #    reset_i_j()
-            #    reset_n()
+
         elif message.get('data', {}).get('shortcode_media') != None:
             print(" [*] START COMMENT")
             context_comment = get_comment.get_comment_data(message)
@@ -68,7 +59,7 @@ def listen_to_username():
                 'reset comment lists '
                 profiling.reset_comment()
                 reset_i_j()
-        time.sleep(1)
+        time.sleep(0.2)
         print(" [x] Done")
         ch.basic_ack(delivery_tag=method.delivery_tag)
 

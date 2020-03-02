@@ -14,12 +14,12 @@ def post_edges(data):
     return data['data']['user']['edge_owner_to_timeline_media']['edges']
 
 
-def post_id(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['id']
+def post_id(data):
+    return data['node']['id']
 
 
-def post_typename(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['__typename']
+def post_typename(data):
+    return data['node']['__typename']
 
 
 def post_edge_media_to_caption_edges(data, i):
@@ -30,65 +30,65 @@ def post_edge_media_to_caption_text(data, i):
     return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_to_caption']['edges'][0]['node']['text']
 
 
-def post_edge_media_to_caption_shortcode(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['shortcode']
+def post_edge_media_to_caption_shortcode(data):
+    return data['node']['shortcode']
 
 
-def post_edge_media_to_comment(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_to_comment']
+def post_edge_media_to_comment(data):
+    return data['node']['edge_media_to_comment']
 
 
-def post_edge_media_to_comment_count(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_to_comment']['count']
+def post_edge_media_to_comment_count(data):
+    return data['node']['edge_media_to_comment']['count']
 
 
-def post_comment_disabled(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['comments_disabled']
+def post_comment_disabled(data):
+    return data['node']['comments_disabled']
 
 
-def post_taken_at_timestamp(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['taken_at_timestamp']
+def post_taken_at_timestamp(data):
+    return data['node']['taken_at_timestamp']
 
 
-def post_dimensions(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['dimensions']
+def post_dimensions(data):
+    return data['node']['dimensions']
 
 
-def post_height(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['dimensions']['height']
+def post_height(data):
+    return data['node']['dimensions']['height']
 
 
-def post_width(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['dimensions']['width']
+def post_width(data):
+    return data['node']['dimensions']['width']
 
 
-def post_display_url(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['display_url']
+def post_display_url(data):
+    return data['node']['display_url']
 
 
-def post_edge_media_preview_like(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_preview_like']
+def post_edge_media_preview_like(data):
+    return data['node']['edge_media_preview_like']
 
 
-def post_edge_media_preview_like_count(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_preview_like']['count']
+def post_edge_media_preview_like_count(data):
+    return data['node']['edge_media_preview_like']['count']
 
 
-def post_owner(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['owner']
+def post_owner(data):
+    return data['node']['owner']
 
 
-def post_owner_id(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['owner']['id']
+def post_owner_id(data):
+    return data['node']['owner']['id']
 
 
-def post_thumbnail_src(data,i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['thumbnail_src']
+def post_thumbnail_src(data):
+    return data['node']['thumbnail_src']
 
 
-def post_is_video(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['is_video']
+def post_is_video(data):
+    return data['node']['is_video']
 
 
-def post_video_view_count(data, i):
-    return data['data']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['video_view_count']
+def post_video_view_count(data):
+    return data['node']['video_view_count']

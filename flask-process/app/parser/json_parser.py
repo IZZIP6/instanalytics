@@ -26,7 +26,7 @@ def username(data):
     return data['graphql']['user']['username']
 
 
-def full_name(data):
+def fullname(data):
     return data['graphql']['user']['full_name']
 
 
@@ -149,36 +149,36 @@ def edge_owner_to_timeline_media_end_cursor(data):
     return data['graphql']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
 
 
-def post_typename(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['__typename']
+def post_typename(data):
+    return data['node']['__typename']
 
 
-def post_id(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['id']
+def post_id(data):
+    return data['node']['id']
 
 
 def post_0_shotcode(data):
     return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][0]['node']['shortcode']
 
 
-def post_comment_count(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_to_comment']['count']
+def post_comment_count(data):
+    return data['node']['edge_media_to_comment']['count']
 
 
-def post_comments_disabled(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['comments_disabled']
+def post_comments_disabled(data):
+    return data['node']['comments_disabled']
 
 
-def post_taken_at_timestamp(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['taken_at_timestamp']
+def post_taken_at_timestamp(data):
+    return data['node']['taken_at_timestamp']
 
 
-def post_dimensions_height(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['dimensions']['height']
+def post_dimensions_height(data):
+    return data['node']['dimensions']['height']
 
 
-def post_dimensions_width(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['dimensions']['width']
+def post_dimensions_width(data):
+    return data['node']['dimensions']['width']
 
 
 ################################
@@ -187,75 +187,73 @@ def post_pic(data, i):
 ###############################
 
 
-def post_num_like(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_liked_by']['count']
+def post_num_like(data):
+    return data['node']['edge_liked_by']['count']
 
 
-def post_preview_num_like(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_preview_like']\
+def post_preview_num_like(data):
+    return data['node']['edge_media_preview_like']\
         ['count']
 
 
-def post_edge_media_to_caption(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_to_caption']['edges']
+def post_edge_media_to_caption(data):
+    return data['node']['edge_media_to_caption']['edges']
 
 
-def post_edge_media_to_caption_text(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['edge_media_to_caption']['edges']\
-        [0]['node']['text']
+def post_edge_media_to_caption_text(data):
+    return data['node']['edge_media_to_caption']['edges'][0]['node']['text']
 
 
-def post_location(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['location']
+def post_location(data):
+    return data['node']['location']
 
 
-def post_location_id(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['location']['id']
+def post_location_id(data):
+    return data['id']
 
 
-def post_location_has_public_page(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['location']['has_public_page']
+def post_location_has_public_page(data):
+    return data['has_public_page']
 
 
-def post_location_name(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['location']['name']
+def post_location_name(data):
+    return data['name']
 
 
-def post_location_slug(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['location']['slug']
+def post_location_slug(data):
+    return data['slug']
 
 
-def post_gating_info(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['gating_info']
+def post_gating_info(data):
+    return data['node']['gating_info']
 
 
-def post_fact_check_overall_rating(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['fact_check_overall_rating']
+def post_fact_check_overall_rating(data):
+    return data['node']['fact_check_overall_rating']
 
 
-def post_fact_check_information(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['fact_check_information']
+def post_fact_check_information(data):
+    return data['node']['fact_check_information']
 
 
-def post_media_preview(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['media_preview']
+def post_media_preview(data):
+    return data['node']['media_preview']
 
 
-def post_owner_id(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['owner']['id']
+def post_owner_id(data):
+    return data['node']['owner']['id']
 
 
-def post_owner_username(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['owner']['username']
+def post_owner_username(data):
+    return data['node']['owner']['username']
 
 
-######################pic
-def post_thumbnail_src(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['thumbnail_src']
+def post_thumbnail_src(data):
+    return data['node']['thumbnail_src']
 
 
-def post_is_video(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['is_video']
+def post_is_video(data):
+    return data['node']['is_video']
 
 
 def post_video_view_count(data, i):
@@ -314,9 +312,16 @@ def toast_content_on_load(data):
     return data['toast_content_on_load']
 
 
-def shortcode_list(data, n):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][n]['node']['shortcode']
+def shortcode_list(data):
+    return data['node']['shortcode']
 
 
-def shortcode_url(data, n):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][n]['node']['display_url']
+def shortcode_url(data):
+    return data['node']['display_url']
+
+
+def get_edges(data):
+    return data['graphql']['user']['edge_owner_to_timeline_media']['edges']
+
+
+

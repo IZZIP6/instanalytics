@@ -20,7 +20,7 @@ def listen_to_username():
     '''
     def callback(ch, method, properties, body):
         print(" [x] Received %s" % body)
-        time.sleep(1)
+        time.sleep(0.2)
         start.request_to_username(body)
         print(" [x] Done")
         ch.basic_ack(delivery_tag=method.delivery_tag)
