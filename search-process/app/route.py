@@ -92,6 +92,8 @@ def hello(username):
                 '''
                     Who is returned to? 1) Backend of Django, to rendering the HTML page; 2) Internal API, if you only 
                     ask for the JSON after directly connected to this server at this address
+                    
+                    AGGIUNGERE AL CONTEXT TOP SEARCH   
                 '''
                 return js
             click.secho(
@@ -133,7 +135,6 @@ def post_javascript_data(shortcode):
     query = {'shortcode': shortcode}
     context = list(collection_comment.find(query))[0]
     return json.dumps(context['comment_text'])
-    # response = start.ask_something(shortcode)
 
 '''
     Return an 404 error code if the path does not match with any functions above

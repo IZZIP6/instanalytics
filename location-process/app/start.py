@@ -20,13 +20,16 @@ print(" [*] START CONFIG")
 
 mysql.init_app(app)
 
+cur = mysql.connect().cursor()
 flag = True
 
-
+'''
+    MOVED TO ROUTE
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 channel.queue_declare(queue='location_queue', durable=True)
 print(' [*] Waiting for messages. To exit press CTRL+C')
+'''
 
 
 def locations(data):
@@ -34,7 +37,8 @@ def locations(data):
     if location is not None:
         return location
 
-def new_location(cur, id, location):
+def new_location(id, location):
+    print("PD")
     location = location.replace("'", " ")
     select_query = "SELECT id FROM analytics_location"
     cur.execute(select_query)
@@ -54,6 +58,8 @@ def new_location(cur, id, location):
                 fg="green",
             )
 
+'''
+    MOVED TO ROUTE
 def location_queue(cur):
     def callback(ch, method, properties, body):
         message = json.loads(body)
@@ -74,3 +80,4 @@ def location_queue(cur):
     channel.basic_consume(queue='location_queue', on_message_callback=callback)
 
     channel.start_consuming()
+'''
