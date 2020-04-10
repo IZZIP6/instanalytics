@@ -2,7 +2,7 @@ import pika
 
 
 '''
-    pika opens a conntection to localhost, creating a queue for the username. Each time an username is typed, it's
+    pika opens a connection to localhost, creating a queue for the username. Each time an username is typed, it's
     published into the queue
 '''
 def username_queue(username):

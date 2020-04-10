@@ -1,0 +1,471 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ username }}</title>
+    <style>
+
+
+
+        body {
+            margin: 0;
+            font-family: Apercu, sans-serif;
+            text-rendering: optimizelegibility;
+            display: flex;
+            flex-direction: column;
+            background-color: #0a0b29;
+
+            }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            border-radius: 10px;
+            background-color: rgba(77,25,51, 0.4);
+        }
+
+        ::-webkit-scrollbar-thumb {
+             border-radius: 10px;
+            background-color: rgba(77,25,51, 1);
+        }
+
+        .header-content{
+            width: 100%;
+            background-image: url({% static './img/background-texture.png' %});
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+            color: white;
+            background-color: #0a0b29;
+            transition: height 200ms;
+        }
+
+        .top-header{
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            line-height: 1.5;
+            align-items: center;
+            color: white;
+            height: 50px;
+        }
+
+        nav{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo{
+            width: 50%;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .top-header a:link{
+            color: white;
+        }
+
+        .top-header a:visited{
+            color: white;
+        }
+
+        .top-header ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            display: flex;
+            width: 50%;
+            justify-content: flex-end;
+
+        }
+
+        .top-header ul li {
+            margin: 0 1em;
+            padding: 1em;
+            display: flex;
+            align-items: center;
+            align-content: center;
+        }
+
+
+
+        .profile-info{
+            /*background-color: #090a26;*/
+            position: relative;
+            width: 100%;
+            /*box-shadow:0 5px 15px #0f102c;*/
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+        }
+
+        .profile-first-info{
+            width: 100%;
+            position: sticky;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .first-item{
+            display: flex;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+        }
+
+        #name-item{
+            position: absolute;
+            font-size: 7rem;
+            left: 10px;
+            color: white;
+            opacity: 0.1;
+            top: 0px;
+            font-weight: 900;
+
+        }
+
+        section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .body-content{
+            position: relative;
+            font-size: 1.7rem;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            background-color: #0a0b29;
+            color: white;
+        }
+
+        .profile{
+            border-radius: 50%;
+
+        }
+
+        .top-info{
+            position: relative;
+            height: 80%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-info-preview ul{
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            text-align: center;
+
+        }
+
+
+        .profile-info-preview ul li {
+            margin: 0 1em;
+            padding: 1em;
+            width: 100px;
+            box-shadow:0 5px 15px #0f102c;
+
+        }
+
+
+        .profile-bio{
+            font-size: 1.3rem;
+            text-align: center;
+            padding: 20px;
+
+        }
+
+        .preview-label{
+            font-size: 1rem;
+        }
+
+        .post-preview{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            height: max-content;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .post-info{
+            position: absolute;
+            display: flex;
+            width: 300px;
+            flex-direction: row;
+            font-size: 1rem;
+
+        }
+
+        .like-counter, .comment-counter{
+            width: 50%;
+            display: flex;
+            flex-direction: row;
+            height: 470px;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+
+        .post{
+            width: 300px;
+            height: 470px;
+            padding: 20px 3% 20px 3%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+        }
+
+        .preview{
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            top: 100px;
+            left: 100px;
+        }
+        .dontshow{
+            display: none;
+        }
+
+        .post_pic{
+            width: 280px;
+            z-index: 1;
+        }
+
+        .post_pic:hover{
+            opacity: 0.5;
+            width: 10em;
+
+        }
+        #body-content-post{
+            height: max-content;
+        }
+
+        #container{
+            margin: 0 auto;
+            padding-top: 2%;
+        }
+        #body-comment-post ul{
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            height: 80%;
+            width: 80%;
+            overflow: auto;
+
+
+        }
+
+        #body-comment-post ul li {
+            margin: 0 1em;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            font-size: 1.2rem;
+
+
+        }
+
+    </style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+    $(window).scroll(function (event) {
+        var scroll = $(window).scrollTop();
+        // console.log(scroll)
+     });
+
+</script>
+<script>
+
+
+
+    function connect(shortcode) {
+        var ul = document.getElementById("comment-text");
+        while( ul.firstChild ){
+            ul.removeChild( ul.firstChild );
+        }
+        window.location.href = "#body-comment-post";
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState === XMLHttpRequest.DONE) {
+                var reply = xhttp.responseText;
+                comments = JSON.parse(reply);
+
+                for(index in comments){
+                    var li = document.createElement("li");
+                    li.appendChild(document.createTextNode(comments[index]));
+                    console.log(comments[index]);
+                    ul.appendChild(li);
+
+
+                }
+            }
+        };
+
+        var host = "http://127.0.0.1:5000/a/"+shortcode;
+        xhttp.open("POST", host, true);
+        xhttp.setRequestHeader('Access-Control-Allow-Origin', '*', 'origin', '*');
+        xhttp.send();
+    }
+
+    function postInfo(e) {
+        console.log("OVER NON è VERO");
+        console.log(e);
+        document.getElementsByClassName("like-counter")[0].style.opacity = "1";
+    }
+</script>
+<body>
+    <header class="header-content">
+        <nav class="top-header" id="header-bar">
+            <div class="logo">
+                <h2><a style="text-decoration:none" href="/analytics/">instanalytics</a></h2>
+            </div>
+                <ul class="top-header-list">
+                    <li></li>
+                    <li>{{ username }}</li>
+                    <li><img class="profile" src="{{ url }}" height="40px"alt=" mini-profile" onContextMenu="return false;"></li>
+                </ul>
+        </nav>
+
+    </header>
+    <section class="body-content">
+        <div id="name-item">{{ fullname }}</div>
+        <div class="top-info">
+            <div class="profile-info" id="prf-info">
+            <div class="profile-first-info">
+
+                <div class="first-item"><img class="profile" src="{{ url }}" height="300px" alt="profile" onContextMenu="return false;"></div>
+            </div>
+        </div>
+            <div class="profile-bio">{{ bio }}</div>
+            <div class="profile-info-preview">
+                <ul id="preview-data">
+                    <li>{{ n_post }}<div class="preview-label">post</div></li>
+                    <li>{{ n_followers }}<div class="preview-label">followers</div></li>
+                    <li>{{ n_following }}<div class="preview-label">following</div></li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+    <section class="body-content" id="body-content-post">
+        <div class="dontshow" id="url_post">{{list_url_post.0}}</div>
+        <div class="post-preview">
+            {% for item in shortcode_url %}
+            <div class="post"><img class="post_pic" src="{{ item.1 }}" alt="post" onContextMenu="return false;" onclick="connect('{{ item.0}}')">
+                <div class="post-info">
+                    <div class="like-counter">LIKE:{{ item.2}}</div>
+                    <div class="comment-counter">COMMENT:{{ item.3}}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <section class="body-content" id="body-comment-post">
+        <ul id="comment-text">
+
+        </ul>
+    </section>
+    <section class="body-content"><div id="container" style="width:80%; height:400px;"></div>
+        <script>
+            $(function () {
+
+  $('#container').highcharts({
+        chart: {
+            type: 'column',
+            backgroundColor: '#0a0b29'
+        },
+        title: {
+            text: 'Hourly trend',
+            style: {
+              color: '#fff'
+            }
+        },
+        xAxis: {
+            tickWidth: 0,
+            labels: {
+              style: {
+                  color: '#fff',
+                 }
+              },
+            categories: ['12am', '1am', '2am', '3am', '4am', '5am', '6am','7am','8am','9am','10am','11am', '12pm','1pm', '2pm', '3pm', '4pm', '5pm', '6pm','7pm','8pm','9pm','10pm','11pm']
+        },
+        yAxis: {
+           gridLineWidth: .5,
+		      gridLineDashStyle: 'dash',
+		      gridLineColor: 'black',
+           title: {
+                text: '',
+                style: {
+                  color: '#dbdbdb'
+                 }
+            },
+            labels: {
+               formatter: function() {
+                        return Highcharts.numberFormat(this.value, 0, '', ',');
+                    },
+              style: {
+                  color: '#fff',
+                 }
+              }
+            },
+        legend: {
+            enabled: false,
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+		      column: {
+			      borderRadius: 0,
+             pointPadding: -0.12,
+			      groupPadding: 0.1
+            }
+		    },
+        series: [{
+            name: 'Like',
+            color: "#4d1933",
+            borderColor:"#0a0b29",
+            data: {{overall_timestamp}}
+
+
+        }]
+    });
+});
+        </script>
+    </section>
+</body>
+</html>
