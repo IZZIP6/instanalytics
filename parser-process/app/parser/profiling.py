@@ -75,14 +75,14 @@ def loadLists(info):
         post_owner_username.append(parser.post_owner_username(edge))
 
         ''' Caption's posts '''
-        if edge:
-            captionField.append(parser.post_edge_media_to_caption(edge))
+
+        captionField.append(parser.post_edge_media_to_caption(edge))
         if not captionField[-1]:
             captionText.append("")
         else:
             captionText.append(parser.post_edge_media_to_caption_text(edge))
 
-        if edge:
+        if captionField[-1]:
             text    = parser.post_edge_media_to_caption_text(edge)
             regex   = r"#[^ #]+"
             matches = [match.group() for match in re.finditer(regex, text, re.MULTILINE)]
