@@ -28,7 +28,9 @@ def new_search(username):
     if username in str(results):
         update_query = "UPDATE analytics_search SET counter = counter +1 WHERE (username = '%s' )" % username
         cur.execute(update_query)
+        mysql.get_db().commit()
         print("already in")
     else:
         insert_query = "INSERT INTO analytics_search(username, counter) VALUES ('%s', '%s')" % (username, 1)
         cur.execute(insert_query)
+        mysql.get_db().commit()

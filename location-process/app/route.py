@@ -17,14 +17,16 @@ print(" [*] START CONFIG")
 mysql.init_app(app)
 '''
 
-
+@app.route('/')
 def listen_to_location():
     # start.location_queue(cur)
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
     channel.queue_declare(queue='location_queue', durable=True)
     print(' [*] Waiting for locations.')
+    # start.query()
     def callback(ch, method, properties, body):
+        print("CALLBACK")
         message = json.loads(body)
         location = ""
         id = ""
@@ -41,5 +43,4 @@ def listen_to_location():
 
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue='location_queue', on_message_callback=callback)
-
     channel.start_consuming()

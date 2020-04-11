@@ -6,7 +6,7 @@ class Location(models.Model):
 
     def __str__(self):
         s = "ID:%s NAME:%s" % (self.id, self.name)
-        return self.id
+        return self.name
 
     @classmethod
     def create(cls, id, name):
