@@ -9,7 +9,7 @@ All the required packages are contained in the [requirements.py](requirements.tx
 2. Database settings: 
     * create new user (`NAME = <name>`) with `ALL PRIVILEGES` and `NO PASSWORD`
     * create a new database (`NAME = <dbname>`)
-3. edit [setting.py](django-intro/instanalytics/settings.py)
+3. edit [setting.py](front-end/instanalytics/settings.py)
     * `USER: <username>`
     * `NAME: <dbname>`
 4. `python manage.py makemigrations`
@@ -30,11 +30,11 @@ Check if all services are working!
 
 Start the following services
 1. `python manage.py runserver 0.0.0.0:8000` in [django-intro](django-intro)
-2. `python search-process.py` in [search-process](search-process)
-3. `python todo-flask.py` in [todo-flask](todo-flask)
-4. `python flask-process.py` in [flask-process](flask-process)
+2. `python search-process.py runserver` in [search-process](search-process)
+3. `python request-process.py runserver` in [request-process](request-process)
+4. `python parser-process.py` in [parser-process](parser-process)
 
-Go to [localhost](http://127.0.0.1:8000). 
+Go to [localhost](http://127.0.0.1:8000)
 
 You can also use a different host (within the same network) than localhost to connect to your site, in which case you need to specify the IP address of the machine where your services are running.
 ```
@@ -44,3 +44,9 @@ Becareful, don't make too many requests
 ### Issues
 1. User not found: check if `flag = True` in [search-process](search-process/app/route.py)
 2. `pika.exceptions.StreamLostError`: make sure RabbitMQ service is running
+
+###To-do
+1. AWS
+2. CORS POLICY
+3. ANALYSIS
+4. TEST
