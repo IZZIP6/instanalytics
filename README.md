@@ -36,7 +36,7 @@ Start the following services
 1. `python manage.py runserver 0.0.0.0:8000` in [fronte-end](django-intro)
 2. `python search-process.py runserver` in [search-process](search-process)
 3. `python request-process.py runserver` in [request-process](request-process)
-4. `python parser-process.py` in [parser-process](parser-process)
+4. `python parser-process.py runserver` in [parser-process](parser-process)
 5.  `python location-process.py runserver` in [location-process](location-process) (not mandatory, just in case you want to add location to your DB)
 
 Go to [localhost](http://127.0.0.1:8000)
