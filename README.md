@@ -26,13 +26,18 @@ Note that, every time you apply a change to the database, you have to run 4. and
 Check if all services are working!
 ```
 
+## Before running
+Create a superuser: `python manage.py createsuperuser` in [fronte-end](django-intro). Run the server and login as admin:
+`python manage.py runserver 0.0.0.0:8000` in [fronte-end](django-intro), then go to [Django Administraion](http://127.0.0.1:8000/admin)
+
 ## Run the application
 
 Start the following services
-1. `python manage.py runserver 0.0.0.0:8000` in [django-intro](django-intro)
+1. `python manage.py runserver 0.0.0.0:8000` in [fronte-end](django-intro)
 2. `python search-process.py runserver` in [search-process](search-process)
 3. `python request-process.py runserver` in [request-process](request-process)
 4. `python parser-process.py` in [parser-process](parser-process)
+5.  `python location-process.py runserver` in [location-process](location-process) (not mandatory, just in case you want to add location to your DB)
 
 Go to [localhost](http://127.0.0.1:8000)
 
