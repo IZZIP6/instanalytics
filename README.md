@@ -37,7 +37,7 @@ Start the following services
 2. `python search-process.py runserver` in [search-process](search-process)
 3. `python request-process.py runserver` in [request-process](request-process)
 4. `python parser-process.py runserver` in [parser-process](parser-process)
-5.  `python location-process.py runserver` in [location-process](location-process) (not mandatory, just in case you want to add location to your DB)
+5.  `python location-process.py runserver` in [location-process](location-process) (not mandatory, just in case you want to add locations to your DB)
 
 Go to [localhost](http://127.0.0.1:8000)
 
