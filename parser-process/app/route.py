@@ -6,6 +6,7 @@ from app.parser import get_profile
 from app.parser import get_comment
 from app.parser import get_post
 from app.parser import profiling
+from app import app
 
 '''
     This function open a connection with MongoDB and waits from the queue until an JSON is found. Then it processes it 
@@ -16,6 +17,7 @@ i = 0
 j = 0
 n = 0
 
+@app.route('/')
 def listen_to_username():
     client = MongoClient('localhost', 27017)
     db = client['instadb']
