@@ -68,6 +68,7 @@ def get_user_data(info):
     max_comments_hashtag   = []
     cross_common_hashtag   = []
     likes_and_comments     = []
+    datepost               = []
     if private is False:
         profiling.loadLists(info)
         list_of_shortcode, list_of_url                = profiling.get_shortcode_list()
