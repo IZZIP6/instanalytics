@@ -57,6 +57,7 @@ def listen_to_username():
             comment_has_next_page = profiling.get_comment_has_next_page(message)
             j = j + 1
             if not comment_has_next_page or j == 3:
+
                 collection_comment.insert_one(context_comment)
                 'reset comment lists '
                 profiling.reset_comment()

@@ -204,7 +204,7 @@
             font-size: 1rem;
         }
 
-        .post-preview{
+        .post-preview {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
@@ -215,13 +215,30 @@
 
         }
 
+        .post-preview-max-likes {
+            display: flex;
+            flex-direction: row;
+            padding: 0px;
+            width: 100%;
+            height: max-content;
+            align-items: center;
+            justify-content: center;
+        }
+
         .post-info{
             position: absolute;
             display: flex;
-            width: 300px;
             flex-direction: row;
             font-size: 1rem;
+            padding: 15px;
 
+        }
+
+        .post-info-max-likes{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            font-size: 1rem;
         }
 
         .like-counter, .comment-counter{
@@ -231,6 +248,13 @@
             height: 470px;
             justify-content: center;
             align-items: flex-end;
+        }
+
+        .max-like-counter, .max-comment-counter{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
 
@@ -301,6 +325,8 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+
 <script>
     $(window).scroll(function (event) {
         var scroll = $(window).scrollTop();
@@ -334,7 +360,7 @@
                 }
             }
         };
-
+        
         var host = "http://127.0.0.1:5000/a/"+shortcode;
         xhttp.open("POST", host, true);
         xhttp.setRequestHeader('Access-Control-Allow-Origin', '*', 'origin', '*');
@@ -342,7 +368,6 @@
     }
 
     function postInfo(e) {
-        console.log("OVER NON è VERO");
         console.log(e);
         document.getElementsByClassName("like-counter")[0].style.opacity = "1";
     }
@@ -387,18 +412,14 @@
             {% for item in shortcode_url %}
             <div class="post"><img class="post_pic" src="{{ item.1 }}" alt="post" onContextMenu="return false;" onclick="connect('{{ item.0}}')">
                 <div class="post-info">
-                    <div class="like-counter">LIKE:{{ item.2}}</div>
+                    <div class="like-counter">LIKE:{{ item.2}}| </div><br>
                     <div class="comment-counter">COMMENT:{{ item.3}}</div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </section>
-    <section class="body-content" id="body-comment-post">
-        <ul id="comment-text">
-
-        </ul>
-    </section>
+    
     <section class="body-content"><div id="container" style="width:80%; height:400px;"></div>
         <script>
             $(function () {
@@ -426,7 +447,7 @@
         yAxis: {
            gridLineWidth: .5,
 		      gridLineDashStyle: 'dash',
-		      gridLineColor: 'black',
+		      gridLineColor: 'white',
            title: {
                 text: '',
                 style: {
@@ -466,6 +487,318 @@
     });
 });
         </script>
+    </section>
+
+    <!-- function for most popular hashtag -->
+    <section class="body-content"><div id="container2" style="width:80%; height:400px;"></div>
+        <script>
+            $(function () {
+
+  $('#container2').highcharts({
+        chart: {
+            type: 'bar',
+            backgroundColor: '#0a0b29'
+        },
+        title: {
+            text: 'Hashtag',
+            style: {
+              color: '#fff'
+            }
+        },
+        xAxis: {
+            tickInterval: 1,
+            tickWidth: 0,
+            labels: {
+              style: {
+                  color: '#fff',
+                 }
+              },
+            categories: {{ popular_hashtag.0|safe}}
+        },
+        yAxis: {
+           tickInterval: 1,
+           gridLineWidth: .5,
+		      gridLineDashStyle: 'dash',
+		      gridLineColor: 'white',
+           title: {
+                text: '',
+                style: {
+                  color: '#dbdbdb'
+                 }
+            },
+            labels: {
+               formatter: function() {
+                        return Highcharts.numberFormat(this.value, 0, '', ',');
+                    },
+              style: {
+                  color: '#fff',
+                 }
+              }
+            },
+        legend: {
+            enabled: false,
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+		      column: {
+			      borderRadius: 0,
+             pointPadding: -0.12,
+			      groupPadding: 0.1
+            }
+		    },
+        series: [{
+            name: 'count',
+            color: "#4d1933",
+            borderColor:"#0a0b29",
+            data: {{ popular_hashtag.1 }}
+
+
+        }]
+    });
+});
+        </script>
+    </section>
+
+
+    <!-- function for most popular tag -->
+    <section class="body-content"><div id="container3" style="width:80%; height:400px;"></div>
+        <script>
+            $(function () {
+
+  $('#container3').highcharts({
+        chart: {
+            type: 'column',
+            backgroundColor: '#0a0b29'
+        },
+        title: {
+            text: 'Tag',
+            style: {
+              color: '#fff'
+            }
+        },
+        xAxis: {
+            tickWidth: 0,
+            labels: {
+              style: {
+                  color: '#fff',
+                 }
+              },
+            categories: {{ popular_tag.0|safe}}
+        },
+        yAxis: {
+           tickInterval: 1,
+
+           gridLineWidth: 0.5,
+		      gridLineDashStyle: 'dash',
+		      gridLineColor: 'white',
+           title: {
+                text: '',
+                style: {
+                  color: '#dbdbdb'
+                 }
+            },
+            labels: {
+               formatter: function() {
+                        return Highcharts.numberFormat(this.value, 0, '', ',');
+                    },
+              style: {
+                  color: '#fff',
+                 }
+              }
+            },
+        legend: {
+            enabled: false,
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+		      column: {
+			      borderRadius: 0,
+             pointPadding: -0.12,
+			      groupPadding: 0.2
+            }
+		    },
+        series: [{
+            name: 'count',
+            color: "#4d1933",
+            borderColor:"#0a0b29",
+            data: {{ popular_tag.1 }}
+
+        }]
+    });
+});
+        </script>
+    </section>
+    <section class="body-content"><div id="container4" style="width:80%; height:400px;"></div>
+        <script>
+            $(function () {
+
+  $('#container4').highcharts({
+        chart: {
+            type: 'column',
+            backgroundColor: '#0a0b29'
+        },
+        title: {
+            text: 'Like/Comment',
+            style: {
+              color: '#fff'
+            }
+        },
+        
+        xAxis: {
+            tickWidth: 0,
+            labels: {
+              style: {
+                  color: '#fff',
+                 }
+              },
+            categories: {{ post_timestamp|safe }}
+        },
+        yAxis: {
+           tickInterval: 25,
+
+           gridLineWidth: 0.5,
+		      gridLineDashStyle: 'dash',
+		      gridLineColor: 'white',
+           title: {
+                text: '',
+                style: {
+                  color: '#dbdbdb'
+                 }
+            },
+            labels: {
+               formatter: function() {
+                        return Highcharts.numberFormat(this.value, 0, '', ',');
+                    },
+              style: {
+                  color: '#fff',
+                 }
+              }
+            },
+        legend: {
+            align: 'right',
+            floating: 'true',
+            verticalAlign: 'top',
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+		      column: {
+			      borderRadius: 0,
+                  pointPadding: -0.12,
+                  groupPadding: 0.3,
+                  grouping: false
+            }
+		    },
+        series: [{
+            name: 'Likes',
+            color: "#4d1933",
+            borderColor:"#0a0b29",
+            data: {{ likes_and_comments.0 }},
+
+        },{
+            name: 'Comments',
+            color: "#194d2d",
+            borderColor:"#0a0b29",
+            data: {{ likes_and_comments.1 }},
+            
+
+        }]
+    });
+});
+        </script>
+    </section>
+
+    <!-- section of picture with max likes and relative hashtag -->
+    <section class="body-content" id="body-content-post-max-likes">
+        <div class="post-preview-max-likes">
+            <div class="post"><img class="post_pic" src="{{ max_likes_hashtag.2 }}" alt="post" onContextMenu="return false;">
+            </div>
+            <div class="post-info-max-likes">
+                <div class="max-like-counter">LIKE:{{ max_likes_hashtag.0}}</div>
+                {% for item in max_likes_hashtag.1 %}
+                <div class="max-comment-counter">{{ item}}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- section of picture with max comments and relative hashtag -->
+    <section class="body-content" id="body-content-post-max-comments">
+        <div class="post-preview-max-likes">
+            <div class="post"><img class="post_pic" src="{{ max_comments_hashtag.2 }}" alt="post" onContextMenu="return false;">
+            </div>
+            <div class="post-info-max-likes">
+                <div class="max-like-counter">COMMENTS:{{ max_comments_hashtag.0}}</div>
+                {% for item in max_comments_hashtag.1 %}
+                <div class="max-comment-counter">{{ item}}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- section of hashtag from the most likes and most commented posts -->
+    <section class="body-content" id="body-content-foo">
+    <figure class="highcharts-figure">
+        <div id="paying-hashtag"></div>
+    </figure>
+    <script>
+    var text = "{{cross_common_hashtag|safe}}";
+    text = text.replace(/[,''[]/g, "");
+    text = text.replace(/]/g, "");
+    
+    console.log(text);
+
+    var lines = text.split(/[" "]+/g),
+        data = Highcharts.reduce(lines, function (arr, word) {
+            var obj = Highcharts.find(arr, function (obj) {
+                return obj.name === word;
+            });
+            if (obj) {
+                obj.weight += 1;
+            } else {
+                obj = {
+                    name: word,
+                    weight: 1
+                };
+                arr.push(obj);
+            }
+            return arr;
+        }, []);
+    
+    Highcharts.chart('paying-hashtag', {
+        chart: {
+            backgroundColor: '#0a0b29'
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            type: 'wordcloud',
+            data: data,
+            name: 'Occurrences',
+            rotation: {
+                from: 0,
+                to: 0,
+            },
+        }],
+        title: {
+            text: 'Most paying hashtag',
+            style: {
+                color: '#FFF',
+        }
+    }
+});
+    </script>
+    </section>
+
+    <section class="body-content" id="body-comment-post">
+        <ul id="comment-text">
+        </ul>
     </section>
 </body>
 </html>
