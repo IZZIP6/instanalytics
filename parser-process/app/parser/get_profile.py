@@ -1,5 +1,8 @@
 from app.parser import profiling, json_parser
 from datetime import datetime
+from app.parser import get_popular_hashtag
+from app.parser import get_popular_tag
+from app.parser import get_max_likes_hashtag
 import pytz
 
 def get_user_data(info):
@@ -54,14 +57,21 @@ def get_user_data(info):
         The fields above are always present in the JSON even if the profile is private. Instead, the following fields 
         may be present, only if the profile is public
     '''
-    overall_timestamp   = []
-    timestamp           = []
-    postInfo            = []
-    post_tag            = []
-    post_hashtag        = []
+    overall_timestamp      = []
+    timestamp              = []
+    postInfo               = []
+    post_tag               = []
+    post_hashtag           = []
+    popular_hashtag        = []
+    popular_tag            = []
+    max_likes_hashtag      = []
+    max_comments_hashtag   = []
+    cross_common_hashtag   = []
+    likes_and_comments     = []
     if private is False:
         profiling.loadLists(info)
         list_of_shortcode, list_of_url                = profiling.get_shortcode_list()
+        # postinfo 0 shortcode, 1 url, 2 number of like, 3 comments
         postInfo                                      = profiling.get_postInfo()
         post_type_name                                = profiling.get_post_type_name()
         post_id                                       = profiling.get_post_id()
@@ -101,9 +111,16 @@ def get_user_data(info):
         post_tag                                     = profiling.post_found_tag()
         overall_timestamp, timestamp                 = profiling.get_timestamp()
         datepost                                     = profiling.get_dateLike()
+        popular_hashtag                              = get_popular_hashtag.get_hashtag(post_hashtag)
+        popular_tag                                  = get_popular_tag.get_tag(post_tag)
+        max_likes_hashtag                            = get_max_likes_hashtag.get_max_likes(postInfo, post_hashtag)
+        max_comments_hashtag                         = get_max_likes_hashtag.get_max_comments(postInfo, post_hashtag)
+        cross_common_hashtag                         = get_max_likes_hashtag.get_common_hashtag(postInfo, post_hashtag)
+        likes_and_comments                           = get_max_likes_hashtag.get_likes_comments(postInfo)
+    
 
     context = {
-        'date_time':                datetime.utcnow(),
+        'date_time':                datetime.now(),
         'username':                 username,
         'fullname':                 fullname,
         'id':                       id,
@@ -130,8 +147,17 @@ def get_user_data(info):
         'list_url_post':            list_of_url,
         'overall_timestamp':        overall_timestamp,
         'timestamp':                timestamp,
-        'shortcode_url':            postInfo,
+        'shortcode_url':            postInfo, 
         'hashtag':                  post_hashtag,
         'tag':                      post_tag,
+        'popular_hashtag':          popular_hashtag,
+        'popular_tag':              popular_tag,
+        'max_likes_hashtag':        max_likes_hashtag,
+        'max_comments_hashtag':     max_comments_hashtag,
+        'cross_common_hashtag':     cross_common_hashtag,
+        'likes_and_comments':       likes_and_comments,
+        'post_timestamp':           datepost,
+        #'post_timestamp':           datepost[::-1],
+
     }
     return context

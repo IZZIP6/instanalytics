@@ -35,6 +35,7 @@ postInfo                                    = []
 dateLike                                    = []
 comment_id                                  = []
 comment_text                                = []
+total_comment                               = []
 comment_created_at                          = []
 comment_owner_id                            = []
 comment_owner_username                      = []
@@ -122,9 +123,7 @@ def loadLists(info):
                          parser.post_comment_count(edge)))
 
         ''' Date - like '''
-        dateLike.append((parser.post_num_like(edge),
-                         parser.post_comment_count(edge),
-                         date))
+        dateLike.append(date.strftime('%x'))
 
         ''' Hashtag with more likes'''
 
@@ -207,6 +206,11 @@ def reset_comment():
     comment_tag                  = []
 
 
+def reset_total_comment():
+    global total_comment
+    total_comment = []
+
+
 ''' Called by get_profile '''
 
 
@@ -287,6 +291,7 @@ def comment_for_function(data):
     for comment in comment_parser.comment_post_edge_media_to_comment(data):
         comment_id.append(comment_parser.comment_id(comment))
         comment_text.append(comment_parser.comment_text(comment))
+        total_comment.append(comment_parser.comment_text(comment))
         comment_created_at.append(comment_parser.comment_created_at(comment))
         comment_owner_id.append(comment_parser.comment_owner_id(comment))
         comment_owner_username.append(comment_parser.comment_owner_username(comment))
@@ -316,6 +321,8 @@ def get_comment_id():
 def get_comment_text():
     return comment_text
 
+def get_total_comment():
+    return total_comment
 
 def get_comment_created_at():
     return comment_created_at
