@@ -260,8 +260,8 @@ def post_video_view_count(data, i):
     return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['video_view_count']
 
 
-def post_accessibility_caption(data, i):
-    return data['graphql']['user']['edge_owner_to_timeline_media']['edges'][i]['node']['accessibility_caption']
+def post_accessibility_caption(data):
+    return data['node']['accessibility_caption']
 
 
 def highlight_reel_count(data):

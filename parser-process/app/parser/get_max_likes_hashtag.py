@@ -12,8 +12,6 @@ def get_max_likes(postInfo, hashtag):
             maximum = item[2]
     index = next(i for i,v in enumerate(postInfo) if maximum in v)
     common_hashtag += [hashtag[index]]
-    print("*"*25)
-    print(common_hashtag)
     return [maximum, hashtag[index], postInfo[index][1]]
 
 
