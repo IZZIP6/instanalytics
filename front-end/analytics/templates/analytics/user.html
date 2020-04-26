@@ -742,7 +742,7 @@
     </section>
 
     <!-- section of hashtag from the most likes and most commented posts -->
-    <section class="body-content" id="body-content-foo">
+    <section class="body-content" id="body-content-wordcloud-hashtag">
     <figure class="highcharts-figure">
         <div id="paying-hashtag"></div>
     </figure>
@@ -750,8 +750,6 @@
     var text = "{{cross_common_hashtag|safe}}";
     text = text.replace(/[,''[]/g, "");
     text = text.replace(/]/g, "");
-    
-    console.log(text);
 
     var lines = text.split(/[" "]+/g),
         data = Highcharts.reduce(lines, function (arr, word) {
@@ -794,6 +792,61 @@
     }
 });
     </script>
+    </section>
+
+
+
+    <!-- section of words most occuring in the accessibility caption -->
+    <section class="body-content" id="body-content-wordcloud-photo-description">
+        <figure class="highcharts-figure">
+            <div id="photo-description"></div>
+        </figure>
+        <script>
+        var text = "{{photo_description|safe}}";
+        text = text.replace(/[,''[]/g, "");
+        text = text.replace(/]/g, "");
+    
+        var lines = text.split(/[" "]+/g),
+            data = Highcharts.reduce(lines, function (arr, word) {
+                var obj = Highcharts.find(arr, function (obj) {
+                    return obj.name === word;
+                });
+                if (obj) {
+                    obj.weight += 1;
+                } else {
+                    obj = {
+                        name: word,
+                        weight: 1
+                    };
+                    arr.push(obj);
+                }
+                return arr;
+            }, []);
+        
+        Highcharts.chart('photo-description', {
+            chart: {
+                backgroundColor: '#0a0b29'
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                type: 'wordcloud',
+                data: data,
+                name: 'Occurrences',
+                rotation: {
+                    from: 0,
+                    to: 0,
+                },
+            }],
+            title: {
+                text: 'What are the subjects of your photos',
+                style: {
+                    color: '#FFF',
+            }
+        }
+    });
+        </script>
     </section>
 
     <section class="body-content" id="body-comment-post">
