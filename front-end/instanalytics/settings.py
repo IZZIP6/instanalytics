@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'analytics.apps.AnalyticsConfig',
     'django_mysql',
-    'wkhtmltopdf',
+    #'wkhtmltopdf',
 ]
 
 MIDDLEWARE = [
