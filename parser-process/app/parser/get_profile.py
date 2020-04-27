@@ -69,6 +69,8 @@ def get_user_data(info):
     cross_common_hashtag   = []
     likes_and_comments     = []
     datepost               = []
+    accessibility_caption  = []
+    photo_description      = []
     if private is False:
         profiling.loadLists(info)
         list_of_shortcode, list_of_url                = profiling.get_shortcode_list()
@@ -105,9 +107,11 @@ def get_user_data(info):
         post_media_preview                            = []
         post_preview                                  = json_parser.post_number(info)
         for edge in json_parser.get_edges(info):
+            accessibility_caption.append(json_parser.post_accessibility_caption(edge))
             post_media_preview.append(json_parser.post_media_preview(edge))
         post_gating_info, post_fact_check_overall_rating, \
             post_fact_check_information              = profiling.get_post_data2()
+            
         post_hashtag                                 = profiling.post_found_hashtag()
         post_tag                                     = profiling.post_found_tag()
         overall_timestamp, timestamp                 = profiling.get_timestamp()
@@ -118,7 +122,7 @@ def get_user_data(info):
         max_comments_hashtag                         = get_max_likes_hashtag.get_max_comments(postInfo, post_hashtag)
         cross_common_hashtag                         = get_max_likes_hashtag.get_common_hashtag(postInfo, post_hashtag)
         likes_and_comments                           = get_max_likes_hashtag.get_likes_comments(postInfo)
-    
+        photo_description                            = get_max_likes_hashtag.get_photo_description(accessibility_caption)
 
     context = {
         'date_time':                datetime.now(),
@@ -158,6 +162,7 @@ def get_user_data(info):
         'cross_common_hashtag':     cross_common_hashtag,
         'likes_and_comments':       likes_and_comments,
         'post_timestamp':           datepost,
+        'photo_description':        photo_description,
         #'post_timestamp':           datepost[::-1],
 
     }

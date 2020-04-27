@@ -56,7 +56,7 @@ def get_comment(comment_list):
     count_list = []
     word_counter = collections.Counter(wordcount)
     for word, count in word_counter.most_common(n_print):
-        print(word + " : " + str(count))
+        #print(word + " : " + str(count))
         word_list.append(word)
         count_list.append(count)
 
