@@ -9,7 +9,7 @@ import click
 from datetime import date
 from flask_cors import CORS
 '''
-    Open connection to mongodb, using "instadb" as database and "profiledb" as collection. Verify that you have 
+    Open connection to mongodb, using "instadb" as database and "profiledb" as collection. Verify that you have
     correctly installed MongoDB and created the database and collection
 '''
 client = MongoClient('localhost', 27017)
@@ -24,9 +24,9 @@ current_date = date.today()
 flag = True
 
 '''
-    Whenever is sent a request to this server at the address '/s/<username>', hello function publishes into the queue 
-    the username provided. Then it queries the db asking for the relative json. Whenever that JSON has not yet been 
-    produced, it tries again after a few seconds. 
+    Whenever is sent a request to this server at the address '/s/<username>', hello function publishes into the queue
+    the username provided. Then it queries the db asking for the relative json. Whenever that JSON has not yet been
+    produced, it tries again after a few seconds.
 '''
 @app.route("/s/<username>")
 def hello(username):
@@ -74,9 +74,9 @@ def hello(username):
         try:
             '''
                 If the JSON is found, is extracted from the database using the query and serialized as a string, in
-                order to be passed as HTTP response. Note that, at this point, we don't put any requirements on which 
+                order to be passed as HTTP response. Note that, at this point, we don't put any requirements on which
                 version of the JSON take, since each profile can be requested several times. To-Do: modify the query
-                and ask for the json of the username, for which the date is the latest 
+                and ask for the json of the username, for which the date is the latest
             '''
             print("\n [*] Read from database...")
             context_list = list(collection_profile.find(query))
@@ -90,10 +90,10 @@ def hello(username):
                     and current_date.strftime('%m') == profile_date.strftime('%m'):
                 js = json.dumps(context, indent=4, default=json_util.default)
                 '''
-                    Who is returned to? 1) Backend of Django, to rendering the HTML page; 2) Internal API, if you only 
+                    Who is returned to? 1) Backend of Django, to rendering the HTML page; 2) Internal API, if you only
                     ask for the JSON after directly connected to this server at this address
-                    
-                    AGGIUNGERE AL CONTEXT TOP SEARCH   
+
+                    AGGIUNGERE AL CONTEXT TOP SEARCH
                 '''
                 return js
             click.secho(
@@ -112,7 +112,7 @@ def hello(username):
             '''
             Each time the JSON is not found, it stops for a number of seconds equal to "initial_second" and tries again.
             Then "initial_second" is doubled. This procedure lasts until the sleep time is small enough (=4s).
-            Why? Because we need some kind of mechanism that alerts us whenever db changes, like trigger event, however 
+            Why? Because we need some kind of mechanism that alerts us whenever db changes, like trigger event, however
             community version does not support it. If you have a better idea, change it!
             '''
             click.secho(
