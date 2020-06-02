@@ -18,15 +18,15 @@ session.headers.update(setup.header)
 
 
 def user_request(url):
+    print(url)
     try:
         message = make_request(session, url)
-        print(url)
         return message
     except json.decoder.JSONDecodeError as e:
         click.secho(
             " [request_adapter.py]\tInvalid JSON in body. %s. Check if the username is correct.\n" %e,
             fg="green",
-        )
+            )
 
 
 '''
