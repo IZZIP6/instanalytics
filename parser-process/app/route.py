@@ -7,6 +7,9 @@ from app.parser import get_comment
 from app.parser import get_post
 from app.parser import profiling
 from app import app
+from flask import request
+from app.parser.get_sentiment_analysis import get_comment as gc
+
 
 '''
     This function open a connection with MongoDB and waits from the queue until an JSON is found. Then it processes it 
@@ -69,6 +72,14 @@ def listen_to_username():
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue='task_queue', on_message_callback=callback)
     channel.start_consuming()
+
+
+@app.route('/sentiment', methods=['POST'])
+def sentiment_analysis():
+    data = request.data
+    gc(data)
+    return "Ciao"
+
 
 def reset_i_j():
     global i
