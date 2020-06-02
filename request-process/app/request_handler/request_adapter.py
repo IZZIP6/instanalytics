@@ -20,6 +20,7 @@ session.headers.update(setup.header)
 def user_request(url):
     try:
         message = make_request(session, url)
+        print(url)
         return message
     except json.decoder.JSONDecodeError as e:
         click.secho(
