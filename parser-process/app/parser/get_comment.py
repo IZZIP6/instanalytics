@@ -1,6 +1,5 @@
 from app.parser import profiling
 from datetime import datetime
-from app.parser import get_popular_comment
 import pytz
 
 comment_text = []
@@ -17,7 +16,6 @@ def get_comment_data(comment):
     comment_owner_username           = profiling.get_comment_owner_username()
     comment_found_tag                = profiling.comment_found_tag()
     comment_found_hashtag            = profiling.comment_found_hashtag()
-    #popular_comment                  = get_popular_comment.get_comment(comment_text)
 
     context_comment = {
         'shortcode': comment['shortcode'],
@@ -29,7 +27,6 @@ def get_comment_data(comment):
         'comment_owner_username': comment_owner_username,
         'comment_found_tag': comment_found_tag,
         'comment_found_hashtag': comment_found_hashtag,
-        #'popular_comment': popular_comment
     }
     return context_comment
 
