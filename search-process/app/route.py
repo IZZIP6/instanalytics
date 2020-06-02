@@ -8,6 +8,9 @@ import time
 import click
 from datetime import date
 from flask_cors import CORS
+from bson import json_util
+import requests
+
 '''
     Open connection to mongodb, using "instadb" as database and "profiledb" as collection. Verify that you have 
     correctly installed MongoDB and created the database and collection
@@ -134,6 +137,8 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def post_javascript_data(shortcode):
     query = {'shortcode': shortcode}
     context = list(collection_comment.find(query))[0]
+    json_comment = json.dumps(context, indent=4, default=json_util.default)    # print(context)
+    r = requests.post('http://127.0.0.1:5002/sentiment', data = json_comment)
     return json.dumps(context['comment_text'])
 
 '''
