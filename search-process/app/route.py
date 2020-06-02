@@ -104,6 +104,7 @@ def hello(username):
                 "\n [route.py]\t\tThe found JSON is too old, wait for the new JSON to be downloaded",
                 fg="green",
             )
+            print("\n\n", initial_spleep, '\n\n')
             click.secho(
                 "\n [date   ►]\t\t"+current_date.strftime('%d')+'\\'+current_date.strftime('%m')+'\\'
                 + current_date.strftime('%y') +
