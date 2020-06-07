@@ -35,7 +35,13 @@ def request_to_username(username):
             If rq return an invalid JSON it probably means that username is wrong! 
         '''
         if message is not None:
-            user_id = parser.id_number(message)
+            try:
+                user_id = parser.id_number(message)
+            except KeyError as e:
+                click.secho(
+                    " [start.py>user-id]\tUnable to get user ID. %s. Check if the username is correct.\n" %e,
+                    fg="green",
+                    )
             channel.basic_publish(exchange='',
                               routing_key='task_queue',
                               body=json.dumps(message),
@@ -46,72 +52,79 @@ def request_to_username(username):
                               properties=pika.BasicProperties(delivery_mode=2,))
             print(" [x] Sent %s" % "PROFILE JSON")
 
-            is_private = parser.is_private(message)
-            if not is_private:
-                '''
-                POST
-                
+            try:
+                is_private = parser.is_private(message)
+                if not is_private:
+                    '''
+                    POST
+                    
 
-                post = rq.user_media_request(endpoint.request_account_medias(user_id, "null"))
-                end_cursor = parser.end_cursor(post)
-                channel.basic_publish(exchange='',
-                                      routing_key='task_queue',
-                                      body=json.dumps(post),
-                                      properties=pika.BasicProperties(delivery_mode=2,))
-                print(" [x] Sent %s" % "POST JSON")
-                count_end_cursor = 0
-                while not end_cursor is None:
-                    count_end_cursor += 1
-                    
-                        Messo soltanto perchè endcursor non sarà mai null dato che non facciamo esattamente tutte le richieste
-                    
-                    if count_end_cursor == 3:
-                        break
-                    
-                        Send recursive requests until no other posts are found    
-                    
-                    post = rq.user_media_request(endpoint.request_account_medias(user_id, '"'+end_cursor+'"'))
+                    post = rq.user_media_request(endpoint.request_account_medias(user_id, "null"))
                     end_cursor = parser.end_cursor(post)
                     channel.basic_publish(exchange='',
-                                      routing_key='task_queue',
-                                      body=json.dumps(post),
-                                      properties=pika.BasicProperties(delivery_mode=2,))
-                    print(" [x] Sent %s" % "POST JSON N. "+str(count_end_cursor))
-                '''
-
-                '''
-                COMMENTS
-                '''
-                count_post = 0
-                for post in parser.shortcode(message):
-                    ''' RICORDATI DI TOGLIERLO 
-        
-                            count_post += 1
-                            if count_post == 1:
-                                break
-                    '''
-                    shortcode = post['node']['shortcode']
-                    comment = rq.comment_media_request(endpoint.request_comment(shortcode, ''))
-                    end_cursor = parser.end_cursor_comment(comment)
-                    comment['shortcode'] = shortcode
-                    channel.basic_publish(exchange='',
-                                      routing_key='task_queue',
-                                      body=json.dumps(comment),
-                                      properties=pika.BasicProperties(delivery_mode=2,))
-                    print(" [x] Sent %r" % "COMMENT JSON")
+                                        routing_key='task_queue',
+                                        body=json.dumps(post),
+                                        properties=pika.BasicProperties(delivery_mode=2,))
+                    print(" [x] Sent %s" % "POST JSON")
                     count_end_cursor = 0
-
                     while not end_cursor is None:
                         count_end_cursor += 1
+                        
+                            Messo soltanto perchè endcursor non sarà mai null dato che non facciamo esattamente tutte le richieste
+                        
                         if count_end_cursor == 3:
                             break
-                        comment = rq.comment_media_request(endpoint.request_comment(shortcode, end_cursor))
+                        
+                            Send recursive requests until no other posts are found    
+                        
+                        post = rq.user_media_request(endpoint.request_account_medias(user_id, '"'+end_cursor+'"'))
+                        end_cursor = parser.end_cursor(post)
+                        channel.basic_publish(exchange='',
+                                        routing_key='task_queue',
+                                        body=json.dumps(post),
+                                        properties=pika.BasicProperties(delivery_mode=2,))
+                        print(" [x] Sent %s" % "POST JSON N. "+str(count_end_cursor))
+                    '''
+
+                    '''
+                    COMMENTS
+                    '''
+                    count_post = 0
+                    for post in parser.shortcode(message):
+                        ''' RICORDATI DI TOGLIERLO 
+            
+                                count_post += 1
+                                if count_post == 1:
+                                    break
+                        '''
+                        shortcode = post['node']['shortcode']
+                        comment = rq.comment_media_request(endpoint.request_comment(shortcode, ''))
                         end_cursor = parser.end_cursor_comment(comment)
                         comment['shortcode'] = shortcode
                         channel.basic_publish(exchange='',
-                                      routing_key='task_queue',
-                                      body=json.dumps(comment),
-                                      properties=pika.BasicProperties(delivery_mode=2,))
-                    print(" [x] Sent %r" % "COMMENT JSON N. "+str(count_end_cursor))
+                                        routing_key='task_queue',
+                                        body=json.dumps(comment),
+                                        properties=pika.BasicProperties(delivery_mode=2,))
+                        print(" [x] Sent %r" % "COMMENT JSON")
+                        count_end_cursor = 0
+
+                        while not end_cursor is None:
+                            count_end_cursor += 1
+                            if count_end_cursor == 3:
+                                break
+                            comment = rq.comment_media_request(endpoint.request_comment(shortcode, end_cursor))
+                            end_cursor = parser.end_cursor_comment(comment)
+                            comment['shortcode'] = shortcode
+                            channel.basic_publish(exchange='',
+                                        routing_key='task_queue',
+                                        body=json.dumps(comment),
+                                        properties=pika.BasicProperties(delivery_mode=2,))
+                        print(" [x] Sent %r" % "COMMENT JSON N. "+str(count_end_cursor))
+            except KeyError as e:
+                click.secho(
+                    " [start.py>private]\tUnable to check if user is private. %s. Check if the username is correct.\n" %e,
+                    fg="green",
+                    )
+        
 
     connection.close()

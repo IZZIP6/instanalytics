@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <title>{{ username }}</title>
     <style>
-
-
-
         body {
             margin: 0;
             font-family: Apercu, sans-serif;
@@ -90,8 +87,7 @@
         }
 
         .top-header ul li {
-            margin: 0 1em;
-            padding: 1em;
+            margin: 0 0.5em;
             display: flex;
             align-items: center;
             align-content: center;
@@ -130,36 +126,49 @@
             font-size: 7rem;
             left: 10px;
             color: white;
-            opacity: 0.1;
+            opacity: 50%;
             top: 0px;
             font-weight: 900;
-
+            background: linear-gradient(to right, #FBD3E9 0%, #BB377D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         section {
+            margin-top: 7em;
             position: relative;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
         }
 
         .body-content{
             position: relative;
-            font-size: 1.7rem;
+            font-size: 1.6em;
             display: flex;
             flex-direction: column;
-            height: 100vh;
             width: 100%;
             background-color: #0a0b29;
             color: white;
         }
 
-        .profile{
-            border-radius: 50%;
+        .body-content p{
+            font-size: 0.7em;
+        }
 
+        .profile{
+            margin-top: 3em;
+            width: 50%;
+            height: 50%;
+            border-radius: 50%;
+            border: 0.1em solid white ;
+        }
+
+        .profile-mini {
+            border-radius: 50%;
+            border: 0.1em solid white ;
         }
 
         .top-info{
@@ -180,16 +189,19 @@
             flex-direction: row;
             justify-content: center;
             text-align: center;
-
         }
 
 
         .profile-info-preview ul li {
-            margin: 0 1em;
-            padding: 1em;
+            margin: 0 0.5em;
+            padding-top: 0.25em;
             width: 100px;
-            box-shadow:0 5px 15px #0f102c;
+            border-top: solid white 0.1em;
+            transition: all 0.5s;
+        }
 
+        .profile-info-preview ul li:hover {
+            border-top: solid #BB377D 0.1em;
         }
 
 
@@ -226,12 +238,12 @@
         }
 
         .post-info{
+            width: 240px;
             position: absolute;
             display: flex;
             flex-direction: row;
             font-size: 1rem;
-            padding: 15px;
-
+            padding: 0em;   
         }
 
         .post-info-max-likes{
@@ -245,23 +257,32 @@
             width: 50%;
             display: flex;
             flex-direction: row;
-            height: 470px;
+            height: 440px;
             justify-content: center;
             align-items: flex-end;
         }
 
         .max-like-counter, .max-comment-counter{
-            width: 50%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;   
+            font-weight: bold;
+            outline: 0;
+            border: none;
+            -moz-outline-style: none;
         }
 
 
         .post{
             width: 300px;
             height: 470px;
-            padding: 20px 3% 20px 3%;
+            padding: 0em 3% 20px 3%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -283,21 +304,18 @@
         .post_pic{
             width: 280px;
             z-index: 1;
+            border: solid white 0.1em;
         }
 
         .post_pic:hover{
+            border: solid black 0.1em;
+            background-color: black;
             opacity: 0.5;
-            width: 10em;
-
         }
         #body-content-post{
             height: max-content;
         }
 
-        #container{
-            margin: 0 auto;
-            padding-top: 2%;
-        }
         #body-comment-post ul{
             margin: 0;
             padding: 0;
@@ -307,8 +325,6 @@
             height: 80%;
             width: 80%;
             overflow: auto;
-
-
         }
 
         #body-comment-post ul li {
@@ -317,15 +333,118 @@
             display: flex;
             flex-direction: column;
             font-size: 1.2rem;
-
-
         }
+
+        .slideanim {
+            visibility:hidden;
+            visibility:visible\9;/*For old IE browsers IE6-8 */
+        }
+
+        .slideanim.slide {                  
+            visibility: visible;                  
+            animation: slide 1s;
+        }
+
+        .slideanim::after {
+            /* useful when its child elements are float:left; */
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        @keyframes slide {
+            0% {
+                opacity: 0;
+                transform: translateY(50%);
+            } 
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            } 
+        }
+
+        #topBtn {
+            margin: 2em auto;
+            text-transform: uppercase;
+        }
+
+        #topBtn:hover  {
+            cursor: pointer;
+        }
+
+
+
+        .example {
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+      }
+      .example .fadedbox {
+        /*background-color: #666666;*/
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #fff;
+        -webkit-transition: all 300ms ease-out;
+        -moz-transition: all 300ms ease-out;
+        -o-transition: all 300ms ease-out;
+        -ms-transition: all 300ms ease-out;
+        transition: all 300ms ease-out;
+        opacity: 1;
+        width: 100%;
+        height: 100px;
+      }
+
+      .example:hover .fadedbox {
+        opacity: 1;
+      }
+
+      .example .text {
+        -webkit-transition: all 300ms ease-out;
+        -moz-transition: all 300ms ease-out;
+        -o-transition: all 300ms ease-out;
+        -ms-transition: all 300ms ease-out;
+        transition: all 300ms ease-out;
+        transform: translateX(30px);
+        -webkit-transform: translateX(30px);
+        padding-top: 4.4em;
+      }
+      
+      .example .title {
+        font-size: 2.5em;
+        text-transform: uppercase;
+        opacity: 0;
+        transition-delay: 0.1s;
+        transition-duration: 0.5s;
+      }
+      .example:hover .title,
+      .example:focus .title {
+        opacity: 1;
+        transform: translateX(0px);
+        -webkit-transform: translateX(0px);
+      }
+
+    #download-statistics {
+        cursor: pointer;
+        text-align: center;
+        width: 100%; 
+        padding-top: 2em; 
+        border-top: 0px; 
+        font-size: 0.8em; 
+    }
 
     </style>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+
+<script>
+    var floatPanel = new McFloatPanel();
+/* Float Panel v2016.10.28. Copyright www.menucool.com */
+function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsByClassName", d = "length", l = "display", C = "transition", m = "style", B = "height", c = "scrollTop", k = "offsetHeight", a = "fixed", e = document, b = document.documentElement, j = function (a, c, b) { if (a.addEventListener) a.addEventListener(c, b, false); else a.attachEvent && a.attachEvent("on" + c, b) }, o = function (c, d) { if (typeof getComputedStyle != "undefined") var b = getComputedStyle(c, null); else b = c.currentStyle; return b ? b[d] : a }, L = function () { var a = e.body; return Math.max(a.scrollHeight, a[k], b.clientHeight, b.scrollHeight, b[k]) }, O = function (a, c) { var b = a[d]; while (b--) if (a[b] === c) return true; return false }, g = function (b, a) { return O(b[h].split(" "), a) }, q = function (a, b) { if (!g(a, b)) if (!a[h]) a[h] = b; else a[h] += " " + b }, p = function (a, f) { if (a[h] && g(a, f)) { for (var e = "", c = a[h].split(" "), b = 0, i = c[d]; b < i; b++)if (c[b] !== f) e += c[b] + " "; a[h] = e.replace(/^\s+|\s+$/g, "") } }, n = function () { return window.pageYOffset || b[c] }, z = function (a) { return a.getBoundingClientRect().top }, F = function (b) { var c = n(); if (c > b.oS && !g(b, a)) q(b, a); else g(b, a) && c < b.oS && p(b, a) }, x = function () { for (var a = 0; a < s[d]; a++)J(s[a]) }, J = function (a) { if (a.oS) { a.fT && clearTimeout(a.fT); a.fT = setTimeout(function () { if (a.aF) F(a); else y(a) }, 50) } else y(a) }, w = function (d, c, b) { p(d, a); c[l] = "none"; b.position = b.top = "" }, y = function (c) { var j = z(c), f = c[k], e = c[m], d = c.pH[m], h = n(); if (j < c.oT && h > c.oS && !g(c, a) && (window.innerHeight || b.clientHeight) > f) { c.tP = h + j - c.oT; var p = L(); if (f > p - c.tP - f) var i = f; else i = 0; d[l] = "block"; d[C] = "none"; d[B] = f + 1 + "px"; c.pH[k]; d[C] = "height .3s"; d[B] = i + "px"; q(c, a); e.position = a; e.top = c.oT + "px"; if (o(c, "position") != a) d[l] = "none" } else if (g(c, a) && (h < c.tP || h < c.oS)) { var s = o(c, "animation"); if (c.oS && c.classList && s.indexOf("slide-down") != -1) { var r = o(c, "animationDuration"); c.classList.remove(a); e.animationDirection = "reverse"; e.animationDuration = "300ms"; void c[k]; c.classList.add(a); setTimeout(function () { w(c, d, e); e.animationDirection = "normal"; e.animationDuration = r }, 300) } else w(c, d, e) } }, I = function () { var f = [], c, b; if (e[t]) { f = e[t]("float-panel"); i = e[t]("slideanim") } else { var k = e.getElementsByTagName("*"); c = k[d]; while (c--) g(k[c], "float-panel") && f.push(k[c]) } c = f[d]; for (var h = 0; h < c; h++) { b = s[h] = f[h]; b.oT = parseInt(b.getAttribute("data-top") || 0); b.oS = parseInt(b.getAttribute("data-scroll") || 0); if (b.oS > 20 && o(b, "position") == a) b.aF = 1; b.pH = e.createElement("div"); b.pH[m].width = b.offsetWidth + "px"; b.pH[m][l] = "none"; b.parentNode.insertBefore(b.pH, b.nextSibling) } if (s[d]) { setTimeout(x, 160); j(window, "scroll", x) } }, f, D = 200, E = 0, r, u, H = function () { return window.innerWidth || b.clientWidth || e.body.clientWidth }; function K() { if (!r) r = setInterval(function () { var a = e.body; if (a[c] < 3) a[c] = 0; else a[c] = a[c] / 1.3; if (b[c] < 3) b[c] = 0; else b[c] = b[c] / 1.3; if (!n()) { clearInterval(r); r = null } }, 14) } function A() { clearTimeout(u); if (n() > D && H() > E) { u = setTimeout(function () { p(f, "mcOut") }, 60); f[m][l] = "block" } else { q(f, "mcOut"); u = setTimeout(function () { f[m][l] = "none" }, 500) } } var N = function () { f = e.getElementById("backtop"); if (f) { var a = f.getAttribute("data-v-w"); if (a) { a = a.replace(/\s/g, "").split(","); D = parseInt(a[0]); if (a[d] > 1) E = parseInt(a[1]) } j(f, "click", K); j(window, "scroll", A); A() } }, v = function () { for (var c = n(), e = c + window.innerHeight, g = i[d], b, f, a = 0; a < g; a++) { b = c + z(i[a]), f = b + i[a][k]; if (b < e) q(i[a], "slide"); else p(i[a], "slide") } }, G = function () { if (i[d]) { j(window, "scroll", v); v() } }, M = function () { I(); N(); G() }; j(window, "load", M); j(document, "touchstart", function () { }) }
+</script>
 
 <script>
     $(window).scroll(function (event) {
@@ -348,23 +467,74 @@
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE) {
                 var reply = xhttp.responseText;
-                comments = JSON.parse(reply);
 
-                for(index in comments){
-                    var li = document.createElement("li");
-                    li.appendChild(document.createTextNode(comments[index]));
-                    console.log(comments[index]);
-                    ul.appendChild(li);
+                sentimen_analysis = JSON.parse(reply);
+                //console.log(sentimen_analysis['pop_com']);
+                
+                //Display most positive comment 
+                var pos_com_h3 = document.createElement('h3');
+                pos_com_h3.textContent = "Most positive comment";
+                //h3.setAttribute('class', 'note');
+                ul.appendChild(pos_com_h3);
+                var pos_com = document.createElement("li");
+                pos_com.appendChild(document.createTextNode(sentimen_analysis["pos_com"]));
+                ul.appendChild(pos_com);
 
+                //Display most negative comment 
+                var neg_com_h3 = document.createElement('h3');
+                neg_com_h3.textContent = "Most negative comment";
+                //h3.setAttribute('class', 'note');
+                ul.appendChild(neg_com_h3);
+                var neg_com = document.createElement("li");
+                neg_com.appendChild(document.createTextNode(sentimen_analysis["neg_com"]));
+                ul.appendChild(neg_com);
 
-                }
+                //Display most popular biagram
+                var biagram = document.createElement('h3');
+                biagram.textContent = "Most popular biagram";
+                //h3.setAttribute('class', 'note');
+                ul.appendChild(biagram);
+
+                var biagram_inx = document.createElement("li");
+                biagram_inx.appendChild(document.createTextNode(sentimen_analysis["bi_idx"]));
+                ul.appendChild(biagram_inx);
+
+                var biagram_cnt = document.createElement("li");
+                biagram_cnt.appendChild(document.createTextNode(sentimen_analysis["bi_cnt"]));
+                ul.appendChild(biagram_cnt);
+
+                //Display most popular comment
+                var pop_comments_h3 = document.createElement('h3');
+                pop_comments_h3.textContent = "Most popular comments";
+                //h3.setAttribute('class', 'note');
+                ul.appendChild(pop_comments_h3);
+
+                var pop_comments = document.createElement("li");
+                pop_comments.appendChild(document.createTextNode(sentimen_analysis["pop_com"]));
+                ul.appendChild(pop_comments);
+
+                var top_btn = document.createElement("text");
+                top_btn.setAttribute("id", "topBtn")
+                top_btn.setAttribute("onclick", "topFunction()");
+                top_btn.innerHTML = "Top";  
+                ul.appendChild(top_btn);
+                
+                
             }
         };
         
-        var host = "http://127.0.0.1:5000/a/"+shortcode;
+        var host = "http://192.168.2.15:5000/a/"+shortcode;
+        //console.log(shortcode)
         xhttp.open("POST", host, true);
-        xhttp.setRequestHeader('Access-Control-Allow-Origin:http://127.0.0.1:8000', '*', 'origin', '*');
+        xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+        xhttp.setRequestHeader('Access-Control-Allow-Methods', 'POST');
+        xhttp.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type');
         xhttp.send();
+    }
+
+        function topFunction() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     function postInfo(e) {
@@ -380,13 +550,13 @@
             </div>
                 <ul class="top-header-list">
                     <li></li>
-                    <li>{{ username }}</li>
-                    <li><img class="profile" src="{{ url }}" height="40px"alt=" mini-profile" onContextMenu="return false;"></li>
+                    <li>&commat;{{ username }}</li>
+                    <li><img class="profile-mini" src="{{ url }}" height="40px"alt=" mini-profile" onContextMenu="return false;"></li>
                 </ul>
         </nav>
 
     </header>
-    <section class="body-content">
+    <section style="margin-top: 0px" class="body-content">
         <div id="name-item">{{ fullname }}</div>
         <div class="top-info">
             <div class="profile-info" id="prf-info">
@@ -398,9 +568,12 @@
             <div class="profile-bio">{{ bio }}</div>
             <div class="profile-info-preview">
                 <ul id="preview-data">
-                    <li>{{ n_post }}<div class="preview-label">post</div></li>
-                    <li>{{ n_followers }}<div class="preview-label">followers</div></li>
-                    <li>{{ n_following }}<div class="preview-label">following</div></li>
+                    <li>{{ n_post }}<div class="preview-label">Post</div></li>
+                    <li>{{ n_followers }}<div class="preview-label">Followers</div></li>
+                    <li>{{ n_following }}<div class="preview-label">Following</div></li>
+                </ul>
+                <ul>
+                    <li id="download-statistics">😎 Download all statistics 🚀</li>
                 </ul>
 
             </div>
@@ -408,19 +581,31 @@
     </section>
     <section class="body-content" id="body-content-post">
         <div class="dontshow" id="url_post">{{list_url_post.0}}</div>
+        <h2 class="slideanim">LAST 12 POSTS</h2>
         <div class="post-preview">
             {% for item in shortcode_url %}
-            <div class="post"><img class="post_pic" src="{{ item.1 }}" alt="post" onContextMenu="return false;" onclick="connect('{{ item.0}}')">
+            <div class="post slideanim example">
+                <img class="post_pic" src="{{ item.1 }}" alt="post" onContextMenu="return false;" onclick="connect('{{ item.0}}')">
                 <div class="post-info">
-                    <div class="like-counter">LIKE:{{ item.2}}| </div><br>
-                    <div class="comment-counter">COMMENT:{{ item.3}}</div>
+                    <div class="fadedbox">
+                        <div class="title text">Discover More</div>
+                    </div>
+                        <div class="like-counter">{{ item.2}} 👍🏻</div><br>
+                        <div class="comment-counter">{{ item.3}} 💬</div>
+                        <a class="like-counter" href="{{ item.1 }}" download>HD 📥</a>
                 </div>
             </div>
             {% endfor %}
         </div>
     </section>
-    
-    <section class="body-content"><div id="container" style="width:80%; height:400px;"></div>
+
+    <section class="body-content">
+        <div class="slideanim" style="text-align: center;">
+            <h3>HOURLY TREND</h3>
+            <p>Check when it's better to post your photo</p>
+        </div>
+    <div class="slideanim" id="container" style="width: 80%; height: 400px;;">
+    </div>
         <script>
             $(function () {
 
@@ -430,7 +615,7 @@
             backgroundColor: '#0a0b29'
         },
         title: {
-            text: 'Hourly trend',
+            text: '',
             style: {
               color: '#fff'
             }
@@ -478,7 +663,7 @@
 		    },
         series: [{
             name: 'Like',
-            color: "#4d1933",
+            color: "#77dd77",
             borderColor:"#0a0b29",
             data: {{overall_timestamp}}
 
@@ -490,7 +675,13 @@
     </section>
 
     <!-- function for most popular hashtag -->
-    <section class="body-content"><div id="container2" style="width:80%; height:400px;"></div>
+    <section class="body-content slideanim">
+        <div class="slideanim" style="text-align: center;">
+            <h2>POPULAR HASHTAG</h2>
+            <p>See which hashtags get more like</p>
+        </div>
+        <div class="slideanim" id="container2" style="width:80%; height:400px;">
+        </div>
         <script>
             $(function () {
 
@@ -500,7 +691,7 @@
             backgroundColor: '#0a0b29'
         },
         title: {
-            text: 'Hashtag',
+            text: '',
             style: {
               color: '#fff'
             }
@@ -550,7 +741,7 @@
 		    },
         series: [{
             name: 'count',
-            color: "#4d1933",
+            color: "#FFD662",
             borderColor:"#0a0b29",
             data: {{ popular_hashtag.1 }}
 
@@ -563,7 +754,13 @@
 
 
     <!-- function for most popular tag -->
-    <section class="body-content"><div id="container3" style="width:80%; height:400px;"></div>
+    <section class="body-content slideanim">
+        <div class="slideanim" style="text-align: center;">
+            <h2>POPULAR TAG</h2>
+            <p>See which tags get more like</p>
+        </div>
+        <div class="slideanim" id="container3" style="width:80%; height:400px;">
+        </div>
         <script>
             $(function () {
 
@@ -573,7 +770,7 @@
             backgroundColor: '#0a0b29'
         },
         title: {
-            text: 'Tag',
+            text: '',
             style: {
               color: '#fff'
             }
@@ -623,7 +820,7 @@
 		    },
         series: [{
             name: 'count',
-            color: "#4d1933",
+            color: "#E94B3C",
             borderColor:"#0a0b29",
             data: {{ popular_tag.1 }}
 
@@ -632,7 +829,14 @@
 });
         </script>
     </section>
-    <section class="body-content"><div id="container4" style="width:80%; height:400px;"></div>
+    
+    <section class="body-content slideanim">
+        <div class="slideanim" style="text-align: center;">
+            <h2>LIKES &amp; COMMENTS</h2>
+            <p>Compare the number of likes and comments for each post</p>
+        </div>
+        <div class="slideanim" id="container4" style="width:80%; height:50%">
+    </div>
         <script>
             $(function () {
 
@@ -642,7 +846,7 @@
             backgroundColor: '#0a0b29'
         },
         title: {
-            text: 'Like/Comment',
+            text: '',
             style: {
               color: '#fff'
             }
@@ -682,6 +886,10 @@
             align: 'right',
             floating: 'true',
             verticalAlign: 'top',
+            itemStyle: {
+                color: 'white',
+                fontWeight: 'bold'
+            }
         },
         credits: {
             enabled: false
@@ -696,16 +904,15 @@
 		    },
         series: [{
             name: 'Likes',
-            color: "#4d1933",
+            color: "#4992fb",
             borderColor:"#0a0b29",
             data: {{ likes_and_comments.0 }},
 
         },{
             name: 'Comments',
-            color: "#194d2d",
+            color: "#f6ca48",
             borderColor:"#0a0b29",
             data: {{ likes_and_comments.1 }},
-            
 
         }]
     });
@@ -716,12 +923,13 @@
     <!-- section of picture with max likes and relative hashtag -->
     <section class="body-content" id="body-content-post-max-likes">
         <div class="post-preview-max-likes">
-            <div class="post"><img class="post_pic" src="{{ max_likes_hashtag.2 }}" alt="post" onContextMenu="return false;">
+            <h2>THE MOST LIKED PHOTO</h2>
+            <div class="post slideanim"><img class="post_pic" src="{{ max_likes_hashtag.2 }}" alt="post" onContextMenu="return false;">
             </div>
             <div class="post-info-max-likes">
-                <div class="max-like-counter">LIKE:{{ max_likes_hashtag.0}}</div>
+                <div class="max-like-counter" style="padding-bottom: 1em;">{{ max_likes_hashtag.0}} 👍🏻</div>
                 {% for item in max_likes_hashtag.1 %}
-                <div class="max-comment-counter">{{ item}}</div>
+                <div class="max-comment-counter"">{{ item}}</div>
                 {% endfor %}
             </div>
         </div>
@@ -730,21 +938,26 @@
     <!-- section of picture with max comments and relative hashtag -->
     <section class="body-content" id="body-content-post-max-comments">
         <div class="post-preview-max-likes">
-            <div class="post"><img class="post_pic" src="{{ max_comments_hashtag.2 }}" alt="post" onContextMenu="return false;">
-            </div>
             <div class="post-info-max-likes">
-                <div class="max-like-counter">COMMENTS:{{ max_comments_hashtag.0}}</div>
+                <div class="max-like-counter" style="padding-bottom: 1em;">{{ max_comments_hashtag.0}} 💬</div>
                 {% for item in max_comments_hashtag.1 %}
                 <div class="max-comment-counter">{{ item}}</div>
                 {% endfor %}
             </div>
+            <div class="post slideanim"><img class="post_pic" src="{{ max_comments_hashtag.2 }}" alt="post" onContextMenu="return false;">
+            </div>
+            <h2>THE MOST COMMENTED PHOTO</h2>
         </div>
     </section>
 
     <!-- section of hashtag from the most likes and most commented posts -->
     <section class="body-content" id="body-content-wordcloud-hashtag">
+    <div class="slideanim" style="text-align: center;">
+        <h2>MOST PAYING HASHTAG</h2>
+        <p>Explore what hashtags contribute most to get likes and comments</p>
+    </div>
     <figure class="highcharts-figure">
-        <div id="paying-hashtag"></div>
+        <div class="slideanim" id="paying-hashtag" style="width:100%; height:100%"></div>
     </figure>
     <script>
     var text = "{{cross_common_hashtag|safe}}";
@@ -785,7 +998,7 @@
             },
         }],
         title: {
-            text: 'Most paying hashtag',
+            text: '',
             style: {
                 color: '#FFF',
         }
@@ -798,6 +1011,10 @@
 
     <!-- section of words most occuring in the accessibility caption -->
     <section class="body-content" id="body-content-wordcloud-photo-description">
+        <div class="slideanim style="text-align: center;"">
+            <h2>YOUR PHOTOS' SUBJECTS</h2>
+            <p>Observe which are the most common subjects in your photos</p>
+        </div>
         <figure class="highcharts-figure">
             <div id="photo-description"></div>
         </figure>
@@ -840,7 +1057,7 @@
                 },
             }],
             title: {
-                text: 'What are the subjects of your photos',
+                text: '',
                 style: {
                     color: '#FFF',
             }
@@ -851,6 +1068,7 @@
 
     <section class="body-content" id="body-comment-post">
         <ul id="comment-text">
+            
         </ul>
     </section>
 </body>

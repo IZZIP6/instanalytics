@@ -137,9 +137,12 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def post_javascript_data(shortcode):
     query = {'shortcode': shortcode}
     context = list(collection_comment.find(query))[0]
-    json_comment = json.dumps(context, indent=4, default=json_util.default)    # print(context)
+    json_comment = json.dumps(context, indent=4, default=json_util.default)    # json containing the comment list
+    # make a HTTP request to parser-process and ask for sentiment analysis. r contains the response code, while r.content contians the final json
     r = requests.post('http://127.0.0.1:5002/sentiment', data = json_comment)
-    return json.dumps(context['comment_text'])
+    sentiment_json = r.content
+    print(sentiment_json)
+    return sentiment_json
 
 '''
     Return an 404 error code if the path does not match with any functions above

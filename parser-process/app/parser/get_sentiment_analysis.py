@@ -8,15 +8,19 @@ import operator
 import nltk
 from textblob import TextBlob
 
-comment_list = []
-most_positive_comment = ""
-most_negative_comment = ""
-
 
 def start(data):
     global sentiment_analysis_list
 
-    sentiment_analysis_list = []
+    sentiment_analysis_list = {}
+    global comment_list 
+    global most_positive_comment
+    global most_negative_comment
+
+    comment_list = []
+    most_positive_comment = ""
+    most_negative_comment = ""
+
 
     data = json.loads(data)
     testimonial = TextBlob(data['comment_text'][0])
@@ -37,8 +41,8 @@ def start(data):
             minimum = testimonial.sentiment.polarity
             most_negative_comment = comment
 
-    sentiment_analysis_list.append(most_positive_comment)
-    sentiment_analysis_list.append(most_negative_comment)
+    sentiment_analysis_list["pos_com"] = most_positive_comment
+    sentiment_analysis_list["neg_com"] = most_negative_comment
     return comment_list
 
 
@@ -53,7 +57,7 @@ def sanitize(comment_list):
         comment = re.sub(r'([?!,.://({@})\\*]+)',"", comment) # remove some punctuation
         comment_tokens = word_tokenize(comment)
         tokens_without_sw = [word for word in comment_tokens if not word in it_stopwords]
-        tokens_without_sw = [word for word in comment_tokens if not word in en_stopwords]
+        tokens_without_sw = [word for word in tokens_without_sw if not word in en_stopwords]
         tokens.append(tokens_without_sw)
 
 
@@ -72,8 +76,8 @@ def sanitize(comment_list):
             max_biagram_count = x[1]
             biagram_index = x[0]
     
-    sentiment_analysis_list.append(biagram_index)
-    sentiment_analysis_list.append(max_biagram_count)
+    sentiment_analysis_list["bi_idx"] = biagram_index
+    sentiment_analysis_list["bi_cnt"] = max_biagram_count
 
     return final_token
 
@@ -109,7 +113,7 @@ def get_comment(data):
     tmp_lista.append(word_list)
     tmp_lista.append(count_list)
 
-    sentiment_analysis_list.append(tmp_lista)
+    sentiment_analysis_list["pop_com"] = tmp_lista
     print(sentiment_analysis_list)
     return sentiment_analysis_list
 

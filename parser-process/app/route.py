@@ -77,8 +77,8 @@ def listen_to_username():
 @app.route('/sentiment', methods=['POST'])
 def sentiment_analysis():
     data = request.data
-    gc(data)
-    return "Ciao"
+    sentiment = gc(data)
+    return sentiment 
 
 
 def reset_i_j():
