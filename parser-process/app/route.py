@@ -22,7 +22,9 @@ n = 0
 
 @app.route('/')
 def listen_to_username():
-    client = MongoClient('localhost', 27017)
+    client = MongoClient('mongodb://admin:admin@10.200.1.67/instadb', 27017)
+
+    # client = MongoClient('localhost', 27017)
     db = client['instadb']
     print(" [x] Opening connection to MongoDB...")
     collection_profile = db['profiledb']

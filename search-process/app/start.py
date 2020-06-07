@@ -17,15 +17,6 @@ def username_queue(username):
                               body=username,
                               properties=pika.BasicProperties(delivery_mode=2,))
     print(" [x] Send %s" % username)
-    # connection.close()
+    connection.close()
 
-def sentiment_queue(comment):
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-    channel = connection.channel()
-    channel.queue_declare(queue='sentiment_queue', durable=True)
-    channel.basic_publish(exchange='',
-                          routing_key='sentiment_queue',
-                          body=comment,
-                          properties=pika.BasicProperties(delivery_mode=2, ))
-    print(" [x] Send comment for sentiment analysis %s", comment)
-    # connection.close()
+
