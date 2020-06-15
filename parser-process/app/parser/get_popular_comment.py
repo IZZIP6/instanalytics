@@ -7,15 +7,6 @@ import re
 import nltk
 
 
-"""
-comment_list = []
-with open("larepubblica_commenti.json") as f:
-    data = json.loads(f.read())
-    for comment in data['comment_text']:
-        comment_list.append(comment)
-"""
-
-
 def sanitize(comment_list):
     it_stopwords = stopwords.words('italian')
     tokens = []
@@ -56,7 +47,6 @@ def get_comment(comment_list):
     count_list = []
     word_counter = collections.Counter(wordcount)
     for word, count in word_counter.most_common(n_print):
-        #print(word + " : " + str(count))
         word_list.append(word)
         count_list.append(count)
 

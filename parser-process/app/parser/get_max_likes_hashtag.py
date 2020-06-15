@@ -68,6 +68,5 @@ def get_photo_description(accessibility_caption):
                 for word in token:
                     words.append(word)
 
-    print(words)
     return words
 

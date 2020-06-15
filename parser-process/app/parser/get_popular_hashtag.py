@@ -3,12 +3,6 @@ import collections
 import emoji
 import re
 
-"""
-with open("larepubblica.json") as f:
-    data = json.loads(f.read())
-    for hashtag in data['hashtag']:
-        hashtag_list += hashtag # merge all lists of hashtag in one single list
-"""
 # Instantiate a dictionary, and for every word in the file, 
 # Add to the dictionary if it doesn't exist. If it does, increase the count.
 def count_occurrences(text):
@@ -26,7 +20,6 @@ def count_occurrences(text):
 
 # print most common n_print hashtag
 def get_hashtag(hashtag_list):
-    #print(hashtag_list)
     final_list = []
     for hashtag_nested_list in hashtag_list:
         for hashtag in hashtag_nested_list:
