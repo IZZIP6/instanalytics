@@ -2,8 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <meta charset="UTF-8">
-    <title>{{ username }}</title>
+    <title>Instanalytics @{{ username }}</title>
     <style>
         body {
             margin: 0;
@@ -129,7 +130,7 @@
             opacity: 50%;
             top: 0px;
             font-weight: 900;
-            background: linear-gradient(to right, #FBD3E9 0%, #BB377D 100%);
+            background: linear-gradient(to right, #fffc00 0%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -195,7 +196,7 @@
         .profile-info-preview ul li {
             margin: 0 0.5em;
             padding-top: 0.25em;
-            width: 100px;
+            width: 100%;
             border-top: solid white 0.1em;
             transition: all 0.5s;
         }
@@ -254,16 +255,17 @@
         }
 
         .like-counter, .comment-counter{
-            width: 50%;
+            width: auto;
             display: flex;
             flex-direction: row;
             height: 440px;
             justify-content: center;
             align-items: flex-end;
+            margin: auto auto;
         }
 
         .max-like-counter, .max-comment-counter{
-            width: 100%;
+            width: auto;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -302,7 +304,7 @@
         }
 
         .post_pic{
-            width: 280px;
+            width: 10em;
             z-index: 1;
             border: solid white 0.1em;
         }
@@ -322,14 +324,13 @@
             list-style-type: none;
             display: flex;
             flex-direction: column;
-            height: 80%;
-            width: 80%;
-            overflow: auto;
+            height: auto;
+            width: auto;
+            align-items: center;
         }
 
         #body-comment-post ul li {
-            margin: 0 1em;
-            padding: 6px;
+            margin-top: 1em;
             display: flex;
             flex-direction: column;
             font-size: 1.2rem;
@@ -362,6 +363,7 @@
                 transform: translateY(0);
             } 
         }
+
 
         #topBtn {
             margin: 2em auto;
@@ -434,6 +436,82 @@
         font-size: 0.8em; 
     }
 
+    /*back to top button*/
+    #backtop {
+	        position: fixed;
+            left:auto;
+            right: 20px;
+            top:auto;
+            bottom: 20px;
+	        outline: none;
+            overflow:hidden;
+            color:#fff;
+            text-align:center;
+            background-color:rgba(49,79,96,0.84);
+            height:40px;
+            width:40px;
+            line-height:40px;
+            font-size:14px;
+            border-radius:2px;
+            cursor:pointer;
+            transition:all 0.3s linear;
+            z-index:999999;
+            opacity:1;
+            display:none;
+        }
+        #backtop:hover {
+            background-color:#27CFC3;
+        }
+        #backtop.mcOut {
+            opacity:0;
+        }
+    /*end of back top button*/
+
+
+    #pos-com-text {
+        background: linear-gradient(to right, #11998e 0%, #38ef7d 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin: 0 3em;
+        font-style: italic;
+    }
+   
+    #neg-com-text {
+        background: linear-gradient(to right, #ee0979 0%, #ff6a00 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        font-style: italic;
+    }
+
+
+    .sent-head {
+        text-align: center;
+        margin: 7em auto 0 auto;
+    }
+
+    .biagram-head {
+        background: linear-gradient(to right, #00c3ff 0%, #ffff1c 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+    }
+
+
+    table {
+        padding-top: 1em;
+    }
+    th, td {
+        padding-left: 1em;
+        padding-right: 1em;
+        text-align: left;
+    }
+
+  
+
+    
+
     </style>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -468,58 +546,81 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
             if (xhttp.readyState === XMLHttpRequest.DONE) {
                 var reply = xhttp.responseText;
 
-                sentimen_analysis = JSON.parse(reply);
-                //console.log(sentimen_analysis['pop_com']);
+                sentiment_analysis = JSON.parse(reply);
+                //console.log(sentiment_analysis['pop_com']);
                 
                 //Display most positive comment 
                 var pos_com_h3 = document.createElement('h3');
-                pos_com_h3.textContent = "Most positive comment";
+                pos_com_h3.textContent = "THE MOST POSITIVE COMMENT";
+                pos_com_h3.setAttribute("class", "sent-head");
+                pos_com_h3.setAttribute("data-aos", "fade-left");
                 //h3.setAttribute('class', 'note');
                 ul.appendChild(pos_com_h3);
                 var pos_com = document.createElement("li");
-                pos_com.appendChild(document.createTextNode(sentimen_analysis["pos_com"]));
+                pos_com.setAttribute("data-aos", "fade-up");
+                pos_com.setAttribute("id", "pos-com-text");
+                pos_com.appendChild(document.createTextNode(sentiment_analysis["pos_com"]));
                 ul.appendChild(pos_com);
 
                 //Display most negative comment 
                 var neg_com_h3 = document.createElement('h3');
-                neg_com_h3.textContent = "Most negative comment";
+                neg_com_h3.textContent = "THE MOST NEGATIVE COMMENT";
+                neg_com_h3.setAttribute("class", "sent-head");
+                neg_com_h3.setAttribute("data-aos", "fade-right");
                 //h3.setAttribute('class', 'note');
                 ul.appendChild(neg_com_h3);
+
                 var neg_com = document.createElement("li");
-                neg_com.appendChild(document.createTextNode(sentimen_analysis["neg_com"]));
+                neg_com.setAttribute("class", "sent-head");
+                neg_com.setAttribute("data-aos", "fade-up");
+                neg_com.setAttribute("id", "neg-com-text");
+                //neg_com.appendChild(document.createTextNode("\""));
+                neg_com.appendChild(document.createTextNode(sentiment_analysis["neg_com"]));
+                //neg_com.appendChild(document.createTextNode("\""));
                 ul.appendChild(neg_com);
 
                 //Display most popular biagram
                 var biagram = document.createElement('h3');
-                biagram.textContent = "Most popular biagram";
+                biagram.textContent = "THE MOST POPULAR BIAGRAM";
+                biagram.setAttribute("class", "sent-head");
+                biagram.setAttribute("data-aos", "flip-up");
                 //h3.setAttribute('class', 'note');
                 ul.appendChild(biagram);
 
                 var biagram_inx = document.createElement("li");
-                biagram_inx.appendChild(document.createTextNode(sentimen_analysis["bi_idx"]));
+                biagram_inx.setAttribute("class", "biagram-head");
+                biagram_inx.setAttribute("data-aos", "flip-up");
+                biagram_inx.appendChild(document.createTextNode(sentiment_analysis["bi_idx"].join(" ")));
                 ul.appendChild(biagram_inx);
 
                 var biagram_cnt = document.createElement("li");
-                biagram_cnt.appendChild(document.createTextNode(sentimen_analysis["bi_cnt"]));
+                biagram_cnt.setAttribute("class", "biagram-head");
+                biagram_cnt.setAttribute("data-aos", "flip-up");
+                biagram_cnt.appendChild(document.createTextNode(sentiment_analysis["bi_cnt"]));
                 ul.appendChild(biagram_cnt);
 
                 //Display most popular comment
                 var pop_comments_h3 = document.createElement('h3');
-                pop_comments_h3.textContent = "Most popular comments";
+                pop_comments_h3.textContent = "MOST POPULAR COMMENTS";
+                pop_comments_h3.setAttribute("class", "sent-head");
+                pop_comments_h3.setAttribute("data-aos", "fade-up");
+
                 //h3.setAttribute('class', 'note');
                 ul.appendChild(pop_comments_h3);
 
-                var pop_comments = document.createElement("li");
-                pop_comments.appendChild(document.createTextNode(sentimen_analysis["pop_com"]));
-                ul.appendChild(pop_comments);
-
-                var top_btn = document.createElement("text");
-                top_btn.setAttribute("id", "topBtn")
-                top_btn.setAttribute("onclick", "topFunction()");
-                top_btn.innerHTML = "Top";  
-                ul.appendChild(top_btn);
-                
-                
+                var pop_comments = document.createElement("table");
+                pop_comments.setAttribute("data-aos", "fade-down");
+                var columnCount = 2;
+                //Add the data rows.
+                for (var i = 1; i < sentiment_analysis["pop_com"][0].length; i++) {
+                    row = pop_comments.insertRow(-1);
+                    for (var j = 0; j < columnCount; j++) {
+                        var cell = row.insertCell(-1);
+                        cell.innerHTML = sentiment_analysis["pop_com"][j][i];
+                    }
+                }
+ 
+                ul.appendChild(pop_comments);  
             }
         };
         
@@ -543,6 +644,7 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
     }
 </script>
 <body>
+    <div id="backtop">&#9650;</div>
     <header class="header-content">
         <nav class="top-header" id="header-bar">
             <div class="logo">
@@ -581,10 +683,10 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
     </section>
     <section class="body-content" id="body-content-post">
         <div class="dontshow" id="url_post">{{list_url_post.0}}</div>
-        <h2 class="slideanim">LAST 12 POSTS</h2>
+        <h2 data-aos="fade-up">LAST 12 POSTS</h2>
         <div class="post-preview">
             {% for item in shortcode_url %}
-            <div class="post slideanim example">
+            <div class="post example" data-aos="fade-up">
                 <img class="post_pic" src="{{ item.1 }}" alt="post" onContextMenu="return false;" onclick="connect('{{ item.0}}')">
                 <div class="post-info">
                     <div class="fadedbox">
@@ -600,11 +702,11 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
     </section>
 
     <section class="body-content">
-        <div class="slideanim" style="text-align: center;">
-            <h3>HOURLY TREND</h3>
-            <p>Check when it's better to post your photo</p>
+        <div style="text-align: center;">
+            <h3 data-aos="fade-up">HOURLY TREND</h3>
+            <p data-aos="fade-up">Check when it's better to post your photo</p>
         </div>
-    <div class="slideanim" id="container" style="width: 80%; height: 400px;;">
+    <div data-aos="zoom-in-up" id="container" style="width: 80%; height: 400px;;">
     </div>
         <script>
             $(function () {
@@ -676,11 +778,11 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
 
     <!-- function for most popular hashtag -->
     <section class="body-content slideanim">
-        <div class="slideanim" style="text-align: center;">
+        <div data-aos="fade-up" style="text-align: center;">
             <h2>POPULAR HASHTAG</h2>
             <p>See which hashtags get more like</p>
         </div>
-        <div class="slideanim" id="container2" style="width:80%; height:400px;">
+        <div data-aos="fade-up" id="container2" style="width:80%; height:400px;">
         </div>
         <script>
             $(function () {
@@ -755,11 +857,11 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
 
     <!-- function for most popular tag -->
     <section class="body-content slideanim">
-        <div class="slideanim" style="text-align: center;">
+        <div data-aos="flip-up" style="text-align: center;">
             <h2>POPULAR TAG</h2>
             <p>See which tags get more like</p>
         </div>
-        <div class="slideanim" id="container3" style="width:80%; height:400px;">
+        <div data-aos="flip-right" id="container3" style="width:80%; height:400px;">
         </div>
         <script>
             $(function () {
@@ -830,12 +932,12 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
         </script>
     </section>
     
-    <section class="body-content slideanim">
-        <div class="slideanim" style="text-align: center;">
+    <section class="body-content">
+        <div data-aos="fade-up" style="text-align: center;">
             <h2>LIKES &amp; COMMENTS</h2>
             <p>Compare the number of likes and comments for each post</p>
         </div>
-        <div class="slideanim" id="container4" style="width:80%; height:50%">
+        <div data-aos="fade-up" id="container4" style="width:80%; height:50%">
     </div>
         <script>
             $(function () {
@@ -923,13 +1025,13 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
     <!-- section of picture with max likes and relative hashtag -->
     <section class="body-content" id="body-content-post-max-likes">
         <div class="post-preview-max-likes">
-            <h2>THE MOST LIKED PHOTO</h2>
-            <div class="post slideanim"><img class="post_pic" src="{{ max_likes_hashtag.2 }}" alt="post" onContextMenu="return false;">
+            <h2 data-aos="fade-up">THE MOST LIKED PHOTO</h2>
+            <div class="post" data-aos="flip-right"><img style="width: 10em; border: 0.1em solid white;" src="{{ max_likes_hashtag.2 }}" alt="post" onContextMenu="return false;">
             </div>
             <div class="post-info-max-likes">
-                <div class="max-like-counter" style="padding-bottom: 1em;">{{ max_likes_hashtag.0}} 👍🏻</div>
+                <div class="max-like-counter" data-aos="fade-down" style="padding-bottom: 1em;">{{ max_likes_hashtag.0}} 👍🏻</div>
                 {% for item in max_likes_hashtag.1 %}
-                <div class="max-comment-counter"">{{ item}}</div>
+                <div class="max-comment-counter" data-aos="fade-down">{{ item}}</div>
                 {% endfor %}
             </div>
         </div>
@@ -939,25 +1041,25 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
     <section class="body-content" id="body-content-post-max-comments">
         <div class="post-preview-max-likes">
             <div class="post-info-max-likes">
-                <div class="max-like-counter" style="padding-bottom: 1em;">{{ max_comments_hashtag.0}} 💬</div>
+                <div class="max-like-counter" data-aos="fade-down" style="padding-bottom: 1em;">{{ max_comments_hashtag.0}} 💬</div>
                 {% for item in max_comments_hashtag.1 %}
-                <div class="max-comment-counter">{{ item}}</div>
+                <div class="max-comment-counter" data-aos="fade-down">{{ item}}</div>
                 {% endfor %}
             </div>
-            <div class="post slideanim"><img class="post_pic" src="{{ max_comments_hashtag.2 }}" alt="post" onContextMenu="return false;">
+            <div class="post" data-aos="flip-left"><img style="width: 10em; border: 0.1em solid white;" src="{{ max_comments_hashtag.2 }}" alt="post" onContextMenu="return false;">
             </div>
-            <h2>THE MOST COMMENTED PHOTO</h2>
+            <h2 data-aos="fade-up">THE MOST COMMENTED PHOTO</h2>
         </div>
     </section>
 
     <!-- section of hashtag from the most likes and most commented posts -->
     <section class="body-content" id="body-content-wordcloud-hashtag">
-    <div class="slideanim" style="text-align: center;">
+    <div data-aos="fade-up" style="text-align: center;">
         <h2>MOST PAYING HASHTAG</h2>
         <p>Explore what hashtags contribute most to get likes and comments</p>
     </div>
     <figure class="highcharts-figure">
-        <div class="slideanim" id="paying-hashtag" style="width:100%; height:100%"></div>
+        <div data-aos="fade-left" id="paying-hashtag" style="width:100%; height:100%"></div>
     </figure>
     <script>
     var text = "{{cross_common_hashtag|safe}}";
@@ -1011,12 +1113,12 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
 
     <!-- section of words most occuring in the accessibility caption -->
     <section class="body-content" id="body-content-wordcloud-photo-description">
-        <div class="slideanim style="text-align: center;"">
+        <div data-aos="fade-up" style="text-align: center;"">
             <h2>YOUR PHOTOS' SUBJECTS</h2>
             <p>Observe which are the most common subjects in your photos</p>
         </div>
         <figure class="highcharts-figure">
-            <div id="photo-description"></div>
+            <div id="photo-description" data-aos="fade-right"></div>
         </figure>
         <script>
         var text = "{{photo_description|safe}}";
@@ -1068,8 +1170,11 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
 
     <section class="body-content" id="body-comment-post">
         <ul id="comment-text">
-            
         </ul>
     </section>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>
+    AOS.init();
+    </script>
 </body>
 </html>

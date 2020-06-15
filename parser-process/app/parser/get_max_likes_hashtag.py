@@ -8,12 +8,18 @@ def get_max_likes(postInfo, hashtag):
     index = 0
     global common_hashtag
     common_hashtag = []
-    for item in postInfo:
-        if(int(item[2]) > int(maximum)):
-            maximum = item[2]
-    index = next(i for i,v in enumerate(postInfo) if maximum in v)
-    common_hashtag += [hashtag[index]]
-    return [maximum, hashtag[index], postInfo[index][1]]
+
+    try:
+        for item in postInfo:
+            print(item)
+            if(int(item[2]) > maximum):
+                maximum = int(item[2])
+        index = next(i for i,v in enumerate(postInfo) if maximum in v)
+        common_hashtag += [hashtag[index]]
+        return [maximum, hashtag[index], postInfo[index][1]]
+
+    except Exception as e: 
+        print(e)
 
 # get max number of comments obtained
 def get_max_comments(postInfo, hashtag):
@@ -21,8 +27,8 @@ def get_max_comments(postInfo, hashtag):
     index = 0
     global common_hashtag
     for item in postInfo:
-        if(int(item[3]) > int(maximum)):
-            maximum = item[3]
+        if(int(item[3]) > maximum):
+            maximum = int(item[3])
     index = next(i for i,v in enumerate(postInfo) if maximum in v)
     common_hashtag += [hashtag[index]]
     return [maximum, hashtag[index], postInfo[index][1]]
@@ -62,5 +68,6 @@ def get_photo_description(accessibility_caption):
                 for word in token:
                     words.append(word)
 
+    print(words)
     return words
 

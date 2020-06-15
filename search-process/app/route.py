@@ -15,8 +15,8 @@ import requests
     Open connection to mongodb, using "instadb" as database and "profiledb" as collection. Verify that you have
     correctly installed MongoDB and created the database and collection
 '''
-client = MongoClient('mongodb://admin:admin@10.200.1.67/instadb', 27017)
-# client = MongoClient('localhost', 27017)
+#client = MongoClient('mongodb://admin:admin@10.200.1.67/instadb', 27017)
+client = MongoClient('localhost', 27017)
 db = client['instadb']
 collection_profile = db['profiledb']
 collection_comment = db['commentdb']
