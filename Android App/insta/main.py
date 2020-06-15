@@ -1,6 +1,7 @@
+''' In this file the app root is defined'''
+
 import certifi
 import os
-
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
