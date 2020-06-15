@@ -1,3 +1,6 @@
+
+'''in this file some widgets for user interface are created'''
+
 import certifi
 from kivy.metrics import sp
 from kivy.network.urlrequest import UrlRequest
@@ -201,4 +204,3 @@ def extract(data,input):
     ml=statis.comp('likes',post)
 
     return {"profile":input,"source":source,"Followers":Followers,"Followings":Followings,"Posts":Posts,"avg_com":mc[1],"avg_likes":ml[1],"Post":post}
-
