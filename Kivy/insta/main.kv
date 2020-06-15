@@ -1,0 +1,306 @@
+#:import utils kivy.utils
+
+
+
+WindowManager:
+    id:manager
+    name: 'manager'
+    First:
+        name: 'first'
+    Result:
+        name: 'result'
+
+
+
+
+<First>
+
+    BoxLayout:
+        canvas:
+            Color:
+                rgb: 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.width,self.height
+                source: 'inst1.png'
+
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: utils.get_color_from_hex("#293149")
+            Rectangle:
+                pos: self.pos
+                size: self.width,self.height
+        pos_hint:{"top":1, "left":1}
+        size_hint: 1,.1
+        Label:
+            text:'instanalytics'
+            font_size: self.width/11
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:dp(30)
+        padding:dp(45)
+        pos_hint:{"top": .85,}
+        size_hint: 1,.6
+
+        Image:
+            source:"logo.png"
+
+        MDTextFieldRound:
+            id: myinput
+            hint_text:'Profile name'
+            size_hint: (.9,.23)
+            pos_hint: {"center_x": .5}
+            normal_color: [0,0,0,0.6]
+            icon_type: "left"
+            icon_left:"instlogo.png"
+
+        MDRoundFlatButton:
+            text: "Search"
+            text_color: 1,1,1,1
+            pos_hint: {"center_x": .5}
+            md_bg_color: utils.get_color_from_hex("#293149")
+            on_release: app.search(myinput.text)
+
+
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex("#293149")
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        orientation: 'horizontal'
+        pos_hint:{"top":0.1, "left":1}
+        size_hint: 1,.1
+
+        Label:
+            text: 'Los Fantasticos'
+
+
+
+
+<Result>
+    BoxLayout:
+        orientation:'vertical'
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: utils.get_color_from_hex("#293149")
+                Rectangle:
+                    pos: self.pos
+                    size: self.width,self.height
+            pos_hint:{"top":1, "left":1}
+            size_hint: 1,.1
+            Label:
+                id: user
+                text:'instanalytics'
+                font_size: self.width/11
+
+
+
+
+
+        MDBottomNavigation:
+
+            panel_color:utils.get_color_from_hex("#293149")
+            MDBottomNavigationItem:
+                name: "files1"
+                text: "Infos"
+                BoxLayout:
+                    canvas:
+                        Color:
+                            rgb: 1,1,1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.width,self.height
+                            source: 'inst1.png'
+                    ScrollView:
+                        GridLayout:
+                            padding:dp(10),dp(0)
+                            orientation: 'vertical'
+                            height: self.minimum_height
+                            size_hint_y: None
+                            row_default_height: self.parent.parent.height*1.3
+                            cols:1
+                            BoxLayout:
+                                orientation: 'vertical'
+                                BoxLayout:
+                                    orientation:'vertical'
+                                    size_hint: 1,.2
+                                    padding: self.width/3, dp(5)
+
+                                    Img:
+                                        id:imp
+                                        width: self.parent.width/3.5
+                                        size_hint: None,.6
+                                        pos_hint:{"top":1,"center":0.5,}
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    canvas:
+                                        Color:
+                                            rgba:0,0,0,0.2
+                                        Rectangle:
+                                            pos:self.pos
+                                            size: self.size
+                                    BoxLayout:
+                                        Label:
+                                            id: idp
+                                            markup: True
+                                            halign:'center'
+                                            text:'[b]Profile ID[/b]'
+                                            color:1,1,1,1
+                                        Label:
+                                            id: followers
+                                            markup: True
+                                            halign:'center'
+                                            text:'[b]Followers[/b]'
+                                            color:1,1,1,1
+                                    BoxLayout:
+                                        Label:
+                                            id: real
+                                            markup: True
+                                            halign:'center'
+                                            text:'[b]Name[/b]'
+                                            color:1,1,1,1
+                                        Label:
+                                            id: followings
+                                            halign:'center'
+                                            markup: True
+                                            text:'[b]Followings[/b] '
+                                            color:1,1,1,1
+                                    BoxLayout:
+                                        Label:
+                                            id: type
+                                            markup: True
+                                            halign:'center'
+                                            text:'[b]Profile Type[/b]'
+                                            color:1,1,1,1
+                                        Label:
+                                            id: posts
+                                            markup: True
+                                            halign:'center'
+                                            text:'[b]Posts[/b]'
+                                            color:1,1,1,1
+                                    Label:
+                                        id: ver
+                                        markup: True
+                                        halign: 'center'
+                                        text:'[b]Verified[/b]'
+
+
+
+            MDBottomNavigationItem:
+                name: "files2"
+                text: "statistics"
+                BoxLayout:
+                    canvas:
+                        Color:
+                            rgb: 1,1,1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.width,self.height
+                            source: 'inst1.png'
+                    ScrollView:
+                        GridLayout:
+                            orientation: 'vertical'
+                            height: self.minimum_height
+                            size_hint_y: None
+                            row_default_height: self.parent.parent.height/1.1
+                            padding: dp(20)
+                            id: ppp
+                            spacing: dp(45)
+                            cols: 1
+                            Barplot:
+
+
+<Img@BoxLayout>
+    pop: ''
+    canvas:
+        Color:
+            rgb:1,1,1
+        Ellipse:
+            pos: self.pos
+            size: self.width,self.height
+            source: self.pop
+
+<Barplot>
+    min_height: 0.05
+    max_height: 0.99
+    avg_height: 0.7
+    norm: 1
+    tit: 'Comments'
+    canvas:
+        Color:
+            rgba:utils.get_color_from_hex("#293149")
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    orientation:'vertical'
+    padding: dp(15)
+    Label:
+        pos_hint:{"top":1}
+        size_hint: 1,.1
+        color: 1,1,1,1
+        text: self.parent.tit
+    BoxLayout:
+        orientation:'vertical'
+        canvas:
+            Color:
+                rgba:utils.get_color_from_hex("#4c4c4c")
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            size_hint: 1,.1
+            Label:
+                text: str(self.parent.parent.parent.min_height)
+                font_size: sp(10)
+            Label:
+                text: str(self.parent.parent.parent.avg_height)
+                font_size: sp(10)
+            Label:
+                text: str(self.parent.parent.parent.max_height)
+                font_size: sp(10)
+        BoxLayout:
+            spacing:dp(40)
+            padding: dp(20),dp(0)
+            Barchart:
+                bar_color: 0.7,0,0
+                val:self.parent.height*(self.parent.parent.parent.min_height/self.parent.parent.parent.norm)
+            Barchart:
+                bar_color: 1,1,1
+                val:self.parent.height*(self.parent.parent.parent.avg_height/self.parent.parent.parent.norm)
+            Barchart:
+                bar_color: 0,.8,0.3
+                val: self.parent.height*(self.parent.parent.parent.max_height/self.parent.parent.parent.norm)
+    BoxLayout:
+        orientation:'horizontal'
+        size_hint:1,.1
+        Label:
+            text: 'Min'
+        Label:
+            text: 'Avg'
+        Label:
+            text: 'Max'
+
+
+
+
+<Barchart@BoxLayout>
+    val: 10
+    bar_color:1,0.5,1
+    canvas:
+        Color:
+            rgb:self.bar_color
+        Rectangle:
+            pos: self.pos
+            size: self.width,self.val
+
+
+
+
+
+
