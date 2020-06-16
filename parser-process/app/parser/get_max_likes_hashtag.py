@@ -56,7 +56,6 @@ def get_photo_description(accessibility_caption):
                 description = description.replace("'", "")
                 description = description.replace("\"", "")
 
-
                 token = description.split()
 
                 for stopword in stopwords:
