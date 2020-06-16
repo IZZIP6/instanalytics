@@ -628,7 +628,6 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
                     for (var j = 0; j < columnCount; j++) {
                         var cell = row.insertCell(-1);
                         cell.innerHTML = sentiment_analysis["pop_com"][j][i];
-                        console.log(sentiment_analysis["pop_com"][j][i]);
                     }
                 }
  
@@ -652,25 +651,6 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
 
     function postInfo(e) {
         document.getElementsByClassName("like-counter")[0].style.opacity = "1";
-    }
-
-    function downloadpdf() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (xhttp.readyState === XMLHttpRequest.DONE) {
-                var reply = xhttp.responseText;
-                console.log('it works');
-        };
-        
-        var host = "http://192.168.2.15:8000/pdf;
-        //console.log(shortcode)
-        xhttp.open(host, true);
-        xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
-        xhttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
-        xhttp.setRequestHeader('Access-Control-Allow-Methods', 'POST');
-        xhttp.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type');
-        xhttp.send();
-        
     }
 </script>
 <body>
@@ -705,7 +685,7 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
                     <li>{{ n_following }}<div class="preview-label">Following</div></li>
                 </ul>
                 <ul>
-                    <li id="download-statistics" onclick="downloadpdf()">😎 Download all statistics 🚀</li>
+                    <li id="download-statistics">😎 Download all statistics 🚀</li>
                 </ul>
 
             </div>
