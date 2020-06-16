@@ -56,3 +56,13 @@ def register(request):
         else:
             form = UserCreationForm()
         return render(request, 'analytics/register.html', {"form": form})
+
+
+
+def download_pdf(request):
+    '''
+    your code
+    :param request:
+    :return:
+    '''
+
