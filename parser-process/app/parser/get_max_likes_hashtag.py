@@ -1,4 +1,7 @@
 import itertools
+import nltk
+from nltk.corpus import stopwords
+
 
 common_hashtag = []
 
@@ -47,24 +50,40 @@ def get_likes_comments(postInfo):
 # return what are the subject of the photos based on Instagram ML recognition algorithm 
 def get_photo_description(accessibility_caption): 
     words = []
+    it_stopwords = stopwords.words('italian')
+    en_stopwords = stopwords.words('english')
     for item in accessibility_caption:
         if(item is not None):
             if("Image may contain:" in item):
                 description = (item.split("Image may contain:",1)[1])
-                stopwords = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "and", "or", "one", "more"]
+                insta_sw = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "and", "or", "one", "more", "text", "says"]
                 description = description.replace(",", "")
                 description = description.replace("'", "")
                 description = description.replace("\"", "")
-
                 token = description.split()
 
-                for stopword in stopwords:
+                for stopword in insta_sw:
                     if stopword in token:
                         token.remove(stopword)
+
+                # uppercase of all stopwords
+                en_up = list(map(str.upper,(en_stopwords)))
+                it_up = list(map(str.upper,(it_stopwords)))
+
+                # make one single big list
+                all_sw = en_stopwords + it_stopwords + en_up + it_up
+                
+                token = [word for word in token if not word in all_sw]
+
+                '''
+                token = [word for word in token if not word in en_stopwords]
+                token = [word for word in token if not word in it_stopwords]
+                token = [word for word in token if not word in en_up]
+                token = [word for word in token if not word in it_up]
+                '''
 
                 for word in token:
                     words.append(word)
 
-    print(words)
     return words
 
