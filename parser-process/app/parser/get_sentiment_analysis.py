@@ -54,7 +54,7 @@ def sanitize(comment_list):
     for comment in comment_list:
         comment = comment.lower() # all comment to lower case
         comment = (emoji.get_emoji_regexp().sub("", comment)) # remove emoji
-        comment = re.sub(r'([?!,.:;//({@’#})\\*]+)',"", comment) # remove some punctuation
+        comment = re.sub(r'([\'?!,.:;//({@’%$£^#})\\*]+)',"", comment) # remove some punctuation
         comment_tokens = word_tokenize(comment)
         tokens_without_sw = [word for word in comment_tokens if not word in it_stopwords]
         tokens_without_sw = [word for word in tokens_without_sw if not word in en_stopwords]

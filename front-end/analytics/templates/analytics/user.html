@@ -136,7 +136,7 @@
         }
 
         section {
-            margin-top: 7em;
+            margin-top: 10em;
             position: relative;
             width: 100%;
             height: 100%;
@@ -157,6 +157,7 @@
 
         .body-content p{
             font-size: 0.7em;
+            margin-top: -1em;
         }
 
         .profile{
@@ -319,8 +320,6 @@
         }
 
         #body-comment-post ul{
-            margin: 0;
-            padding: 0;
             list-style-type: none;
             display: flex;
             flex-direction: column;
@@ -469,19 +468,14 @@
 
 
     #pos-com-text {
-        background: linear-gradient(to right, #11998e 0%, #38ef7d 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         text-align: center;
         margin: 0 3em;
         font-style: italic;
     }
    
     #neg-com-text {
-        background: linear-gradient(to right, #ee0979 0%, #ff6a00 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         text-align: center;
+        margin: 0 3em;
         font-style: italic;
     }
 
@@ -492,9 +486,6 @@
     }
 
     .biagram-head {
-        background: linear-gradient(to right, #00c3ff 0%, #ffff1c 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         font-weight: bold;
     }
 
@@ -505,9 +496,12 @@
     th, td {
         padding-left: 1em;
         padding-right: 1em;
-        text-align: left;
+        text-align: center;
     }
 
+    #comment-text h3 {
+        margin-top: 10em;
+    }
   
 
     
@@ -540,7 +534,7 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
         while( ul.firstChild ){
             ul.removeChild( ul.firstChild );
         }
-        window.location.href = "#body-comment-post";
+        //window.location.href = "#comment-text";
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === XMLHttpRequest.DONE) {
@@ -548,7 +542,25 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
 
                 sentiment_analysis = JSON.parse(reply);
                 //console.log(sentiment_analysis['pop_com']);
+
+                // Display sentiment analysis 
+                var anchor = document.createElement('p');
+                anchor.setAttribute("id", "anchor");
+                ul.appendChild(anchor);
+
+                var sent_header = document.createElement('h2');
+                var sent_p = document.createElement('p');
                 
+                sent_header.textContent = "SENTIMENT ANALYSIS";
+                sent_p.textContent = "Discover how other people react to your photos";
+                sent_header.setAttribute("data-aos", "flip-up");
+                sent_p.setAttribute("data-aos", "zoom-in");
+        
+                ul.appendChild(sent_header);
+                ul.appendChild(sent_p);
+
+                window.location.hash = "#anchor";
+
                 //Display most positive comment 
                 var pos_com_h3 = document.createElement('h3');
                 pos_com_h3.textContent = "THE MOST POSITIVE COMMENT";
@@ -559,7 +571,7 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
                 var pos_com = document.createElement("li");
                 pos_com.setAttribute("data-aos", "fade-up");
                 pos_com.setAttribute("id", "pos-com-text");
-                pos_com.appendChild(document.createTextNode(sentiment_analysis["pos_com"]));
+                pos_com.appendChild(document.createTextNode("\"".concat(sentiment_analysis["pos_com"], "\"")));
                 ul.appendChild(pos_com);
 
                 //Display most negative comment 
@@ -574,9 +586,7 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
                 neg_com.setAttribute("class", "sent-head");
                 neg_com.setAttribute("data-aos", "fade-up");
                 neg_com.setAttribute("id", "neg-com-text");
-                //neg_com.appendChild(document.createTextNode("\""));
-                neg_com.appendChild(document.createTextNode(sentiment_analysis["neg_com"]));
-                //neg_com.appendChild(document.createTextNode("\""));
+                neg_com.appendChild(document.createTextNode("\"".concat(sentiment_analysis["neg_com"], "\"")));
                 ul.appendChild(neg_com);
 
                 //Display most popular biagram
