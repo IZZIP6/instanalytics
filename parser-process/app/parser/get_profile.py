@@ -120,7 +120,6 @@ def get_user_data(info):
         popular_tag                                  = get_popular_tag.get_tag(post_tag)
         max_likes_hashtag                            = get_max_likes_hashtag.get_max_likes(postInfo, post_hashtag)
         max_comments_hashtag                         = get_max_likes_hashtag.get_max_comments(postInfo, post_hashtag)
-        cross_common_hashtag                         = get_max_likes_hashtag.get_common_hashtag(postInfo, post_hashtag)
         likes_and_comments                           = get_max_likes_hashtag.get_likes_comments(postInfo)
         photo_description                            = get_max_likes_hashtag.get_photo_description(accessibility_caption)
 

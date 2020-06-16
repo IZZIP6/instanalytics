@@ -34,13 +34,6 @@ def get_max_comments(postInfo, hashtag):
     return [maximum, hashtag[index], postInfo[index][1]]
 
 
-# return a list of hashtag from the most likes and most commented posts
-def get_common_hashtag(postInfo, hashtag):
-    global common_hashtag
-    common_hashtag = list(itertools.chain.from_iterable(common_hashtag)) # put list of list together 
-    #common_hashtag = list(set(common_hashtag)) # remove possible duplicates
-    return common_hashtag
-
 # return the number of likes and comment in the photos 
 def get_likes_comments(postInfo):
     likes_list = []
@@ -51,6 +44,7 @@ def get_likes_comments(postInfo):
     return [likes_list, comments_list]
 
 
+# return what are the subject of the photos based on Instagram ML recognition algorithm 
 def get_photo_description(accessibility_caption): 
     words = []
     for item in accessibility_caption:
@@ -59,6 +53,10 @@ def get_photo_description(accessibility_caption):
                 description = (item.split("Image may contain:",1)[1])
                 stopwords = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "and", "or", "one", "more"]
                 description = description.replace(",", "")
+                description = description.replace("'", "")
+                description = description.replace("\"", "")
+
+
                 token = description.split()
 
                 for stopword in stopwords:
@@ -68,5 +66,6 @@ def get_photo_description(accessibility_caption):
                 for word in token:
                     words.append(word)
 
+    print(words)
     return words
 

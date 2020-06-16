@@ -6,9 +6,11 @@
     <meta charset="UTF-8">
     <title>Instanalytics @{{ username }}</title>
     <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
         body {
             margin: 0;
-            font-family: Apercu, sans-serif;
+            font-family: 'Poppins', sans-serif;
             text-rendering: optimizelegibility;
             display: flex;
             flex-direction: column;
@@ -1061,65 +1063,6 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
             <h2 data-aos="fade-up">THE MOST COMMENTED PHOTO</h2>
         </div>
     </section>
-
-    <!-- section of hashtag from the most likes and most commented posts -->
-    <section class="body-content" id="body-content-wordcloud-hashtag">
-    <div data-aos="fade-up" style="text-align: center;">
-        <h2>MOST PAYING HASHTAG</h2>
-        <p>Explore what hashtags contribute most to get likes and comments</p>
-    </div>
-    <figure class="highcharts-figure">
-        <div data-aos="fade-left" id="paying-hashtag" style="width:100%; height:100%"></div>
-    </figure>
-    <script>
-    var text = "{{cross_common_hashtag|safe}}";
-    text = text.replace(/[,''[]/g, "");
-    text = text.replace(/]/g, "");
-
-    var lines = text.split(/[" "]+/g),
-        data = Highcharts.reduce(lines, function (arr, word) {
-            var obj = Highcharts.find(arr, function (obj) {
-                return obj.name === word;
-            });
-            if (obj) {
-                obj.weight += 1;
-            } else {
-                obj = {
-                    name: word,
-                    weight: 1
-                };
-                arr.push(obj);
-            }
-            return arr;
-        }, []);
-    
-    Highcharts.chart('paying-hashtag', {
-        chart: {
-            backgroundColor: '#0a0b29'
-        },
-        credits: {
-            enabled: false
-        },
-        series: [{
-            type: 'wordcloud',
-            data: data,
-            name: 'Occurrences',
-            rotation: {
-                from: 0,
-                to: 0,
-            },
-        }],
-        title: {
-            text: '',
-            style: {
-                color: '#FFF',
-        }
-    }
-});
-    </script>
-    </section>
-
-
 
     <!-- section of words most occuring in the accessibility caption -->
     <section class="body-content" id="body-content-wordcloud-photo-description">
