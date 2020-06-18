@@ -9,6 +9,7 @@ import nltk
 
 def sanitize(comment_list):
     it_stopwords = stopwords.words('italian')
+    en_stopwords = stopwords.words('english')
     tokens = []
     final_token = []
     for comment in comment_list:
@@ -16,7 +17,8 @@ def sanitize(comment_list):
         comment = (emoji.get_emoji_regexp().sub(u'', comment)) # remove emoji
         comment = re.sub(r'([?!,.://({@})\\*]+)','', comment) # remove some punctuation
         comment_tokens = word_tokenize(comment)
-        tokens_without_sw = [word for word in comment_tokens if not word in stopwords.words()]
+        tokens_without_sw = [word for word in comment_tokens if not word in it_stopwords]
+        tokens_without_sw = [word for word in tokens_without_sw if not word in en_stopwords]
         tokens.append(tokens_without_sw)
     
     for token in tokens:

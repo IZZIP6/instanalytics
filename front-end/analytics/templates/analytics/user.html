@@ -449,9 +449,17 @@
         cursor: pointer;
         text-align: center;
         width: 100%; 
-        padding-top: 2em; 
-        border-top: 0px; 
-        font-size: 0.8em; 
+        font-size: 0.7em;
+        margin-top: 1.5em;
+        border: solid 0.1em #77dd77;
+        border-radius: 1em;
+        padding: 0.3em;
+        text-transform: uppercase;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;   
+    }
+
+    #download-statistics:hover {
+        color:#ff5274;
     }
 
     /*back to top button*/
@@ -624,9 +632,9 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
                 neg_com.appendChild(document.createTextNode("\"".concat(sentiment_analysis["neg_com"], "\"")));
                 ul.appendChild(neg_com);
 
-                //Display most popular biagram
+                //Display most popular bigram
                 var biagram = document.createElement('h3');
-                biagram.textContent = "THE MOST POPULAR BIAGRAM";
+                biagram.textContent = "THE MOST POPULAR BIGRAM";
                 biagram.setAttribute("class", "sent-head");
                 biagram.setAttribute("data-aos", "flip-up");
                 //h3.setAttribute('class', 'note');
@@ -720,7 +728,7 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
                     <li>{{ n_following }}<div class="preview-label">Following</div></li>
                 </ul>
                 <ul>
-                    <li id="download-statistics">😎 Download all statistics 🚀</li>
+                    <li id="download-statistics">Download All Statistics</li>  
                 </ul>
 
             </div>
@@ -825,7 +833,7 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
     <section class="body-content slideanim">
         <div data-aos="fade-up" style="text-align: center;">
             <h2>POPULAR HASHTAG</h2>
-            <p>See which hashtags get more like</p>
+            <p>See which hashtags you use the most</p>
         </div>
         <div data-aos="fade-up" id="container2" style="width:80%; height:400px;">
         </div>
@@ -904,7 +912,7 @@ function McFloatPanel() { var i = [], s = [], h = "className", t = "getElementsB
     <section class="body-content slideanim">
         <div data-aos="flip-up" style="text-align: center;">
             <h2>POPULAR TAG</h2>
-            <p>See which tags get more like</p>
+            <p>See which tags you use the most</p>
         </div>
         <div data-aos="flip-right" id="container3" style="width:80%; height:400px;">
         </div>

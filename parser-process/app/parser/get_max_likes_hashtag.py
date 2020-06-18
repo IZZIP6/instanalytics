@@ -56,7 +56,7 @@ def get_photo_description(accessibility_caption):
         if(item is not None):
             if("Image may contain:" in item):
                 description = (item.split("Image may contain:",1)[1])
-                insta_sw = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "and", "or", "one", "more", "text", "says"]
+                insta_sw = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "and", "or", "one", "more", "text", "says", "standing", "sitting"]
                 description = description.replace(",", "")
                 description = description.replace("'", "")
                 description = description.replace("\"", "")
