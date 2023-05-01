@@ -1,6 +1,6 @@
 Django==2.2.10
 django-mysql==3.2.0
-Flask==1.1.1
+Flask==2.3.2
 flask-mysql == 1.5.1
 flask-cors==3.0.8
 Flask-Script==2.0.6
